@@ -1,4 +1,4 @@
-Core api vz
+VZ Core API
 ===================
 _(in progress)_
 
