@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keygenqt.features.ps.utils
+package com.keygenqt.features.ps.route.docs
 
-object Constants {
-    /**
-     * Main path api
-     */
-    const val BASE_API_PATH = "ps"
+import io.ktor.server.application.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 
-    /**
-     * Key config db
-     */
-    const val DBCONFIG_CONFIG = "ktor.dbconfig.ps"
+fun Route.indexRoute() {
+    get {
+        call.respondText("Docs ps")
+    }
 }

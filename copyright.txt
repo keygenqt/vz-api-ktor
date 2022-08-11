@@ -13,16 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keygenqt.features.ps.utils
-
-object Constants {
-    /**
-     * Main path api
-     */
-    const val BASE_API_PATH = "ps"
-
-    /**
-     * Key config db
-     */
-    const val DBCONFIG_CONFIG = "ktor.dbconfig.ps"
-}

@@ -22,6 +22,8 @@ exposedVersion="0.39.2"
 koinVersion="3.2.0"
 ## https://logback.qos.ch/download.html
 logbackVersion="1.2.11"
+## https://github.com/pinterest/ktlint/releases
+ktlintVersion = "0.46.1"
 
 
 
