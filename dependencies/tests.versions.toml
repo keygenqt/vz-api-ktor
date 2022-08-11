@@ -1,0 +1,18 @@
+# modules
+[libraries.ktor_server_tests_jvm]
+module = "io.ktor:ktor-server-tests-jvm"
+[libraries.kotlin_test_junit]
+module = "org.jetbrains.kotlin:kotlin-test-junit"
+
+
+# versions
+[libraries.ktor_server_tests_jvm.version]
+ref = "ktorVersion"
+[libraries.kotlin_test_junit.version]
+ref = "kotlinVersion"
+
+[bundles]
+tests = [
+    "ktor_server_tests_jvm",
+    "kotlin_test_junit",
+]
