@@ -2,6 +2,7 @@ package com.keygenqt.base
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import kotlinx.coroutines.Dispatchers
 import org.flywaydb.core.Flyway
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -15,14 +16,14 @@ class DatabaseMysql(
     private val migration: String,
 ) {
 
+    private var db: Database
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    fun connectAndMigrate(): DatabaseMysql {
+    init {
         log.info("Initialising database")
         val dataSource = hikari(config)
-        Database.connect(dataSource)
+        db = Database.connect(dataSource)
         runFlyway(dataSource)
-        return this
     }
 
     private fun hikari(configPath: String): DataSource {
@@ -49,5 +50,7 @@ class DatabaseMysql(
         log.info("Flyway migration has finished")
     }
 
-    suspend fun <T> dbQuery(block: suspend () -> T): T = newSuspendedTransaction { block() }
+    suspend fun <T> dbQuery(block: suspend () -> T): T {
+        return newSuspendedTransaction(Dispatchers.IO, db) { block() }
+    }
 }

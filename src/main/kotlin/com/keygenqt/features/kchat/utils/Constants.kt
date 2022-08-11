@@ -22,6 +22,8 @@ object Constants {
      */
     const val BASE_API_PATH = "kchat"
 
-    // db
+    /**
+     * Key config db
+     */
     const val DBCONFIG_CONFIG = "ktor.dbconfig.kchat"
 }

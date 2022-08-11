@@ -21,4 +21,9 @@ object Constants {
      * Main path api
      */
     const val BASE_API_PATH = "ps"
+
+    /**
+     * Key config db
+     */
+    const val DBCONFIG_CONFIG = "ktor.dbconfig.ps"
 }
