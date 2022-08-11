@@ -14,7 +14,6 @@ module = "org.flywaydb:flyway-core"
 [libraries.flyway_mysql]
 module = "org.flywaydb:flyway-mysql"
 
-
 # versions
 [libraries.mysql_connector_java.version]
 ref = "mysqlConnectorVersion"
@@ -30,7 +29,6 @@ ref = "exposedVersion"
 ref = "flywayVersion"
 [libraries.flyway_mysql.version]
 ref = "flywayVersion"
-
 
 [bundles]
 database = [

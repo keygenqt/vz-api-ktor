@@ -4,7 +4,6 @@ module = "io.ktor:ktor-server-tests-jvm"
 [libraries.kotlin_test_junit]
 module = "org.jetbrains.kotlin:kotlin-test-junit"
 
-
 # versions
 [libraries.ktor_server_tests_jvm.version]
 ref = "ktorVersion"
