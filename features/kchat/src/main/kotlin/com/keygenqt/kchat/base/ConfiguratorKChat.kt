@@ -45,7 +45,6 @@ class ConfiguratorKChat : ConfiguratorApp() {
 
     override fun Application.configure() {
         db = DatabaseMysql(
-            jdbc = environment.config.property("${Constants.DBCONFIG_CONFIG}.jdbc").getString(),
             config = environment.config.property("${Constants.DBCONFIG_CONFIG}.config").getString(),
             migration = environment.config.property("${Constants.DBCONFIG_CONFIG}.migration").getString()
         )

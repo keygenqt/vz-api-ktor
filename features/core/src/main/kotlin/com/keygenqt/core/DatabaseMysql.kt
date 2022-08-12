@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory
 import javax.sql.DataSource
 
 class DatabaseMysql(
-    private val jdbc: String,
     private val config: String,
     private val migration: String
 ) {
@@ -43,7 +42,6 @@ class DatabaseMysql(
     private fun hikari(configPath: String): DataSource {
         val config = HikariConfig(configPath).apply {
             driverClassName = "com.mysql.cj.jdbc.Driver"
-            jdbcUrl = this@DatabaseMysql.jdbc
             validate()
         }
         return HikariDataSource(config)

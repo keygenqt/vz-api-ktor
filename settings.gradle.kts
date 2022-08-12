@@ -1,11 +1,13 @@
 pluginManagement {
 
     val kotlinVersion: String by settings
+    val ktorVersions: String by settings
     val dokkaVersions: String by settings
     val spotlessVersion: String by settings
 
     plugins {
         kotlin("jvm") version kotlinVersion
+        id("io.ktor.plugin") version ktorVersions
         id("org.jetbrains.dokka") version dokkaVersions
         id("com.diffplug.spotless") version spotlessVersion
         id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion

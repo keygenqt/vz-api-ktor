@@ -1,14 +1,26 @@
 plugins {
     application
     kotlin("jvm")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    id("io.ktor.plugin")
     id("org.jetbrains.dokka")
     id("com.diffplug.spotless")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 group = "com.keygenqt.app"
 version = "0.0.1"
 
+application {
+    mainClass.set("com.keygenqt.app.ApplicationKt")
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("vz-api-${version}.jar")
+    }
+}
+
+// configure dokka for multi module
 tasks.withType<org.jetbrains.dokka.gradle.DokkaMultiModuleTask>().configureEach {
     outputDirectory.set(rootDir.resolve("api"))
     failOnWarning.set(true)
@@ -19,6 +31,7 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "com.diffplug.spotless")
 
+    // configure spotless for modules
     spotless {
         kotlin {
             target("**/*.kt")
@@ -33,6 +46,7 @@ subprojects {
         }
     }
 
+    // configure dokka for modules
     tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
         suppressInheritedMembers.set(true)
         dokkaSourceSets {
