@@ -8,3 +8,5 @@ build
 /gradlew
 /gradlew.bat
 dbconfig.properties
+/src/main/resources/api/
+/src/main/resources/site/

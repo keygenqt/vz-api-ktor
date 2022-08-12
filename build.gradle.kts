@@ -34,50 +34,22 @@ subprojects {
     }
 
     tasks.withType<org.jetbrains.dokka.gradle.DokkaTaskPartial>().configureEach {
-
-        // Suppress all inherited members that were not overridden in a given class.
         suppressInheritedMembers.set(true)
-
         dokkaSourceSets {
             configureEach {
-                // List of files with module and package documentation
-                // https://kotlinlang.org/docs/reference/kotlin-doc.html#module-and-package-documentation
                 includes.from("dokka.md")
-                // Use to include or exclude non-public members
                 includeNonPublic.set(true)
             }
         }
     }
 }
 
-tasks.register("generateDocs") {
-    doLast {
-        exec {
-            commandLine = listOf("./gradlew", "spotlessApply")
-        }
-    }
-    doLast {
-        exec {
-            commandLine = listOf("./gradlew", "dokkaHtmlMultiModule")
-        }
-    }
-    doLast {
-        exec {
-            commandLine = listOf("mkdocs", "build")
-        }
-    }
-    doLast {
-        exec {
-            commandLine = listOf("mv", "api", "site")
-        }
-    }
-}
+// tasks
+apply(from = "tasks/docs.gradle.kts")
 
 // modules
 dependencies {
-    // core
     implementation(project(":features:core"))
-    // apps
     implementation(project(":features:kchat"))
     implementation(project(":features:ps"))
 }

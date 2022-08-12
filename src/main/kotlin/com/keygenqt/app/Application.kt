@@ -24,6 +24,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.context.startKoin
 
@@ -47,9 +48,7 @@ fun Application.module() {
         // apps
         configurators.forEach { it.initRouting(this) }
         // docs
-        static {
-            defaultResource("index.html", "site")
-        }
+        docsRoute()
     }
 
     // custom app configure

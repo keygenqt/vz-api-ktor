@@ -19,7 +19,6 @@ import com.keygenqt.core.ConfiguratorApp
 import com.keygenqt.core.DatabaseMysql
 import com.keygenqt.ps.route.api.articlesRoute
 import com.keygenqt.ps.route.api.projectsRoute
-import com.keygenqt.ps.route.docs.indexRoute
 import com.keygenqt.ps.service.ArticlesService
 import com.keygenqt.ps.service.ProjectsService
 import com.keygenqt.ps.utils.Constants
@@ -34,9 +33,6 @@ class ConfiguratorPS : ConfiguratorApp() {
 
     override fun Route.routing() {
         route("/${Constants.BASE_API_PATH}") {
-            // docs
-            indexRoute()
-            // api
             articlesRoute()
             projectsRoute()
         }

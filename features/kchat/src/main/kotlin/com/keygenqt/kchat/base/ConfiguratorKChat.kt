@@ -18,7 +18,6 @@ package com.keygenqt.kchat.base
 import com.keygenqt.core.ConfiguratorApp
 import com.keygenqt.core.DatabaseMysql
 import com.keygenqt.kchat.route.api.chatsRoute
-import com.keygenqt.kchat.route.docs.indexRoute
 import com.keygenqt.kchat.service.ChatService
 import com.keygenqt.kchat.utils.Constants
 import io.ktor.server.application.*
@@ -31,11 +30,7 @@ class ConfiguratorKChat : ConfiguratorApp() {
     private lateinit var db: DatabaseMysql
 
     override fun Route.routing() {
-        // docs
-        indexRoute()
-
         route("/${Constants.BASE_API_PATH}") {
-            // api
             chatsRoute()
         }
     }
