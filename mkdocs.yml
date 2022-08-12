@@ -1,0 +1,20 @@
+site_name: VZ API
+
+# Repository
+repo_name: 'VZ API'
+repo_url: 'https://github.com/keygenqt/vz-api-ktor'
+
+# Navigation
+nav:
+  - 'Overview': index.md
+
+# Configuration
+theme:
+  name: 'material'
+  language: 'en'
+  palette:
+    primary: 'black'
+    accent: 'deep orange'
+  font:
+    text: 'Roboto'
+    code: 'JetBrains Mono'

@@ -29,3 +29,10 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "vz-api"
+
+// core module
+include(":features:core")
+
+// apps modules
+include(":features:kchat")
+include(":features:ps")
