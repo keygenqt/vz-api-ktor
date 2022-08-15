@@ -15,6 +15,8 @@
  */
 package com.keygenqt.app
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.exceptions.AppRuntimeException
 import com.keygenqt.kchat.base.ConfiguratorKChat
@@ -22,6 +24,7 @@ import com.keygenqt.ps.base.ConfiguratorPS
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -29,10 +32,10 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.context.startKoin
+import org.slf4j.LoggerFactory
 
 val configurators: List<ConfiguratorApp> = listOf(
-    ConfiguratorPS(),
-    ConfiguratorKChat()
+    ConfiguratorPS(), ConfiguratorKChat()
 )
 
 fun main(args: Array<String>) {
@@ -40,11 +43,24 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+
+    // logger
+    (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).apply {
+        level = Level.OFF
+    }
+
+    // custom app configure
+    configurators.forEach { it.intiConfigure(this) }
+
     // init json
     install(ContentNegotiation) {
         json()
     }
 
+    // init auth
+    install(Authentication) {
+        configurators.forEach { it.initAuthentication(this) }
+    }
 
     // init routing
     install(Routing) {
@@ -54,21 +70,25 @@ fun Application.module() {
         docsRoute()
     }
 
+    // catch errors
     install(StatusPages) {
         status(HttpStatusCode.NotFound) { call, _ ->
             call.respond(AppRuntimeException.Error404().exception)
         }
+        status(HttpStatusCode.Unauthorized) { call, _ ->
+            call.respond(AppRuntimeException.ErrorAuthorized().exception)
+        }
         exception<Throwable> { call, cause ->
-            if (cause is AppRuntimeException) {
+            if (cause::class.simpleName == "JsonDecodingException") {
+                call.respond(AppRuntimeException.JsonDecodingException().exception)
+            } else if (cause is AppRuntimeException) {
                 call.respond(cause.exception)
             } else {
+                println(cause)
                 call.respond(AppRuntimeException.Error500().exception)
             }
         }
     }
-
-    // custom app configure
-    configurators.forEach { it.intiConfigure(this) }
 
     // init koin
     startKoin {

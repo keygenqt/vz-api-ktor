@@ -2,23 +2,34 @@ package com.keygenqt.core.exceptions
 
 import io.ktor.http.*
 
-
 /**
- * Error app
+ * Errors app
  */
 sealed class AppRuntimeException(
     open val status: HttpStatusCode,
     open val msg: String? = null,
 ) : RuntimeException(msg ?: status.description) {
 
-    val exception: AppException by lazy {
-        with(status) {
-            AppException(
-                code = hashCode(),
-                message = msg ?: description
-            )
-        }
-    }
+    /**
+     * Error authorized
+     */
+    data class ErrorAuthorized(
+        override val status: HttpStatusCode = HttpStatusCode.Unauthorized
+    ) : AppRuntimeException(status)
+
+    /**
+     * Error json parse
+     */
+    data class JsonDecodingException(
+        override val status: HttpStatusCode = HttpStatusCode.BadRequest
+    ) : AppRuntimeException(status)
+
+    /**
+     * Error 500
+     */
+    data class Error500(
+        override val status: HttpStatusCode = HttpStatusCode.InternalServerError
+    ) : AppRuntimeException(status)
 
     /**
      * Error 404
@@ -28,19 +39,15 @@ sealed class AppRuntimeException(
         override val status: HttpStatusCode = HttpStatusCode.NotFound,
     ) : AppRuntimeException(status, msg)
 
-
     /**
-     * Error expired token in 1 day
+     * Serializable error response
      */
-    data class TokenExpired(
-        override val status: HttpStatusCode = HttpStatusCode.Unauthorized
-    ) : AppRuntimeException(status)
-
-
-    /**
-     * Error 500
-     */
-    data class Error500(
-        override val status: HttpStatusCode = HttpStatusCode.InternalServerError
-    ) : AppRuntimeException(status)
+    val exception: AppException by lazy {
+        with(status) {
+            AppException(
+                code = hashCode(),
+                message = msg ?: description
+            )
+        }
+    }
 }

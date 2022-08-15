@@ -21,6 +21,7 @@ import com.keygenqt.kchat.route.chatsRoute
 import com.keygenqt.kchat.service.ChatService
 import com.keygenqt.kchat.utils.Constants
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.routing.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -28,12 +29,6 @@ import org.koin.dsl.module
 class ConfiguratorKChat : ConfiguratorApp() {
 
     private lateinit var db: DatabaseMysql
-
-    override fun Route.routing() {
-        route("/${Constants.BASE_API_PATH}") {
-            chatsRoute()
-        }
-    }
 
     override fun di(): Array<Module> {
         return arrayOf(
@@ -43,10 +38,18 @@ class ConfiguratorKChat : ConfiguratorApp() {
         )
     }
 
+    override fun Route.routing() {
+        route("/${Constants.BASE_API_PATH}") {
+            chatsRoute()
+        }
+    }
+
     override fun Application.configure() {
         db = DatabaseMysql(
             config = environment.config.property("${Constants.DBCONFIG_CONFIG}.config").getString(),
             migration = environment.config.property("${Constants.DBCONFIG_CONFIG}.migration").getString()
         )
     }
+
+    override fun AuthenticationConfig.authentication() {}
 }

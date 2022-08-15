@@ -62,7 +62,7 @@ class DatabaseMysql(
         log.info("Flyway migration has finished")
     }
 
-    suspend fun <T> dbQuery(block: suspend () -> T): T {
+    suspend fun <T> transaction(block: suspend () -> T): T {
         return newSuspendedTransaction(Dispatchers.IO, db) { block() }
     }
 }

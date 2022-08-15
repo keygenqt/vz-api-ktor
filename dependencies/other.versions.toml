@@ -3,15 +3,20 @@
 module = "io.insert-koin:koin-ktor"
 [libraries.logback]
 module = "ch.qos.logback:logback-classic"
+[libraries.jbcrypt]
+module = "org.mindrot:jbcrypt"
 
 # versions
 [libraries.koin_ktor.version]
 ref = "koinVersion"
 [libraries.logback.version]
 ref = "logbackVersion"
+[libraries.jbcrypt.version]
+ref = "jbcryptVersion"
 
 [bundles]
 other = [
     "koin_ktor",
     "logback",
+    "jbcrypt",
 ]

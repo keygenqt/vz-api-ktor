@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keygenqt.ps.utils
+package com.keygenqt.ps.route
 
-object Constants {
-    /**
-     * Main path api
-     */
-    const val BASE_API_PATH = "ps"
+import com.keygenqt.ps.service.UsersService
+import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-    /**
-     * Key config db
-     */
-    const val DBCONFIG_CONFIG = "ktor.dbconfig.ps"
+fun Route.usersRoute() {
 
-    /**
-     * Key config db
-     */
-    const val JWT_CONFIG = "ktor.jwt.ps"
+    val service: UsersService by inject()
+
+    route("/users") {
+
+    }
 }

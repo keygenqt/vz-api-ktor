@@ -15,42 +15,81 @@
  */
 package com.keygenqt.ps.base
 
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
 import com.keygenqt.core.base.ConfiguratorApp
+import com.keygenqt.core.base.LoaderConfig.loadProperties
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.route.articlesRoute
+import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.projectsRoute
+import com.keygenqt.ps.route.usersRoute
 import com.keygenqt.ps.service.ArticlesService
 import com.keygenqt.ps.service.ProjectsService
+import com.keygenqt.ps.service.TokensService
+import com.keygenqt.ps.service.UsersService
 import com.keygenqt.ps.utils.Constants
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import java.util.*
 
 class ConfiguratorPS : ConfiguratorApp() {
 
     private lateinit var db: DatabaseMysql
-
-    override fun Route.routing() {
-        route("/${Constants.BASE_API_PATH}") {
-            articlesRoute()
-            projectsRoute()
-        }
-    }
+    private lateinit var jwtProperties: Properties
 
     override fun di(): Array<Module> {
         return arrayOf(
             module {
+                single { UsersService(db) }
+                single { TokensService(db, jwtProperties.getProperty("secret").toString()) }
                 single { ArticlesService(db) }
                 single { ProjectsService(db) }
             }
         )
     }
 
+    override fun Route.routing() {
+        "/${Constants.BASE_API_PATH}".let { basePath ->
+            route(basePath) {
+                authRoute()
+            }
+            authenticate(this@ConfiguratorPS::class.simpleName) {
+                route(basePath) {
+                    articlesRoute()
+                    projectsRoute()
+                    usersRoute()
+                }
+            }
+        }
+    }
+
     override fun Application.configure() {
-        db = DatabaseMysql(
-            config = environment.config.property("${Constants.DBCONFIG_CONFIG}.config").getString(),
-            migration = environment.config.property("${Constants.DBCONFIG_CONFIG}.migration").getString()
-        )
+        with(environment.config) {
+            // auth secret
+            jwtProperties =
+                loadProperties(this.property("${Constants.JWT_CONFIG}.config").getString())
+
+            // init db app
+            db = DatabaseMysql(
+                config = property("${Constants.DBCONFIG_CONFIG}.config").getString(),
+                migration = property("${Constants.DBCONFIG_CONFIG}.migration").getString()
+            )
+        }
+    }
+
+    override fun AuthenticationConfig.authentication() {
+        jwt(this@ConfiguratorPS::class.simpleName) {
+            realm = jwtProperties.getProperty("realm").toString()
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC256(jwtProperties.getProperty("secret").toString()))
+                    .build()
+            )
+        }
     }
 }

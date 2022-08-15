@@ -26,13 +26,13 @@ import org.jetbrains.exposed.sql.selectAll
 class ChatService(
     val db: DatabaseMysql
 ) {
-    suspend fun getAllChats(limit: Int, offset: Int, search: String?): List<Chat> = db.dbQuery {
+    suspend fun getAllChats(limit: Int, offset: Int, search: String?): List<Chat> = db.transaction {
         Chats.let {
             search?.let { search -> it.select { Chats.name like "%$search%" } } ?: it.selectAll()
         }.orderBy(Chats.id, SortOrder.DESC).limit(limit, offset.toLong()).map { toChat(it) }
     }
 
-    suspend fun getChat(id: Int): Chat? = db.dbQuery {
+    suspend fun getChat(id: Int): Chat? = db.transaction {
         Chats.select {
             (Chats.id eq id)
         }.mapNotNull { toChat(it) }.singleOrNull()

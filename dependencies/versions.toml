@@ -24,6 +24,8 @@ koinVersion="3.2.0"
 logbackVersion="1.2.11"
 ## https://github.com/pinterest/ktlint/releases
 ktlintVersion = "0.46.1"
+## https://github.com/jeremyh/jBCrypt
+jbcryptVersion = "0.4"
 
 
 
