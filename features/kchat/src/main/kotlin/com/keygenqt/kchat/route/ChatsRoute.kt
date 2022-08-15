@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keygenqt.kchat.route.api
+package com.keygenqt.kchat.route
 
 import com.keygenqt.kchat.service.ChatService
 import io.ktor.http.*

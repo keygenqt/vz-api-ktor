@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.keygenqt.ps.route.api
+package com.keygenqt.ps.route
 
 import com.keygenqt.ps.service.ProjectsService
 import io.ktor.http.*

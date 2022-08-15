@@ -15,15 +15,17 @@
  */
 package com.keygenqt.app
 
-import com.keygenqt.core.ConfiguratorApp
+import com.keygenqt.core.base.ConfiguratorApp
+import com.keygenqt.core.exceptions.AppRuntimeException
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS
+import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
-import io.ktor.server.http.content.*
 import io.ktor.server.netty.*
 import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.context.startKoin
@@ -43,12 +45,26 @@ fun Application.module() {
         json()
     }
 
+
     // init routing
     install(Routing) {
         // apps
         configurators.forEach { it.initRouting(this) }
         // docs
         docsRoute()
+    }
+
+    install(StatusPages) {
+        status(HttpStatusCode.NotFound) { call, _ ->
+            call.respond(AppRuntimeException.Error404().exception)
+        }
+        exception<Throwable> { call, cause ->
+            if (cause is AppRuntimeException) {
+                call.respond(cause.exception)
+            } else {
+                call.respond(AppRuntimeException.Error500().exception)
+            }
+        }
     }
 
     // custom app configure

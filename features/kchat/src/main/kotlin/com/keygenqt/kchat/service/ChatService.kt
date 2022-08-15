@@ -15,7 +15,7 @@
  */
 package com.keygenqt.kchat.service
 
-import com.keygenqt.core.DatabaseMysql
+import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.kchat.db.models.Chat
 import com.keygenqt.kchat.db.models.Chats
 import org.jetbrains.exposed.sql.ResultRow

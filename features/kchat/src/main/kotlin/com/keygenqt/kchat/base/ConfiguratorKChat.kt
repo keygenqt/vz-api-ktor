@@ -15,9 +15,9 @@
  */
 package com.keygenqt.kchat.base
 
-import com.keygenqt.core.ConfiguratorApp
-import com.keygenqt.core.DatabaseMysql
-import com.keygenqt.kchat.route.api.chatsRoute
+import com.keygenqt.core.base.ConfiguratorApp
+import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.kchat.route.chatsRoute
 import com.keygenqt.kchat.service.ChatService
 import com.keygenqt.kchat.utils.Constants
 import io.ktor.server.application.*

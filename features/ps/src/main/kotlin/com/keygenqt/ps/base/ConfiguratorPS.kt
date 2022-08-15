@@ -15,10 +15,10 @@
  */
 package com.keygenqt.ps.base
 
-import com.keygenqt.core.ConfiguratorApp
-import com.keygenqt.core.DatabaseMysql
-import com.keygenqt.ps.route.api.articlesRoute
-import com.keygenqt.ps.route.api.projectsRoute
+import com.keygenqt.core.base.ConfiguratorApp
+import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.ps.route.articlesRoute
+import com.keygenqt.ps.route.projectsRoute
 import com.keygenqt.ps.service.ArticlesService
 import com.keygenqt.ps.service.ProjectsService
 import com.keygenqt.ps.utils.Constants

@@ -15,7 +15,7 @@
  */
 package com.keygenqt.ps.service
 
-import com.keygenqt.core.DatabaseMysql
+import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.Article
 import com.keygenqt.ps.db.models.Articles
 import org.jetbrains.exposed.sql.ResultRow
