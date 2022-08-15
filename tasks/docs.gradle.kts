@@ -14,7 +14,7 @@ tasks.register("docs") {
     }
     doLast {
         exec {
-            commandLine = listOf("mkdocs", "build")
+            commandLine = listOf("python3", "-m", "mkdocs", "build")
         }
     }
     doLast {
