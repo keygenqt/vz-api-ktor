@@ -26,7 +26,9 @@ object Tokens : IntIdTable() {
     val userId = reference("userId", Users)
     val deviceId = varchar("deviceId", 255).uniqueIndex()
     val token = varchar("token", 255).uniqueIndex()
-    val dateUpdated = long("dateUpdated")
+    val refreshToken = varchar("refreshToken", 255).uniqueIndex()
+    val expiresAt = long("expiresAt")
+    val createAt = long("createAt")
 }
 
 /**
@@ -38,25 +40,33 @@ class TokenEntity(id: EntityID<Int>) : IntEntity(id) {
     var userId by Tokens.userId
     var deviceId by Tokens.deviceId
     var token by Tokens.token
-    var dateUpdated by Tokens.dateUpdated
+    var refreshToken by Tokens.refreshToken
+    var expiresAt by Tokens.expiresAt
+    var createAt by Tokens.createAt
 }
 
 @Serializable
 data class Token(
+    val id: Int? = null,
     val userId: Int,
     val deviceId: String,
     val token: String,
-    val dateUpdated: Long,
+    val refreshToken: String,
+    val expiresAt: Long,
+    val createAt: Long,
 )
 
 /**
- * Convert
+ * Convert to model
  */
 fun TokenEntity.toToken() = Token(
+    id = id.value,
     userId = userId.value,
     deviceId = deviceId,
     token = token,
-    dateUpdated = dateUpdated,
+    refreshToken = refreshToken,
+    expiresAt = expiresAt,
+    createAt = createAt,
 )
 
 /**

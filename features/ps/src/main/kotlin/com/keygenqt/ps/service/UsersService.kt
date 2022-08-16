@@ -16,10 +16,10 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
-import com.keygenqt.ps.db.models.User
 import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.db.models.toUser
+import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
 import org.mindrot.jbcrypt.BCrypt
 
@@ -28,22 +28,29 @@ class UsersService(
 ) {
 
     /**
+     * Get user by id
+     */
+    suspend fun findById(id: Int) = db.transaction {
+        UserEntity
+            .findById(id)
+            ?.load(UserEntity::tokens)
+            ?.toUser()
+    }
+
+    /**
      * Get user with check password for auth
      */
-    suspend fun findUserByAuth(email: String, password: String): User? {
-        return db.transaction {
-
-            UserEntity
-                .find { (Users.email eq email) }
-                .with(UserEntity::tokens)
-                .firstOrNull()
-                ?.let { entity ->
-                    if (BCrypt.checkpw(password, entity.password)) {
-                        entity.toUser()
-                    } else {
-                        return@transaction null
-                    }
+    suspend fun findUserByAuth(email: String, password: String) = db.transaction {
+        UserEntity
+            .find { (Users.email eq email) }
+            .with(UserEntity::tokens)
+            .firstOrNull()
+            ?.let { entity ->
+                if (BCrypt.checkpw(password, entity.password)) {
+                    entity.toUser()
+                } else {
+                    return@transaction null
                 }
-        }
+            }
     }
 }

@@ -16,8 +16,11 @@
 package com.keygenqt.ps.route.auth
 
 import com.keygenqt.core.exceptions.AppRuntimeException
+import com.keygenqt.ps.db.models.User
 import com.keygenqt.ps.route.auth.elements.AuthRequest
 import com.keygenqt.ps.route.auth.elements.AuthResponse
+import com.keygenqt.ps.route.auth.elements.RefreshRequest
+import com.keygenqt.ps.service.SecurityService
 import com.keygenqt.ps.service.TokensService
 import com.keygenqt.ps.service.UsersService
 import io.ktor.server.application.*
@@ -30,26 +33,51 @@ import org.koin.ktor.ext.inject
 fun Route.authRoute() {
 
     val userService: UsersService by inject()
-    val tokenService: TokensService by inject()
+    val securityService: SecurityService by inject()
 
     route("/auth") {
         post {
-            val auth = call.receive<AuthRequest>()
-            val user = userService.findUserByAuth(auth.email, auth.password)
+            val request = call.receive<AuthRequest>()
+            val user = userService.findUserByAuth(request.email, request.password)
+            user?.let { call.serve(user, request.deviceId) } ?: throw AppRuntimeException.ErrorAuthorized()
+        }
+    }
 
-            user?.let {
-                val token = user.tokens.firstOrNull { it.deviceId == auth.deviceId }?.token ?: run {
-                    tokenService.createToken(user, auth.deviceId).token
+    route("/refresh") {
+        post {
+            val request = call.receive<RefreshRequest>()
+            securityService.verify(request.refreshToken)?.let { userService.findById(it) }?.let { user ->
+                // check token exist
+                if (!user.tokens.any { it.refreshToken == request.refreshToken && it.deviceId == request.deviceId }) {
+                    throw AppRuntimeException.ErrorAuthorized()
                 }
-                call.respond(
-                    AuthResponse(
-                        id = user.id,
-                        email = user.email,
-                        role = user.role,
-                        token = token,
-                    )
-                )
+                // emit response with update tokens
+                call.serve(user, request.deviceId)
             } ?: throw AppRuntimeException.ErrorAuthorized()
         }
     }
+}
+
+/**
+ * Response with update tokens
+ */
+private suspend fun ApplicationCall.serve(
+    user: User,
+    deviceId: String,
+) {
+    val tokenService: TokensService by inject()
+    val securityService: SecurityService by inject()
+
+    val token = securityService.findValidToken(deviceId, user.tokens) ?: run {
+        tokenService.insertToken(securityService.generateTokenModel(user.id, deviceId))
+    }
+    respond(
+        AuthResponse(
+            id = user.id,
+            email = user.email,
+            role = user.role,
+            token = token.token,
+            refreshToken = token.refreshToken,
+        )
+    )
 }

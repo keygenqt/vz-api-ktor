@@ -15,6 +15,7 @@
  */
 package com.keygenqt.ps.db.models
 
+import io.ktor.server.auth.*
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -51,7 +52,6 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     val tokens by TokenEntity referrersOn Tokens.userId
 }
 
-
 @Serializable
 data class User(
     val id: Int,
@@ -59,7 +59,7 @@ data class User(
     val password: String,
     val role: UserRole,
     val tokens: List<Token>,
-)
+): Principal
 
 /**
  * Convert
@@ -78,19 +78,3 @@ fun UserEntity.toUser() = User(
 fun SizedIterable<UserEntity>.toUsers(): List<User> {
     return map { it.toUser() }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -15,8 +15,6 @@
  */
 package com.keygenqt.ps.base
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
 import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.base.LoaderConfig.loadProperties
 import com.keygenqt.core.db.DatabaseMysql
@@ -24,10 +22,7 @@ import com.keygenqt.ps.route.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.projectsRoute
 import com.keygenqt.ps.route.usersRoute
-import com.keygenqt.ps.service.ArticlesService
-import com.keygenqt.ps.service.ProjectsService
-import com.keygenqt.ps.service.TokensService
-import com.keygenqt.ps.service.UsersService
+import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -41,12 +36,17 @@ class ConfiguratorPS : ConfiguratorApp() {
 
     private lateinit var db: DatabaseMysql
     private lateinit var jwtProperties: Properties
+    private lateinit var securityService: SecurityService
 
     override fun di(): Array<Module> {
         return arrayOf(
             module {
+                // security routing service
+                single { securityService }
+
+                // api db models services
                 single { UsersService(db) }
-                single { TokensService(db, jwtProperties.getProperty("secret").toString()) }
+                single { TokensService(db) }
                 single { ArticlesService(db) }
                 single { ProjectsService(db) }
             }
@@ -79,17 +79,18 @@ class ConfiguratorPS : ConfiguratorApp() {
                 config = property("${Constants.DBCONFIG_CONFIG}.config").getString(),
                 migration = property("${Constants.DBCONFIG_CONFIG}.migration").getString()
             )
+
+            // init securityService
+            securityService = SecurityService(db, jwtProperties.getProperty("secret").toString())
         }
     }
+
 
     override fun AuthenticationConfig.authentication() {
         jwt(this@ConfiguratorPS::class.simpleName) {
             realm = jwtProperties.getProperty("realm").toString()
-            verifier(
-                JWT
-                    .require(Algorithm.HMAC256(jwtProperties.getProperty("secret").toString()))
-                    .build()
-            )
+            verifier(securityService.verifier)
+            validate { securityService.findUserByCredential(it) }
         }
     }
 }
