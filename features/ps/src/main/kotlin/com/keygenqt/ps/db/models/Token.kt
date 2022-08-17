@@ -24,7 +24,7 @@ import org.jetbrains.exposed.sql.SizedIterable
 
 object Tokens : IntIdTable() {
     val userId = reference("userId", Users)
-    val deviceId = varchar("deviceId", 255).uniqueIndex()
+    val deviceId = varchar("deviceId", 255)
     val token = varchar("token", 255).uniqueIndex()
     val refreshToken = varchar("refreshToken", 255).uniqueIndex()
     val expiresAt = long("expiresAt")

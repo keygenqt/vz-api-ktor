@@ -21,8 +21,9 @@ sealed class AppRuntimeException(
      * Error json parse
      */
     data class JsonDecodingException(
+        override val msg: String? = null,
         override val status: HttpStatusCode = HttpStatusCode.BadRequest
-    ) : AppRuntimeException(status)
+    ) : AppRuntimeException(status, msg)
 
     /**
      * Error 500

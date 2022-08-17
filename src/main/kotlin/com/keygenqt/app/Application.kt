@@ -73,19 +73,40 @@ fun Application.module() {
     // catch errors
     install(StatusPages) {
         status(HttpStatusCode.NotFound) { call, _ ->
-            call.respond(AppRuntimeException.Error404().exception)
+            call.respond(
+                status = HttpStatusCode.NotFound,
+                message = AppRuntimeException.Error404().exception
+            )
         }
         status(HttpStatusCode.Unauthorized) { call, _ ->
-            call.respond(AppRuntimeException.ErrorAuthorized().exception)
+            call.respond(
+                status = HttpStatusCode.Unauthorized,
+                message = AppRuntimeException.ErrorAuthorized().exception
+            )
         }
         exception<Throwable> { call, cause ->
-            if (cause::class.simpleName == "JsonDecodingException") {
-                call.respond(AppRuntimeException.JsonDecodingException().exception)
+            if (cause::class.simpleName == "JsonDecodingException" || cause::class.simpleName == "MissingFieldException") {
+                AppRuntimeException.JsonDecodingException(cause.message).let {
+                    call.respond(
+                        status = it.status,
+                        message = it.exception
+                    )
+                }
             } else if (cause is AppRuntimeException) {
-                call.respond(cause.exception)
+                cause.let {
+                    call.respond(
+                        status = it.status,
+                        message = it.exception
+                    )
+                }
             } else {
                 println(cause)
-                call.respond(AppRuntimeException.Error500().exception)
+                AppRuntimeException.Error500().let {
+                    call.respond(
+                        status = it.status,
+                        message = it.exception
+                    )
+                }
             }
         }
     }
