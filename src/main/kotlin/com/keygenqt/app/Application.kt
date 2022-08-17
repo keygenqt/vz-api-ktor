@@ -65,7 +65,9 @@ fun Application.module() {
     // init routing
     install(Routing) {
         // apps
-        configurators.forEach { it.initRouting(this) }
+        route("/api") {
+            configurators.forEach { it.initRouting(this) }
+        }
         // docs
         docsRoute()
     }
