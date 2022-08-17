@@ -21,7 +21,6 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.route.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.projectsRoute
-import com.keygenqt.ps.route.secret.secretRoute
 import com.keygenqt.ps.route.usersRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
@@ -58,7 +57,6 @@ class ConfiguratorPS : ConfiguratorApp() {
         "/${Constants.BASE_API_PATH}".let { basePath ->
             route(basePath) {
                 authRoute()
-                secretRoute(jwtProperties.getProperty("secret").toString())
             }
             authenticate(this@ConfiguratorPS::class.simpleName) {
                 route(basePath) {
