@@ -20,8 +20,8 @@ class V3__create_users : BaseJavaMigration() {
             SchemaUtils.create(Users)
 
             Users.insert {
-                it[email] = "keygenqt@gmail.com"
-                it[password] = BCrypt.hashpw("12345", BCrypt.gensalt())
+                it[email] = "admin@keygenqt.com"
+                it[password] = BCrypt.hashpw("12345678", BCrypt.gensalt())
                 it[role] = UserRole.ADMIN
             }
         }
