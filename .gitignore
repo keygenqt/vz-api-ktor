@@ -3,7 +3,7 @@
 /src/main/resources/site/
 ## properties
 dbconfig.properties
-jwt.properties
+app.properties
 ## other
 *.iml
 .gradle

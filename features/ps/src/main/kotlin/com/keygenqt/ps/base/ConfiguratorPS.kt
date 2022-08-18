@@ -17,16 +17,20 @@ package com.keygenqt.ps.base
 
 import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.base.LoaderConfig.loadProperties
+import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.route.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.projectsRoute
 import com.keygenqt.ps.route.usersRoute
 import com.keygenqt.ps.service.*
-import com.keygenqt.ps.utils.Constants
+import com.keygenqt.ps.utils.Constants.APP_CONFIG
+import com.keygenqt.ps.utils.Constants.BASE_API_PATH
+import com.keygenqt.ps.utils.Constants.DBCONFIG_CONFIG
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -35,8 +39,11 @@ import java.util.*
 class ConfiguratorPS : ConfiguratorApp() {
 
     private lateinit var db: DatabaseMysql
-    private lateinit var jwtProperties: Properties
+    private lateinit var properties: Properties
     private lateinit var securityService: SecurityService
+
+    private val jwtAuth = "jwtAuth"
+    private val sessionAuth = "sessionAuth"
 
     override fun di(): Array<Module> {
         return arrayOf(
@@ -54,11 +61,11 @@ class ConfiguratorPS : ConfiguratorApp() {
     }
 
     override fun Route.routing() {
-        "/${Constants.BASE_API_PATH}".let { basePath ->
+        "/${BASE_API_PATH}".let { basePath ->
             route(basePath) {
                 authRoute()
             }
-            authenticate(this@ConfiguratorPS::class.simpleName) {
+            authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {
                     articlesRoute()
                     projectsRoute()
@@ -71,26 +78,33 @@ class ConfiguratorPS : ConfiguratorApp() {
     override fun Application.configure() {
         with(environment.config) {
             // auth secret
-            jwtProperties =
-                loadProperties(this.property("${Constants.JWT_CONFIG}.config").getString())
+            properties = loadProperties(this.property("${APP_CONFIG}.config").getString())
 
             // init db app
             db = DatabaseMysql(
-                config = property("${Constants.DBCONFIG_CONFIG}.config").getString(),
-                migration = property("${Constants.DBCONFIG_CONFIG}.migration").getString()
+                config = property("${DBCONFIG_CONFIG}.config").getString(),
+                migration = property("${DBCONFIG_CONFIG}.migration").getString()
             )
 
             // init securityService
-            securityService = SecurityService(db, jwtProperties.getProperty("secret").toString())
+            securityService = SecurityService(db, properties.getProperty("secret").toString())
         }
     }
 
-
     override fun AuthenticationConfig.authentication() {
-        jwt(this@ConfiguratorPS::class.simpleName) {
-            realm = jwtProperties.getProperty("realm").toString()
+        jwt(jwtAuth) {
+            realm = "Access to Personal Site"
             verifier(securityService.verifier)
             validate { securityService.findUserByCredential(it) }
+        }
+        session<UserSession>(sessionAuth) {
+            validate { session ->
+                securityService.verify(session.token)?.let {
+                    securityService.findUserByID(it)
+                } ?: run {
+                    null
+                }
+            }
         }
     }
 }

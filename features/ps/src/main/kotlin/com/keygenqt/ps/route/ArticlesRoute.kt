@@ -15,11 +15,13 @@
  */
 package com.keygenqt.ps.route
 
+import com.keygenqt.core.base.UserSession
 import com.keygenqt.ps.service.ArticlesService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import org.koin.ktor.ext.inject
 
 fun Route.articlesRoute() {
@@ -27,6 +29,11 @@ fun Route.articlesRoute() {
 
     route("/articles") {
         get {
+
+            val userSession = call.sessions.get<UserSession>()
+
+            println(userSession)
+
             val search = call.parameters["search"]
             val limit = call.parameters["limit"]?.toIntOrNull() ?: 5
             val offset = call.parameters["offset"]?.toIntOrNull() ?: 0

@@ -18,6 +18,7 @@ package com.keygenqt.app
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.keygenqt.core.base.ConfiguratorApp
+import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.exceptions.AppRuntimeException
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS
@@ -31,6 +32,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import org.koin.core.context.startKoin
 import org.slf4j.LoggerFactory
 
@@ -51,6 +53,11 @@ fun Application.module() {
 
     // custom app configure
     configurators.forEach { it.intiConfigure(this) }
+
+    // session
+    install(Sessions) {
+        cookie<UserSession>("user_session")
+    }
 
     // init json
     install(ContentNegotiation) {

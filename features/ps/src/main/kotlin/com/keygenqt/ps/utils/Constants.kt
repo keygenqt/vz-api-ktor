@@ -27,7 +27,7 @@ object Constants {
     const val DBCONFIG_CONFIG = "ktor.dbconfig.ps"
 
     /**
-     * Key config db
+     * App params
      */
-    const val JWT_CONFIG = "ktor.jwt.ps"
+    const val APP_CONFIG = "ktor.app.ps"
 }

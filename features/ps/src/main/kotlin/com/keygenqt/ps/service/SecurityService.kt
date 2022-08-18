@@ -3,6 +3,7 @@ package com.keygenqt.ps.service
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
 import io.ktor.server.auth.jwt.*
@@ -78,7 +79,14 @@ class SecurityService(
      * Get user by id from claim JWTCredential
      */
     suspend fun findUserByCredential(credential: JWTCredential) = db.transaction {
-        UserEntity.findById(credential.payload.getClaim(nameID).asInt())?.toUser()
+        findUserByID(credential.payload.getClaim(nameID).asInt())
+    }
+
+    /**
+     * Get user by id
+     */
+    suspend fun findUserByID(userId: Int) = db.transaction {
+        UserEntity.findById(userId)?.toUser()
     }
 
     /**

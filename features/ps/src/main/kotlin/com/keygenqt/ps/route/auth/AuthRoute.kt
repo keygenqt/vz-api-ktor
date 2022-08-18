@@ -15,11 +15,10 @@
  */
 package com.keygenqt.ps.route.auth
 
+import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.exceptions.AppRuntimeException
 import com.keygenqt.ps.db.models.User
-import com.keygenqt.ps.route.auth.elements.AuthRequest
-import com.keygenqt.ps.route.auth.elements.AuthResponse
-import com.keygenqt.ps.route.auth.elements.RefreshRequest
+import com.keygenqt.ps.route.auth.elements.*
 import com.keygenqt.ps.service.SecurityService
 import com.keygenqt.ps.service.TokensService
 import com.keygenqt.ps.service.UsersService
@@ -27,6 +26,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import org.koin.ktor.ext.inject
 
 
@@ -35,14 +35,25 @@ fun Route.authRoute() {
     val userService: UsersService by inject()
     val securityService: SecurityService by inject()
 
+    // auth session
     route("/auth") {
         post {
             val request = call.receive<AuthRequest>()
             val user = userService.findUserByAuth(request.email, request.password)
-            user?.let { call.serve(user, request.deviceId) } ?: throw AppRuntimeException.ErrorAuthorized()
+            user?.let { call.serve(user, request.deviceId, AuthType.SESSION) } ?: throw AppRuntimeException.ErrorAuthorized()
         }
     }
 
+    // auth token jwt
+    route("/login") {
+        post {
+            val request = call.receive<AuthRequest>()
+            val user = userService.findUserByAuth(request.email, request.password)
+            user?.let { call.serve(user, request.deviceId, AuthType.JWT) } ?: throw AppRuntimeException.ErrorAuthorized()
+        }
+    }
+
+    // refresh token jwt
     route("/refresh") {
         post {
             val request = call.receive<RefreshRequest>()
@@ -52,7 +63,7 @@ fun Route.authRoute() {
                     throw AppRuntimeException.ErrorAuthorized()
                 }
                 // emit response with update tokens
-                call.serve(user, request.deviceId)
+                call.serve(user, request.deviceId, AuthType.JWT)
             } ?: throw AppRuntimeException.ErrorAuthorized()
         }
     }
@@ -64,6 +75,7 @@ fun Route.authRoute() {
 private suspend fun ApplicationCall.serve(
     user: User,
     deviceId: String,
+    type: AuthType,
 ) {
     val tokenService: TokensService by inject()
     val securityService: SecurityService by inject()
@@ -71,13 +83,34 @@ private suspend fun ApplicationCall.serve(
     val token = securityService.findValidToken(deviceId, user.tokens) ?: run {
         tokenService.insertToken(securityService.generateTokenModel(user.id, deviceId))
     }
-    respond(
-        AuthResponse(
-            id = user.id,
-            email = user.email,
-            role = user.role,
-            token = token.token,
-            refreshToken = token.refreshToken,
-        )
-    )
+
+    when (type) {
+        AuthType.JWT -> {
+            respond(
+                AuthJWTResponse(
+                    id = user.id,
+                    email = user.email,
+                    role = user.role,
+                    token = token.token,
+                    refreshToken = token.refreshToken,
+                )
+            )
+        }
+        AuthType.SESSION -> {
+            sessions.set(
+                UserSession(
+                    role = user.role.name,
+                    token = token.token,
+                    deviceId = deviceId,
+                )
+            )
+            respond(
+                AuthSessionResponse(
+                    id = user.id,
+                    email = user.email,
+                    role = user.role,
+                )
+            )
+        }
+    }
 }
