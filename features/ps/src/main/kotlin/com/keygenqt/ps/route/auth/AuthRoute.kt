@@ -60,7 +60,7 @@ fun Route.authRoute() {
     route("/refresh") {
         post {
             val request = call.receive<RefreshRequest>()
-            securityService.verify(request.refreshToken)?.let { userService.findById(it) }?.let { user ->
+            securityService.verify(request.refreshToken)?.let { userService.getByIdTokens(it) }?.let { user ->
                 // check token exist
                 if (!user.tokens.any { it.refreshToken == request.refreshToken && it.deviceId == request.deviceId }) {
                     throw AppRuntimeException.ErrorAuthorized()

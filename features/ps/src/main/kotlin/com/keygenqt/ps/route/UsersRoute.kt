@@ -15,7 +15,10 @@
  */
 package com.keygenqt.ps.route
 
+import com.keygenqt.core.exceptions.AppRuntimeException
 import com.keygenqt.ps.service.UsersService
+import io.ktor.server.application.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
@@ -24,6 +27,12 @@ fun Route.usersRoute() {
     val service: UsersService by inject()
 
     route("/users") {
-
+        get {
+            call.respond(service.getAll())
+        }
+        get("/{id}") {
+            val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("Must provide id")
+            call.respond(service.getById(id) ?: throw AppRuntimeException.Error404("Model not found"))
+        }
     }
 }

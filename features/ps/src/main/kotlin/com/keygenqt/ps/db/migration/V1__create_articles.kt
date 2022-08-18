@@ -61,15 +61,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/601076d399c15.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
-            }
-
-            Articles.insert {
-                it[title] = ""
-                it[icon] = "https://keygenqt.com/images/blog/601076d399c15.jpg"
-                it[description] = "Description"
-                it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -77,7 +70,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5ef881c28b6c6.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -85,7 +79,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5eb1e22f20315.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -93,7 +88,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5ec6e29c20719.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -101,7 +97,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5ee7e4486df16.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -109,7 +106,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5ed26eec8b8cd.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -117,7 +115,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5d66c8b82dc.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -125,7 +124,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5f0519630f1dd.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -133,7 +133,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5d656a012f7.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -141,7 +142,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5d5f715bb0d.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -149,7 +151,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5d6042aa75b.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -157,7 +160,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5e06b1245c3.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -165,7 +169,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5e0d10466c7.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -173,7 +178,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5cc904a805d.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -181,7 +187,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5e5d6662883b3.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
 
             Articles.insert {
@@ -189,7 +196,8 @@ class V1__create_articles : BaseJavaMigration() {
                 it[icon] = "https://keygenqt.com/images/blog/5ea5d50695947.jpg"
                 it[description] = "Description"
                 it[content] = markdown
-                it[dateUpdated] = System.currentTimeMillis()
+                it[createAt] = System.currentTimeMillis()
+                it[updateAt] = System.currentTimeMillis()
             }
         }
     }

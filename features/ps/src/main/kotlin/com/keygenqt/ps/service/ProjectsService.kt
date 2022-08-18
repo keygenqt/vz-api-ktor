@@ -17,32 +17,24 @@ package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.Project
-import com.keygenqt.ps.db.models.Projects
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import com.keygenqt.ps.db.models.ProjectEntity
+import com.keygenqt.ps.db.models.toProject
+import com.keygenqt.ps.db.models.toProjects
 
 class ProjectsService(
-    val db: DatabaseMysql
+    val db: DatabaseMysql,
 ) {
-    suspend fun getAllProjects(limit: Int, offset: Int, search: String?): List<Project> = db.transaction {
-        Projects.let {
-            search?.let { search -> it.select { Projects.title like "%$search%" } } ?: it.selectAll()
-        }.orderBy(Projects.id, SortOrder.DESC).limit(limit, offset.toLong()).map { toProject(it) }
+    /**
+     * Get all models
+     */
+    suspend fun getAll(): List<Project> = db.transaction {
+        ProjectEntity.all().toProjects()
     }
 
-    suspend fun getProject(id: Int): Project? = db.transaction {
-        Projects.select {
-            (Projects.id eq id)
-        }.mapNotNull { toProject(it) }.singleOrNull()
+    /**
+     * Get model by id
+     */
+    suspend fun getById(id: Int): Project? = db.transaction {
+        ProjectEntity.findById(id)?.toProject()
     }
-
-    private fun toProject(row: ResultRow): Project = Project(
-        id = row[Projects.id],
-        icon = row[Projects.icon],
-        title = row[Projects.title],
-        description = row[Projects.description],
-        dateUpdated = row[Projects.dateUpdated]
-    )
 }

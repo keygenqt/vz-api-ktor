@@ -17,33 +17,24 @@ package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.Article
-import com.keygenqt.ps.db.models.Articles
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SortOrder
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import com.keygenqt.ps.db.models.ArticleEntity
+import com.keygenqt.ps.db.models.toArticle
+import com.keygenqt.ps.db.models.toArticles
 
 class ArticlesService(
-    val db: DatabaseMysql
+    val db: DatabaseMysql,
 ) {
-    suspend fun getAllArticles(limit: Int, offset: Int, search: String?): List<Article> = db.transaction {
-        Articles.let {
-            search?.let { search -> it.select { Articles.title like "%$search%" } } ?: it.selectAll()
-        }.orderBy(Articles.id, SortOrder.DESC).limit(limit, offset.toLong()).map { toArticle(it) }
+    /**
+     * Get all models
+     */
+    suspend fun getAll(): List<Article> = db.transaction {
+        ArticleEntity.all().toArticles()
     }
 
-    suspend fun getArticle(id: Int): Article? = db.transaction {
-        Articles.select {
-            (Articles.id eq id)
-        }.mapNotNull { toArticle(it) }.singleOrNull()
+    /**
+     * Get model by id
+     */
+    suspend fun getById(id: Int): Article? = db.transaction {
+        ArticleEntity.findById(id)?.toArticle()
     }
-
-    private fun toArticle(row: ResultRow): Article = Article(
-        id = row[Articles.id],
-        icon = row[Articles.icon],
-        title = row[Articles.title],
-        description = row[Articles.description],
-        content = row[Articles.content],
-        dateUpdated = row[Articles.dateUpdated]
-    )
 }

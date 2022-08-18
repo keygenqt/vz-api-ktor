@@ -16,9 +16,7 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
-import com.keygenqt.ps.db.models.UserEntity
-import com.keygenqt.ps.db.models.Users
-import com.keygenqt.ps.db.models.toUser
+import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
 import org.mindrot.jbcrypt.BCrypt
@@ -28,9 +26,23 @@ class UsersService(
 ) {
 
     /**
-     * Get user by id
+     * Get all models
      */
-    suspend fun findById(id: Int) = db.transaction {
+    suspend fun getAll(): List<Project> = db.transaction {
+        ProjectEntity.all().toProjects()
+    }
+
+    /**
+     * Get model by id
+     */
+    suspend fun getById(id: Int): Project? = db.transaction {
+        ProjectEntity.findById(id)?.toProject()
+    }
+
+    /**
+     * Get user by id with load tokens
+     */
+    suspend fun getByIdTokens(id: Int) = db.transaction {
         UserEntity
             .findById(id)
             ?.load(UserEntity::tokens)
