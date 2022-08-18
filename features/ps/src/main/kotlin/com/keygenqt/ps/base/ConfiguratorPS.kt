@@ -17,7 +17,6 @@ package com.keygenqt.ps.base
 
 import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.base.LoaderConfig.loadProperties
-import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.route.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
@@ -30,10 +29,13 @@ import com.keygenqt.ps.utils.Constants.DBCONFIG_CONFIG
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
+import io.ktor.util.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import java.math.BigInteger
+import java.security.MessageDigest
 import java.util.*
 
 class ConfiguratorPS : ConfiguratorApp() {
@@ -91,6 +93,23 @@ class ConfiguratorPS : ConfiguratorApp() {
         }
     }
 
+    override fun SessionsConfig.session() {
+
+        val secretHex = properties.getProperty("secret").toString().toByteArray(Charsets.UTF_8)
+            .let { MessageDigest.getInstance("MD5").digest(it) }
+            .let { String.format("%032x", BigInteger(1, it)) }
+            .let { hex(it) }
+
+        val signKey = properties.getProperty("signKey").toString().toByteArray(Charsets.UTF_8)
+            .let { MessageDigest.getInstance("MD5").digest(it) }
+            .let { String.format("%032x", BigInteger(1, it)) }
+            .let { hex(it) }
+
+        cookie<UserSession>("ps_session") {
+            transform(SessionTransportTransformerEncrypt(secretHex, signKey))
+        }
+    }
+
     override fun AuthenticationConfig.authentication() {
         jwt(jwtAuth) {
             realm = "Access to Personal Site"
@@ -99,9 +118,14 @@ class ConfiguratorPS : ConfiguratorApp() {
         }
         session<UserSession>(sessionAuth) {
             validate { session ->
-                securityService.verify(session.token)?.let {
-                    securityService.findUserByID(it)
-                } ?: run {
+                try {
+                    securityService.verify(session.token)?.let {
+                        securityService.findUserByID(it)
+                    } ?: run {
+                        null
+                    }
+                } catch (ex: Exception) {
+                    println(ex)
                     null
                 }
             }

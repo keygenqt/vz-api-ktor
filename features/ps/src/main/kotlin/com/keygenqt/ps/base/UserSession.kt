@@ -1,4 +1,4 @@
-package com.keygenqt.core.base
+package com.keygenqt.ps.base
 
 /**
  * Session cookie

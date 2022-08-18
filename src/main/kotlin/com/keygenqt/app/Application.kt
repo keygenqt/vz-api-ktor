@@ -18,7 +18,6 @@ package com.keygenqt.app
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.keygenqt.core.base.ConfiguratorApp
-import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.exceptions.AppRuntimeException
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS
@@ -56,7 +55,7 @@ fun Application.module() {
 
     // session
     install(Sessions) {
-        cookie<UserSession>("user_session")
+        configurators.forEach { it.initSessions(this) }
     }
 
     // init json

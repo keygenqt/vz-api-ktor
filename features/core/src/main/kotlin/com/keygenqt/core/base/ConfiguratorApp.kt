@@ -18,6 +18,7 @@ package com.keygenqt.core.base
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import org.koin.core.module.Module
 
 abstract class ConfiguratorApp {
@@ -26,6 +27,7 @@ abstract class ConfiguratorApp {
     abstract fun Route.routing()
     abstract fun Application.configure()
     abstract fun AuthenticationConfig.authentication()
+    abstract fun SessionsConfig.session()
 
     fun intiConfigure(app: Application) {
         app.apply { configure() }
@@ -35,7 +37,11 @@ abstract class ConfiguratorApp {
         route.apply { routing() }
     }
 
-    fun initAuthentication(authentication: AuthenticationConfig) {
-        authentication.apply { authentication() }
+    fun initSessions(conf: SessionsConfig) {
+        conf.apply { session() }
+    }
+
+    fun initAuthentication(conf: AuthenticationConfig) {
+        conf.apply { authentication() }
     }
 }

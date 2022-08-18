@@ -23,6 +23,7 @@ import com.keygenqt.kchat.utils.Constants
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -51,5 +52,6 @@ class ConfiguratorKChat : ConfiguratorApp() {
         )
     }
 
+    override fun SessionsConfig.session() {}
     override fun AuthenticationConfig.authentication() {}
 }

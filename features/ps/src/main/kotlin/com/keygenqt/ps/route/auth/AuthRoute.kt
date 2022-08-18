@@ -15,8 +15,8 @@
  */
 package com.keygenqt.ps.route.auth
 
-import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.exceptions.AppRuntimeException
+import com.keygenqt.ps.base.UserSession
 import com.keygenqt.ps.db.models.User
 import com.keygenqt.ps.route.auth.elements.*
 import com.keygenqt.ps.service.SecurityService
@@ -33,6 +33,7 @@ import org.koin.ktor.ext.inject
 fun Route.authRoute() {
 
     val userService: UsersService by inject()
+    val tokenService: TokensService by inject()
     val securityService: SecurityService by inject()
 
     // auth session
@@ -40,7 +41,8 @@ fun Route.authRoute() {
         post {
             val request = call.receive<AuthRequest>()
             val user = userService.findUserByAuth(request.email, request.password)
-            user?.let { call.serve(user, request.deviceId, AuthType.SESSION) } ?: throw AppRuntimeException.ErrorAuthorized()
+            user?.let { call.serve(user, request.deviceId, AuthType.SESSION) }
+                ?: throw AppRuntimeException.ErrorAuthorized()
         }
     }
 
@@ -49,7 +51,8 @@ fun Route.authRoute() {
         post {
             val request = call.receive<AuthRequest>()
             val user = userService.findUserByAuth(request.email, request.password)
-            user?.let { call.serve(user, request.deviceId, AuthType.JWT) } ?: throw AppRuntimeException.ErrorAuthorized()
+            user?.let { call.serve(user, request.deviceId, AuthType.JWT) }
+                ?: throw AppRuntimeException.ErrorAuthorized()
         }
     }
 
@@ -65,6 +68,13 @@ fun Route.authRoute() {
                 // emit response with update tokens
                 call.serve(user, request.deviceId, AuthType.JWT)
             } ?: throw AppRuntimeException.ErrorAuthorized()
+        }
+    }
+
+    route("/logout") {
+        get {
+            call.sessions.clear<UserSession>()
+            call.respond(LogoutResponse(success = true))
         }
     }
 }
@@ -96,11 +106,12 @@ private suspend fun ApplicationCall.serve(
                 )
             )
         }
+
         AuthType.SESSION -> {
             sessions.set(
                 UserSession(
                     role = user.role.name,
-                    token = token.token,
+                    token = token.refreshToken,
                     deviceId = deviceId,
                 )
             )

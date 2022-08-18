@@ -3,7 +3,6 @@ package com.keygenqt.ps.service
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import com.keygenqt.core.base.UserSession
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
 import io.ktor.server.auth.jwt.*
@@ -92,7 +91,7 @@ class SecurityService(
     /**
      * Verify refresh token with get user ID
      */
-    fun verify(refreshToken: String): Int? = verifier.verify(refreshToken).getClaim(nameID).asInt()
+    fun verify(value: String): Int? = verifier.verify(value).getClaim(nameID).asInt()
 
     /**
      * (24 hours) * 30 days
