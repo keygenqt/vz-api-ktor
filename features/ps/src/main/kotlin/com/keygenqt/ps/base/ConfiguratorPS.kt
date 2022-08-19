@@ -18,7 +18,7 @@ package com.keygenqt.ps.base
 import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.base.LoaderConfig.loadProperties
 import com.keygenqt.core.db.DatabaseMysql
-import com.keygenqt.ps.route.articlesRoute
+import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.projectsRoute
 import com.keygenqt.ps.route.usersRoute

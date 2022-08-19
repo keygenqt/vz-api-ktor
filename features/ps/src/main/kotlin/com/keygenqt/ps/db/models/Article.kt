@@ -21,10 +21,17 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.SizedIterable
-import org.jetbrains.exposed.sql.Table
+
+/**
+ * Role uer in app
+ */
+enum class ArticleCategory {
+    ANDROID, PC, WEB, IOS, OTHER
+}
 
 object Articles : IntIdTable() {
-    val icon = varchar("icon", 255)
+    val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
+    val icon = varchar("icon", 255).default("")
     val title = varchar("title", 255)
     val description = varchar("description", 255)
     val content = text("content")
@@ -38,6 +45,7 @@ object Articles : IntIdTable() {
 class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ArticleEntity>(Articles)
 
+    var category by Articles.category
     var icon by Articles.icon
     var title by Articles.title
     var description by Articles.description
@@ -49,6 +57,7 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
 @Serializable
 data class Article(
     val id: Int? = null,
+    val category: ArticleCategory,
     val icon: String,
     val title: String,
     val description: String,
@@ -62,6 +71,7 @@ data class Article(
  */
 fun ArticleEntity.toArticle() = Article(
     id = id.value,
+    category = category,
     icon = icon,
     title = title,
     description = description,

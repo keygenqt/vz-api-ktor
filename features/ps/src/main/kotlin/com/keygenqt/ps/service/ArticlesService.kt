@@ -16,10 +16,7 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
-import com.keygenqt.ps.db.models.Article
-import com.keygenqt.ps.db.models.ArticleEntity
-import com.keygenqt.ps.db.models.toArticle
-import com.keygenqt.ps.db.models.toArticles
+import com.keygenqt.ps.db.models.*
 
 class ArticlesService(
     val db: DatabaseMysql,
@@ -36,5 +33,44 @@ class ArticlesService(
      */
     suspend fun getById(id: Int): Article? = db.transaction {
         ArticleEntity.findById(id)?.toArticle()
+    }
+
+    /**
+     * Add model [Article]
+     */
+    suspend fun insert(
+        category: ArticleCategory,
+        title: String,
+        description: String,
+        content: String,
+    ): Article = db.transaction {
+        ArticleEntity.new {
+            this.category = category
+            this.title = title
+            this.description = description
+            this.content = content
+            this.createAt = System.currentTimeMillis()
+            this.updateAt = System.currentTimeMillis()
+        }.toArticle()
+    }
+
+    /**
+     * Update model [Article]
+     */
+    suspend fun update(
+        id: Int,
+        category: ArticleCategory,
+        title: String,
+        description: String,
+        content: String,
+    ): Boolean = db.transaction {
+        ArticleEntity.findById(id)?.let {
+            it.category = category
+            it.title = title
+            it.description = description
+            it.content = content
+            it.updateAt = System.currentTimeMillis()
+            true
+        } ?: false
     }
 }
