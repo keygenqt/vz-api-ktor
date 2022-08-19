@@ -32,7 +32,7 @@ fun Route.articlesRoute() {
             call.respond(service.getAll())
         }
         get("/{id}") {
-            val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("Must provide id")
+            val id = call.parameters["id"]?.toIntOrNull() ?: throw AppRuntimeException.Error404("Must provide id number")
             call.respond(service.getById(id) ?: throw AppRuntimeException.Error404("Model not found"))
         }
     }
