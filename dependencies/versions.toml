@@ -26,6 +26,9 @@ logbackVersion="1.2.11"
 ktlintVersion = "0.46.1"
 ## https://github.com/jeremyh/jBCrypt
 jbcryptVersion = "0.4"
+## https://hibernate.org/validator/documentation/
+hibernateValidatorVersion = "7.0.5.Final"
+jakartaElVersion = "4.0.1"
 
 
 

@@ -15,14 +15,16 @@
  */
 package com.keygenqt.ps.route.articles
 
-import com.keygenqt.core.exceptions.AppRuntimeException
+import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.extension.getId
+import com.keygenqt.core.extension.receiveValidate
 import com.keygenqt.ps.route.articles.elements.ArticleRequest
 import com.keygenqt.ps.service.ArticlesService
 import io.ktor.server.application.*
-import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
+
 
 fun Route.articlesRoute() {
 
@@ -33,14 +35,10 @@ fun Route.articlesRoute() {
             call.respond(service.getAll())
         }
         get("/{id}") {
-            val id = call
-                .parameters["id"]
-                ?.toIntOrNull() ?: throw AppRuntimeException.Error404("Must provide id number")
-
-            call.respond(service.getById(id) ?: throw AppRuntimeException.Error404("Model not found"))
+            call.respond(service.getById(call.getId()) ?: throw AppException.Error404("Model not found"))
         }
         post {
-            val request = call.receive<ArticleRequest>()
+            val request = call.receiveValidate<ArticleRequest>()
             call.respond(
                 service.insert(
                     category = request.category,
@@ -51,15 +49,9 @@ fun Route.articlesRoute() {
             )
         }
         put("/{id}") {
-
-            val id = call
-                .parameters["id"]
-                ?.toIntOrNull() ?: throw AppRuntimeException.Error404("Must provide id number")
-
-            val request = call.receive<ArticleRequest>()
-
+            val request = call.receiveValidate<ArticleRequest>()
             if (service.update(
-                    id = id,
+                    id = call.getId(),
                     category = request.category,
                     title = request.title,
                     description = request.description,
@@ -68,8 +60,16 @@ fun Route.articlesRoute() {
             ) {
                 call.respond(request)
             } else {
-                throw AppRuntimeException.Error500()
+                throw AppException.Error500()
             }
         }
     }
 }
+
+//fun <T : Any> T.validate(validator: Validator) {
+//    validator.validate(this)
+//        .takeIf { it.isNotEmpty() }
+//        ?.let { throw BadRequestException(it.first().messageWithFieldName()) }
+//}
+//
+//fun <T : Any> ConstraintViolation<T>.messageWithFieldName() = "${this.propertyPath} ${this.message}"

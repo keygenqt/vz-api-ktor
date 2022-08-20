@@ -18,7 +18,7 @@ package com.keygenqt.app
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.keygenqt.core.base.ConfiguratorApp
-import com.keygenqt.core.exceptions.AppRuntimeException
+import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS
 import io.ktor.http.*
@@ -32,6 +32,7 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.slf4j.LoggerFactory
 
@@ -60,7 +61,12 @@ fun Application.module() {
 
     // init json
     install(ContentNegotiation) {
-        json()
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+            ignoreUnknownKeys = true
+            coerceInputValues = true
+        })
     }
 
     // init auth
@@ -83,24 +89,24 @@ fun Application.module() {
         status(HttpStatusCode.NotFound) { call, _ ->
             call.respond(
                 status = HttpStatusCode.NotFound,
-                message = AppRuntimeException.Error404().exception
+                message = AppException.Error404().exception
             )
         }
         status(HttpStatusCode.Unauthorized) { call, _ ->
             call.respond(
                 status = HttpStatusCode.Unauthorized,
-                message = AppRuntimeException.ErrorAuthorized().exception
+                message = AppException.ErrorAuthorized().exception
             )
         }
         exception<Throwable> { call, cause ->
             if (cause::class.simpleName == "JsonDecodingException" || cause::class.simpleName == "MissingFieldException") {
-                AppRuntimeException.JsonDecodingException(cause.message).let {
+                AppException.JsonDecodingException(cause.message).let {
                     call.respond(
                         status = it.status,
                         message = it.exception
                     )
                 }
-            } else if (cause is AppRuntimeException) {
+            } else if (cause is AppException) {
                 cause.let {
                     call.respond(
                         status = it.status,
@@ -109,7 +115,7 @@ fun Application.module() {
                 }
             } else {
                 println(cause)
-                AppRuntimeException.Error500().let {
+                AppException.Error500().let {
                     call.respond(
                         status = it.status,
                         message = it.exception

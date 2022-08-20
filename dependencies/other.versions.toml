@@ -5,6 +5,10 @@ module = "io.insert-koin:koin-ktor"
 module = "ch.qos.logback:logback-classic"
 [libraries.jbcrypt]
 module = "org.mindrot:jbcrypt"
+[libraries.hibernate_validator]
+module = "org.hibernate.validator:hibernate-validator"
+[libraries.jakarta_el]
+module = "org.glassfish:jakarta.el"
 
 # versions
 [libraries.koin_ktor.version]
@@ -13,10 +17,16 @@ ref = "koinVersion"
 ref = "logbackVersion"
 [libraries.jbcrypt.version]
 ref = "jbcryptVersion"
+[libraries.hibernate_validator.version]
+ref = "hibernateValidatorVersion"
+[libraries.jakarta_el.version]
+ref = "jakartaElVersion"
 
 [bundles]
 other = [
     "koin_ktor",
     "logback",
     "jbcrypt",
+    "hibernate_validator",
+    "jakarta_el",
 ]

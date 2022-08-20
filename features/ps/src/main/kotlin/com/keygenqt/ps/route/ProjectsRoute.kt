@@ -15,7 +15,7 @@
  */
 package com.keygenqt.ps.route
 
-import com.keygenqt.core.exceptions.AppRuntimeException
+import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.ps.service.ProjectsService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -31,8 +31,8 @@ fun Route.projectsRoute() {
             call.respond(service.getAll())
         }
         get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull() ?: throw AppRuntimeException.Error404("Must provide id number")
-            call.respond(service.getById(id) ?: throw AppRuntimeException.Error404("Model not found"))
+            val id = call.parameters["id"]?.toIntOrNull() ?: throw AppException.Error404("Must provide id number")
+            call.respond(service.getById(id) ?: throw AppException.Error404("Model not found"))
         }
     }
 }

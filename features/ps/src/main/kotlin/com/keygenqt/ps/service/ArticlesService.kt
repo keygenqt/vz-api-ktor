@@ -39,16 +39,18 @@ class ArticlesService(
      * Add model [Article]
      */
     suspend fun insert(
-        category: ArticleCategory,
-        title: String,
-        description: String,
-        content: String,
+        category: ArticleCategory?,
+        title: String?,
+        description: String?,
+        content: String?,
     ): Article = db.transaction {
         ArticleEntity.new {
-            this.category = category
-            this.title = title
-            this.description = description
-            this.content = content
+
+            category?.let { this.category = category }
+            title?.let { this.title = title }
+            description?.let { this.description = description }
+            content?.let { this.content = content }
+
             this.createAt = System.currentTimeMillis()
             this.updateAt = System.currentTimeMillis()
         }.toArticle()
@@ -59,18 +61,19 @@ class ArticlesService(
      */
     suspend fun update(
         id: Int,
-        category: ArticleCategory,
-        title: String,
-        description: String,
-        content: String,
+        category: ArticleCategory?,
+        title: String?,
+        description: String?,
+        content: String?,
     ): Boolean = db.transaction {
-        ArticleEntity.findById(id)?.let {
-            it.category = category
-            it.title = title
-            it.description = description
-            it.content = content
-            it.updateAt = System.currentTimeMillis()
-            true
-        } ?: false
+        ArticleEntity.findById(id)?.apply {
+
+            category?.let { this.category = category }
+            title?.let { this.title = title }
+            description?.let { this.description = description }
+            content?.let { this.content = content }
+
+            this.updateAt = System.currentTimeMillis()
+        }.let { it != null }
     }
 }

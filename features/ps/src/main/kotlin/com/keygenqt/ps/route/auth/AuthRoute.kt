@@ -15,7 +15,7 @@
  */
 package com.keygenqt.ps.route.auth
 
-import com.keygenqt.core.exceptions.AppRuntimeException
+import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.ps.base.UserSession
 import com.keygenqt.ps.db.models.User
 import com.keygenqt.ps.route.auth.elements.*
@@ -42,7 +42,7 @@ fun Route.authRoute() {
             val request = call.receive<AuthRequest>()
             val user = userService.findUserByAuth(request.email, request.password)
             user?.let { call.serve(user, request.deviceId, AuthType.SESSION) }
-                ?: throw AppRuntimeException.ErrorAuthorized()
+                ?: throw AppException.ErrorAuthorized()
         }
     }
 
@@ -52,7 +52,7 @@ fun Route.authRoute() {
             val request = call.receive<AuthRequest>()
             val user = userService.findUserByAuth(request.email, request.password)
             user?.let { call.serve(user, request.deviceId, AuthType.JWT) }
-                ?: throw AppRuntimeException.ErrorAuthorized()
+                ?: throw AppException.ErrorAuthorized()
         }
     }
 
@@ -63,11 +63,11 @@ fun Route.authRoute() {
             securityService.verify(request.refreshToken)?.let { userService.getByIdTokens(it) }?.let { user ->
                 // check token exist
                 if (!user.tokens.any { it.refreshToken == request.refreshToken && it.deviceId == request.deviceId }) {
-                    throw AppRuntimeException.ErrorAuthorized()
+                    throw AppException.ErrorAuthorized()
                 }
                 // emit response with update tokens
                 call.serve(user, request.deviceId, AuthType.JWT)
-            } ?: throw AppRuntimeException.ErrorAuthorized()
+            } ?: throw AppException.ErrorAuthorized()
         }
     }
 
