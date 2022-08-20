@@ -2,8 +2,6 @@ package com.keygenqt.ps.route.articles.elements
 
 import com.keygenqt.core.validators.NotNullNotBlank
 import com.keygenqt.ps.db.models.ArticleCategory
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import kotlinx.serialization.Serializable
