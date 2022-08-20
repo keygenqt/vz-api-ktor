@@ -55,7 +55,8 @@ sealed class AppException(
      * Error 422
      */
     data class Error422(
+        val msg: String? = null,
         val violation: Set<ConstraintViolation<*>>,
         override val status: HttpStatusCode = HttpStatusCode.UnprocessableEntity,
-    ) : AppException(status, status.genException(null, violation))
+    ) : AppException(status, status.genException(msg, violation))
 }

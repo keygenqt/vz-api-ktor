@@ -38,13 +38,14 @@ fun Route.articlesRoute() {
             call.respond(service.getById(call.getId()) ?: throw AppException.Error404("Model not found"))
         }
         post {
-            val request = call.receiveValidate<ArticleRequest>()
+            val request = call.receiveValidate<ArticleRequest>("Error creating article, please check the correctness of data entry")
             call.respond(
                 service.insert(
                     category = request.category,
                     title = request.title,
                     description = request.description,
                     content = request.content,
+                    isPublished = request.isPublished,
                 )
             )
         }
@@ -56,6 +57,7 @@ fun Route.articlesRoute() {
                     title = request.title,
                     description = request.description,
                     content = request.content,
+                    isPublished = request.isPublished,
                 )
             ) {
                 call.respond(request)

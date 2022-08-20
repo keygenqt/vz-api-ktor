@@ -43,6 +43,7 @@ class ArticlesService(
         title: String?,
         description: String?,
         content: String?,
+        isPublished: Boolean?,
     ): Article = db.transaction {
         ArticleEntity.new {
 
@@ -50,6 +51,7 @@ class ArticlesService(
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
+            isPublished?.let { this.isPublished = isPublished }
 
             this.createAt = System.currentTimeMillis()
             this.updateAt = System.currentTimeMillis()
@@ -65,6 +67,7 @@ class ArticlesService(
         title: String?,
         description: String?,
         content: String?,
+        isPublished: Boolean?,
     ): Boolean = db.transaction {
         ArticleEntity.findById(id)?.apply {
 
@@ -72,6 +75,7 @@ class ArticlesService(
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
+            isPublished?.let { this.isPublished = isPublished }
 
             this.updateAt = System.currentTimeMillis()
         }.let { it != null }

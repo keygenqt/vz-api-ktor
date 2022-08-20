@@ -33,8 +33,9 @@ object Articles : IntIdTable() {
     val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
     val icon = varchar("icon", 255).default("")
     val title = varchar("title", 255)
-    val description = varchar("description", 255)
+    val description = varchar("description", 500)
     val content = text("content")
+    val isPublished = bool("isPublished").default(false)
     val createAt = long("createAt")
     val updateAt = long("updateAt")
 }
@@ -50,6 +51,7 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     var title by Articles.title
     var description by Articles.description
     var content by Articles.content
+    var isPublished by Articles.isPublished
     var createAt by Articles.createAt
     var updateAt by Articles.updateAt
 }
@@ -62,6 +64,7 @@ data class Article(
     val title: String,
     val description: String,
     val content: String,
+    val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
 )
@@ -76,6 +79,7 @@ fun ArticleEntity.toArticle() = Article(
     title = title,
     description = description,
     content = content,
+    isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
 )

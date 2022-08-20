@@ -8,12 +8,14 @@ import jakarta.validation.Validation
 /**
  * Get request with validate
  */
-suspend inline fun <reified T : Any> ApplicationCall.receiveValidate(): T {
+suspend inline fun <reified T : Any> ApplicationCall.receiveValidate(
+    message: String? = null
+): T {
 
     val request = try {
         receive<T>()
     } catch (ex: Exception) {
-        throw AppException.Error400(ex.message)
+        throw AppException.Error400(message ?: ex.message)
     }
 
     val validate = Validation.buildDefaultValidatorFactory().validator.validate(request)
@@ -21,7 +23,7 @@ suspend inline fun <reified T : Any> ApplicationCall.receiveValidate(): T {
     if (validate.isEmpty()) {
         return request
     } else {
-        throw AppException.Error422(validate)
+        throw AppException.Error422(message, validate)
     }
 }
 

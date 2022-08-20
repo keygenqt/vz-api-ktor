@@ -26,4 +26,7 @@ data class ArticleRequest(
     @field:NotNullNotBlank
     @field:Size(max = 1000, message = "Must be less than or equal to 1000")
     val content: String? = null,
+
+    @field:NotNull(message = "Must not be null")
+    val isPublished: Boolean? = null,
 )
