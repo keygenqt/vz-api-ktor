@@ -65,11 +65,3 @@ fun Route.articlesRoute() {
         }
     }
 }
-
-//fun <T : Any> T.validate(validator: Validator) {
-//    validator.validate(this)
-//        .takeIf { it.isNotEmpty() }
-//        ?.let { throw BadRequestException(it.first().messageWithFieldName()) }
-//}
-//
-//fun <T : Any> ConstraintViolation<T>.messageWithFieldName() = "${this.propertyPath} ${this.message}"
