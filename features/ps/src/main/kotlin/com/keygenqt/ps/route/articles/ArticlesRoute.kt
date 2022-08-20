@@ -50,7 +50,7 @@ fun Route.articlesRoute() {
             )
         }
         put("/{id}") {
-            val request = call.receiveValidate<ArticleRequest>("Error creating article, please check the correctness of data entry")
+            val request = call.receiveValidate<ArticleRequest>("Error update article, please check the correctness of data entry")
             if (service.update(
                     id = call.getId(),
                     category = request.category,
