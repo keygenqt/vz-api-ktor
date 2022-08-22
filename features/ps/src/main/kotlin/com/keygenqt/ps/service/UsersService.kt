@@ -15,6 +15,7 @@
  */
 package com.keygenqt.ps.service
 
+import com.keygenqt.core.base.Password
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
@@ -52,13 +53,16 @@ class UsersService(
     /**
      * Get user with check password for auth
      */
-    suspend fun findUserByAuth(email: String, password: String) = db.transaction {
+    suspend fun findUserByAuth(
+        email: String?,
+        password: String?,
+    ) = db.transaction {
         UserEntity
-            .find { (Users.email eq email) }
+            .find { (Users.email eq (email ?: "")) }
             .with(UserEntity::tokens)
             .firstOrNull()
             ?.let { entity ->
-                if (BCrypt.checkpw(password, entity.password)) {
+                if (Password.validate(password, entity.password)) {
                     entity.toUser()
                 } else {
                     return@transaction null

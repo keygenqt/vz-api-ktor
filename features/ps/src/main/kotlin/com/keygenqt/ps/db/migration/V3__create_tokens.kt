@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
     "unused",
     "ClassName"
 )
-class V4__create_tokens : BaseJavaMigration() {
+class V3__create_tokens : BaseJavaMigration() {
     override fun migrate(context: Context?) {
         transaction {
             SchemaUtils.create(Tokens)

@@ -21,6 +21,14 @@ sealed class AppException(
     ) : AppException(status, status.genException())
 
     /**
+     * Error forbidden
+     */
+    data class ErrorForbidden(
+        val msg: String? = null,
+        override val status: HttpStatusCode = HttpStatusCode.Forbidden,
+    ) : AppException(status, status.genException(msg))
+
+    /**
      * Error json parse
      */
     data class JsonDecodingException(
@@ -56,7 +64,7 @@ sealed class AppException(
      */
     data class Error422(
         val msg: String? = null,
-        val violation: Set<ConstraintViolation<*>>,
+        val violation: Set<ConstraintViolation<*>> = emptySet(),
         override val status: HttpStatusCode = HttpStatusCode.UnprocessableEntity,
     ) : AppException(status, status.genException(msg, violation))
 }

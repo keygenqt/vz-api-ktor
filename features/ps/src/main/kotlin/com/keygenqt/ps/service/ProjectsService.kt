@@ -16,10 +16,7 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
-import com.keygenqt.ps.db.models.Project
-import com.keygenqt.ps.db.models.ProjectEntity
-import com.keygenqt.ps.db.models.toProject
-import com.keygenqt.ps.db.models.toProjects
+import com.keygenqt.ps.db.models.*
 
 class ProjectsService(
     val db: DatabaseMysql,
@@ -36,5 +33,55 @@ class ProjectsService(
      */
     suspend fun getById(id: Int): Project? = db.transaction {
         ProjectEntity.findById(id)?.toProject()
+    }
+
+    /**
+     * Add model [Article]
+     */
+    suspend fun insert(
+        category: ProjectCategory?,
+        language: ProjectLanguage?,
+        title: String?,
+        url: String?,
+        description: String?,
+        isPublished: Boolean?,
+    ): Project = db.transaction {
+        ProjectEntity.new {
+
+            category?.let { this.category = category }
+            language?.let { this.language = language }
+            title?.let { this.title = title }
+            url?.let { this.url = url }
+            description?.let { this.description = description }
+            isPublished?.let { this.isPublished = isPublished }
+
+            this.createAt = System.currentTimeMillis()
+            this.updateAt = System.currentTimeMillis()
+        }.toProject()
+    }
+
+    /**
+     * Update model [Article]
+     */
+    suspend fun update(
+        id: Int,
+        category: ProjectCategory?,
+        language: ProjectLanguage?,
+        title: String?,
+        url: String?,
+        description: String?,
+        isPublished: Boolean?,
+    ): Boolean = db.transaction {
+        ProjectEntity.findById(id)?.apply {
+
+            category?.let { this.category = category }
+            language?.let { this.language = language }
+            title?.let { this.title = title }
+            url?.let { this.url = url }
+            description?.let { this.description = description }
+            isPublished?.let { this.isPublished = isPublished }
+
+            this.updateAt = System.currentTimeMillis()
+        }.let { it != null }
     }
 }

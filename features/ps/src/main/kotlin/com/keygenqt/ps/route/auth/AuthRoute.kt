@@ -16,6 +16,7 @@
 package com.keygenqt.ps.route.auth
 
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.extension.receiveValidate
 import com.keygenqt.ps.base.UserSession
 import com.keygenqt.ps.db.models.User
 import com.keygenqt.ps.route.auth.elements.*
@@ -27,32 +28,42 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import jakarta.validation.ConstraintViolation
 import org.koin.ktor.ext.inject
 
 
 fun Route.authRoute() {
 
     val userService: UsersService by inject()
-    val tokenService: TokensService by inject()
     val securityService: SecurityService by inject()
 
     // auth session
     route("/auth") {
         post {
-            val request = call.receive<AuthRequest>()
-            val user = userService.findUserByAuth(request.email, request.password)
-            user?.let { call.serve(user, request.deviceId, AuthType.SESSION) }
-                ?: throw AppException.ErrorAuthorized()
+            val request = call.receiveValidate<AuthRequest>()
+
+            val user = userService.findUserByAuth(
+                email = request.email,
+                password = request.password
+            )
+
+            user?.let { call.serve(user, request.deviceId!!, AuthType.SESSION) }
+                ?: throw AppException.Error422("Authentication failed. Please check the correctness of the credentials")
         }
     }
 
     // auth token jwt
     route("/login") {
         post {
-            val request = call.receive<AuthRequest>()
-            val user = userService.findUserByAuth(request.email, request.password)
-            user?.let { call.serve(user, request.deviceId, AuthType.JWT) }
-                ?: throw AppException.ErrorAuthorized()
+            val request = call.receiveValidate<AuthRequest>()
+
+            val user = userService.findUserByAuth(
+                email = request.email,
+                password = request.password
+            )
+
+            user?.let { call.serve(user, request.deviceId!!, AuthType.JWT) }
+                ?: throw AppException.Error422("Authentication failed. Please check the correctness of the credentials")
         }
     }
 

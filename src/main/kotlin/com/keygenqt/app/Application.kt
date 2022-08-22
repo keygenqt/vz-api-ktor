@@ -18,6 +18,7 @@ package com.keygenqt.app
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.keygenqt.core.base.ConfiguratorApp
+import com.keygenqt.core.base.Password
 import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS

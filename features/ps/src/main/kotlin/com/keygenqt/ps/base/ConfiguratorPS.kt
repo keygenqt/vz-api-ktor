@@ -20,8 +20,7 @@ import com.keygenqt.core.base.LoaderConfig.loadProperties
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
-import com.keygenqt.ps.route.projectsRoute
-import com.keygenqt.ps.route.usersRoute
+import com.keygenqt.ps.route.projects.projectsRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants.APP_CONFIG
 import com.keygenqt.ps.utils.Constants.BASE_API_PATH
@@ -71,7 +70,6 @@ class ConfiguratorPS : ConfiguratorApp() {
                 route(basePath) {
                     articlesRoute()
                     projectsRoute()
-                    usersRoute()
                 }
             }
         }

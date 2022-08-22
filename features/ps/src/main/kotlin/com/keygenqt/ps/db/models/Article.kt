@@ -23,7 +23,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.SizedIterable
 
 /**
- * Role uer in app
+ * Category article
  */
 enum class ArticleCategory {
     ANDROID, PC, WEB, IOS, OTHER

@@ -9,7 +9,7 @@ import jakarta.validation.Validation
  * Get request with validate
  */
 suspend inline fun <reified T : Any> ApplicationCall.receiveValidate(
-    message: String? = null
+    message: String? = null,
 ): T {
 
     val request = try {
