@@ -22,12 +22,24 @@ object Constants {
     const val BASE_API_PATH = "ps"
 
     /**
-     * Key config db
+     * Key config
      */
-    const val DBCONFIG_CONFIG = "ktor.dbconfig.ps"
+    const val APP_CONFIG = "ktor.apps.ps"
 
     /**
-     * App params
+     * App properties -> app.properties
      */
-    const val APP_CONFIG = "ktor.app.ps"
+    object Properties {
+        /**
+         * Update admin password after start sever
+         */
+        const val adminEmail = "adminEmail"
+        const val adminUpdate = "adminUpdate"
+
+        /**
+         * Secrets
+         */
+        const val secret = "secret"
+        const val signKey = "signKey"
+    }
 }

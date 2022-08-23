@@ -9,7 +9,7 @@ object Password {
      * Create hash for db
      */
     fun encode(password: String) =
-        BCrypt.hashpw(password, BCrypt.gensalt())
+        BCrypt.hashpw(password, BCrypt.gensalt())!!
 
     /**
      * Validate hash from db

@@ -17,15 +17,13 @@ package com.keygenqt.kchat.utils
 
 object Constants {
 
-    const val PATH_DOCS = "src/main/resources/site"
-
     /**
      * Main path api
      */
     const val BASE_API_PATH = "kchat"
 
     /**
-     * Key config db
+     * Key config
      */
-    const val DBCONFIG_CONFIG = "ktor.dbconfig.kchat"
+    const val APP_CONFIG = "ktor.apps.kchat"
 }

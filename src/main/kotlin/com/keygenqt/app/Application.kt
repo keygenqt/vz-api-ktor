@@ -15,11 +15,11 @@
  */
 package com.keygenqt.app
 
-import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import com.keygenqt.core.base.ConfiguratorApp
-import com.keygenqt.core.base.Password
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.utils.AppLogger
+import com.keygenqt.core.utils.AppLogger.initAppLogger
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS
 import io.ktor.http.*
@@ -28,6 +28,7 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
@@ -36,6 +37,7 @@ import io.ktor.server.sessions.*
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.slf4j.LoggerFactory
+import org.slf4j.event.Level
 
 val configurators: List<ConfiguratorApp> = listOf(
     ConfiguratorPS(), ConfiguratorKChat()
@@ -47,10 +49,8 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
 
-    // logger
-    (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).apply {
-        level = Level.OFF
-    }
+    // init logger
+    initAppLogger()
 
     // custom app configure
     configurators.forEach { it.intiConfigure(this) }

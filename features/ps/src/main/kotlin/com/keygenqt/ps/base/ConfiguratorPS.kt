@@ -16,31 +16,34 @@
 package com.keygenqt.ps.base
 
 import com.keygenqt.core.base.ConfiguratorApp
-import com.keygenqt.core.base.LoaderConfig.loadProperties
+import com.keygenqt.core.base.LoaderConfig
+import com.keygenqt.core.base.Password
 import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.ps.db.models.UserEntity
+import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.projects.projectsRoute
 import com.keygenqt.ps.service.*
+import com.keygenqt.ps.utils.Constants
 import com.keygenqt.ps.utils.Constants.APP_CONFIG
 import com.keygenqt.ps.utils.Constants.BASE_API_PATH
-import com.keygenqt.ps.utils.Constants.DBCONFIG_CONFIG
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
 import io.ktor.util.*
+import kotlinx.coroutines.runBlocking
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import java.math.BigInteger
 import java.security.MessageDigest
-import java.util.*
 
 class ConfiguratorPS : ConfiguratorApp() {
 
     private lateinit var db: DatabaseMysql
-    private lateinit var properties: Properties
+    private lateinit var appConf: LoaderConfig
     private lateinit var securityService: SecurityService
 
     private val jwtAuth = "jwtAuth"
@@ -78,27 +81,45 @@ class ConfiguratorPS : ConfiguratorApp() {
     override fun Application.configure() {
         with(environment.config) {
             // auth secret
-            properties = loadProperties(this.property("${APP_CONFIG}.config").getString())
+            appConf = LoaderConfig.loadProperties(this.property("${APP_CONFIG}.properties").getString())
 
             // init db app
             db = DatabaseMysql(
-                config = property("${DBCONFIG_CONFIG}.config").getString(),
-                migration = property("${DBCONFIG_CONFIG}.migration").getString()
+                config = property("${APP_CONFIG}.config").getString(),
+                migration = property("${APP_CONFIG}.migration").getString()
             )
 
             // init securityService
-            securityService = SecurityService(db, properties.getProperty("secret").toString())
+            securityService = SecurityService(db, appConf.getPropOrNull(Constants.Properties.secret)!!)
+
+            // update admin password
+            appConf.getPropOrNull<Boolean?>(Constants.Properties.adminUpdate)?.let {
+                if (it) {
+                    val email: String = appConf.getPropOrNull(Constants.Properties.adminEmail)!!
+                    runBlocking {
+                        db.transaction {
+                            Password.random().let { pass ->
+                                UserEntity.find { (Users.email eq email) }.firstOrNull()?.let { entity ->
+                                    entity.password = Password.encode(pass)
+                                }
+                                println("Update ADMIN, email: $email, password: $pass")
+                                pass
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
     override fun SessionsConfig.session() {
 
-        val secretHex = properties.getProperty("secret").toString().toByteArray(Charsets.UTF_8)
+        val secretHex = appConf.getPropOrNull<String>(Constants.Properties.secret)!!.toByteArray(Charsets.UTF_8)
             .let { MessageDigest.getInstance("MD5").digest(it) }
             .let { String.format("%032x", BigInteger(1, it)) }
             .let { hex(it) }
 
-        val signKey = properties.getProperty("signKey").toString().toByteArray(Charsets.UTF_8)
+        val signKey = appConf.getPropOrNull<String>(Constants.Properties.signKey)!!.toByteArray(Charsets.UTF_8)
             .let { MessageDigest.getInstance("MD5").digest(it) }
             .let { String.format("%032x", BigInteger(1, it)) }
             .let { hex(it) }

@@ -20,7 +20,6 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
-import org.mindrot.jbcrypt.BCrypt
 
 class UsersService(
     private val db: DatabaseMysql,

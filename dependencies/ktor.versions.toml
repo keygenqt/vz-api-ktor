@@ -17,6 +17,8 @@ module = "io.ktor:ktor-server-auth-jwt"
 module = "io.ktor:ktor-client-cio"
 [libraries.ktor_server_sessions]
 module = "io.ktor:ktor-server-sessions"
+[libraries.ktor_server_call_logging]
+module = "io.ktor:ktor-server-call-logging"
 
 # versions
 [libraries.ktor_server_content_negotiation_jvm.version]
@@ -37,6 +39,8 @@ ref = "ktorVersion"
 ref = "ktorVersion"
 [libraries.ktor_server_sessions.version]
 ref = "ktorVersion"
+[libraries.ktor_server_call_logging.version]
+ref = "ktorVersion"
 
 [bundles]
 ktor = [
@@ -49,4 +53,5 @@ ktor = [
     "ktor_server_auth_jwt",
     "ktor_client_cio",
     "ktor_server_sessions",
+    "ktor_server_call_logging",
 ]
