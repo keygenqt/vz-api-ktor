@@ -21,6 +21,10 @@ data class ProjectRequest(
     val language: ProjectLanguage? = null,
 
     @field:NotNullNotBlank
+    @field:URL(message = "Must be a valid URL")
+    val publicImage: String? = null,
+
+    @field:NotNullNotBlank
     @field:Size(min = 3, max = 255, message = "Size must be between 3 and 255")
     val title: String? = null,
 
@@ -34,4 +38,6 @@ data class ProjectRequest(
 
     @field:NotNull(message = "Must not be null")
     val isPublished: Boolean? = null,
+
+    val uploads: List<Int> = listOf(),
 )

@@ -39,7 +39,7 @@ enum class ProjectLanguage {
 object Projects : IntIdTable() {
     val category = enumeration("category", ProjectCategory::class).default(ProjectCategory.OTHER)
     val language = enumeration("language", ProjectLanguage::class).default(ProjectLanguage.OTHER)
-    val icon = varchar("icon", 255).default("")
+    val publicImage = varchar("publicImage", 255)
     val title = varchar("title", 255)
     val url = varchar("url", 255).default("")
     val description = varchar("description", 255)
@@ -56,13 +56,15 @@ class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
 
     var category by Projects.category
     var language by Projects.language
-    var icon by Projects.icon
+    var publicImage by Projects.publicImage
     var title by Projects.title
     var url by Projects.url
     var description by Projects.description
     var isPublished by Projects.isPublished
     var createAt by Projects.createAt
     var updateAt by Projects.updateAt
+
+    var uploads by UploadEntity via ProjectUploads
 }
 
 @Serializable
@@ -70,13 +72,14 @@ data class Project(
     val id: Int? = null,
     val category: ProjectCategory,
     val language: ProjectLanguage,
-    val icon: String,
+    val publicImage: String,
     val title: String,
     val url: String,
     val description: String,
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
+    val uploads: List<Upload>,
 )
 
 /**
@@ -86,13 +89,14 @@ fun ProjectEntity.toProject() = Project(
     id = id.value,
     category = category,
     language = language,
-    icon = icon,
+    publicImage = publicImage,
     title = title,
     url = url,
     description = description,
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
+    uploads = uploads.toUploads().reversed(),
 )
 
 /**

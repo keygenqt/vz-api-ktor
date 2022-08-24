@@ -17,6 +17,8 @@ package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
+import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.sql.SizedCollection
 
 class ArticlesService(
     val db: DatabaseMysql,
@@ -32,7 +34,7 @@ class ArticlesService(
      * Get model by id
      */
     suspend fun getById(id: Int): Article? = db.transaction {
-        ArticleEntity.findById(id)?.toArticle()
+        ArticleEntity.findById(id)?.load(ArticleEntity::uploads)?.toArticle()
     }
 
     /**
@@ -40,19 +42,23 @@ class ArticlesService(
      */
     suspend fun insert(
         category: ArticleCategory?,
+        publicImage: String?,
         title: String?,
         description: String?,
         content: String?,
         isPublished: Boolean?,
+        uploads: List<Int>,
     ): Article = db.transaction {
         ArticleEntity.new {
 
             category?.let { this.category = category }
+            publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
             isPublished?.let { this.isPublished = isPublished }
 
+            this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
             this.createAt = System.currentTimeMillis()
             this.updateAt = System.currentTimeMillis()
         }.toArticle()
@@ -64,19 +70,23 @@ class ArticlesService(
     suspend fun update(
         id: Int,
         category: ArticleCategory?,
+        publicImage: String?,
         title: String?,
         description: String?,
         content: String?,
         isPublished: Boolean?,
+        uploads: List<Int>,
     ): Boolean = db.transaction {
         ArticleEntity.findById(id)?.apply {
 
             category?.let { this.category = category }
+            publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
             isPublished?.let { this.isPublished = isPublished }
 
+            this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
             this.updateAt = System.currentTimeMillis()
         }.let { it != null }
     }

@@ -60,7 +60,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Алгоритмы. Основы."
-                it[icon] = "https://keygenqt.com/images/blog/601076d399c15.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/601076d399c15.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -70,7 +70,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Плохо написанные хорошие задачи."
-                it[icon] = "https://keygenqt.com/images/blog/5ef881c28b6c6.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5ef881c28b6c6.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -80,7 +80,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Количество станет качеством."
-                it[icon] = "https://keygenqt.com/images/blog/5eb1e22f20315.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5eb1e22f20315.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -90,7 +90,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Ментальная усталость."
-                it[icon] = "https://keygenqt.com/images/blog/5ec6e29c20719.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5ec6e29c20719.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -100,7 +100,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Становление философии."
-                it[icon] = "https://keygenqt.com/images/blog/5ee7e4486df16.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5ee7e4486df16.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -110,7 +110,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Оптимизация процессов."
-                it[icon] = "https://keygenqt.com/images/blog/5ed26eec8b8cd.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5ed26eec8b8cd.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -120,7 +120,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Логика. Основы."
-                it[icon] = "https://keygenqt.com/images/blog/5e5d66c8b82dc.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5d66c8b82dc.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -130,7 +130,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Деградируй или проиграешь."
-                it[icon] = "https://keygenqt.com/images/blog/5f0519630f1dd.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5f0519630f1dd.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -140,7 +140,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Красная шапочка."
-                it[icon] = "https://keygenqt.com/images/blog/5e5d656a012f7.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5d656a012f7.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -150,7 +150,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Безумие прогресса."
-                it[icon] = "https://keygenqt.com/images/blog/5e5d5f715bb0d.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5d5f715bb0d.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -160,7 +160,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Когда ты хороший."
-                it[icon] = "https://keygenqt.com/images/blog/5e5d6042aa75b.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5d6042aa75b.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -170,7 +170,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Смотрите под ноги."
-                it[icon] = "https://keygenqt.com/images/blog/5e5e06b1245c3.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5e06b1245c3.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -180,7 +180,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Философский пароход."
-                it[icon] = "https://keygenqt.com/images/blog/5e5e0d10466c7.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5e0d10466c7.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -190,7 +190,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Углеродная форма."
-                it[icon] = "https://keygenqt.com/images/blog/5e5cc904a805d.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5cc904a805d.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -200,7 +200,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Работа над собой."
-                it[icon] = "https://keygenqt.com/images/blog/5e5d6662883b3.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5e5d6662883b3.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()
@@ -210,7 +210,7 @@ class V1__create_articles : BaseJavaMigration() {
             Articles.insert {
                 it[category] = ArticleCategory.OTHER
                 it[title] = "Пчелиный рой."
-                it[icon] = "https://keygenqt.com/images/blog/5ea5d50695947.jpg"
+                it[publicImage] = "https://keygenqt.com/images/blog/5ea5d50695947.jpg"
                 it[description] = "Description"
                 it[content] = markdown
                 it[createAt] = System.currentTimeMillis()

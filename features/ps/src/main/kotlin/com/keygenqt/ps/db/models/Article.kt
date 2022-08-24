@@ -31,7 +31,7 @@ enum class ArticleCategory {
 
 object Articles : IntIdTable() {
     val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
-    val icon = varchar("icon", 255).default("")
+    val publicImage = varchar("publicImage", 255)
     val title = varchar("title", 255)
     val description = varchar("description", 500)
     val content = text("content")
@@ -47,26 +47,29 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<ArticleEntity>(Articles)
 
     var category by Articles.category
-    var icon by Articles.icon
+    var publicImage by Articles.publicImage
     var title by Articles.title
     var description by Articles.description
     var content by Articles.content
     var isPublished by Articles.isPublished
     var createAt by Articles.createAt
     var updateAt by Articles.updateAt
+
+    var uploads by UploadEntity via ArticleUploads
 }
 
 @Serializable
 data class Article(
     val id: Int? = null,
     val category: ArticleCategory,
-    val icon: String,
+    val publicImage: String,
     val title: String,
     val description: String,
     val content: String,
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
+    val uploads: List<Upload>,
 )
 
 /**
@@ -75,13 +78,14 @@ data class Article(
 fun ArticleEntity.toArticle() = Article(
     id = id.value,
     category = category,
-    icon = icon,
+    publicImage = publicImage,
     title = title,
     description = description,
     content = content,
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
+    uploads = uploads.toUploads().reversed(),
 )
 
 /**

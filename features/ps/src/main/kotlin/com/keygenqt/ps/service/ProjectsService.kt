@@ -17,6 +17,8 @@ package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
+import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.sql.SizedCollection
 
 class ProjectsService(
     val db: DatabaseMysql,
@@ -32,7 +34,7 @@ class ProjectsService(
      * Get model by id
      */
     suspend fun getById(id: Int): Project? = db.transaction {
-        ProjectEntity.findById(id)?.toProject()
+        ProjectEntity.findById(id)?.load(ProjectEntity::uploads)?.toProject()
     }
 
     /**
@@ -41,20 +43,24 @@ class ProjectsService(
     suspend fun insert(
         category: ProjectCategory?,
         language: ProjectLanguage?,
+        publicImage: String?,
         title: String?,
         url: String?,
         description: String?,
         isPublished: Boolean?,
+        uploads: List<Int>,
     ): Project = db.transaction {
         ProjectEntity.new {
 
             category?.let { this.category = category }
             language?.let { this.language = language }
+            publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
             url?.let { this.url = url }
             description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
+            this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
             this.createAt = System.currentTimeMillis()
             this.updateAt = System.currentTimeMillis()
         }.toProject()
@@ -67,20 +73,24 @@ class ProjectsService(
         id: Int,
         category: ProjectCategory?,
         language: ProjectLanguage?,
+        publicImage: String?,
         title: String?,
         url: String?,
         description: String?,
         isPublished: Boolean?,
+        uploads: List<Int>,
     ): Boolean = db.transaction {
         ProjectEntity.findById(id)?.apply {
 
             category?.let { this.category = category }
             language?.let { this.language = language }
+            publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
             url?.let { this.url = url }
             description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
+            this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
             this.updateAt = System.currentTimeMillis()
         }.let { it != null }
     }

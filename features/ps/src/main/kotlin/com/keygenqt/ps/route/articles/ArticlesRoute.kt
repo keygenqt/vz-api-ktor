@@ -52,10 +52,12 @@ fun Route.articlesRoute() {
             call.respond(
                 service.insert(
                     category = request.category,
+                    publicImage = request.publicImage,
                     title = request.title,
                     description = request.description,
                     content = request.content,
                     isPublished = request.isPublished,
+                    uploads = request.uploads,
                 )
             )
         }
@@ -70,10 +72,12 @@ fun Route.articlesRoute() {
             if (service.update(
                     id = call.getNumberParam(),
                     category = request.category,
+                    publicImage = request.publicImage,
                     title = request.title,
                     description = request.description,
                     content = request.content,
                     isPublished = request.isPublished,
+                    uploads = request.uploads,
                 )
             ) {
                 call.respond(request)

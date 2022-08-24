@@ -51,10 +51,12 @@ fun Route.projectsRoute() {
                 service.insert(
                     category = request.category,
                     language = request.language,
+                    publicImage = request.publicImage,
                     title = request.title,
                     url = request.url,
                     description = request.description,
                     isPublished = request.isPublished,
+                    uploads = request.uploads,
                 )
             )
         }
@@ -70,10 +72,12 @@ fun Route.projectsRoute() {
                     id = call.getNumberParam(),
                     category = request.category,
                     language = request.language,
+                    publicImage = request.publicImage,
                     title = request.title,
                     url = request.url,
                     description = request.description,
                     isPublished = request.isPublished,
+                    uploads = request.uploads,
                 )
             ) {
                 call.respond(request)
