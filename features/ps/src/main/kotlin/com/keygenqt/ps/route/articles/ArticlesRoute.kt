@@ -16,7 +16,7 @@
 package com.keygenqt.ps.route.articles
 
 import com.keygenqt.core.exceptions.AppException
-import com.keygenqt.core.extension.getId
+import com.keygenqt.core.extension.getNumberParam
 import com.keygenqt.core.extension.receiveValidate
 import com.keygenqt.ps.extension.checkRoleAdmin
 import com.keygenqt.ps.route.articles.elements.ArticleRequest
@@ -38,7 +38,7 @@ fun Route.articlesRoute() {
         }
 
         get("/{id}") {
-            call.respond(service.getById(call.getId()) ?: throw AppException.Error404("Article not found"))
+            call.respond(service.getById(call.getNumberParam()) ?: throw AppException.Error404("Article not found"))
         }
 
         post {
@@ -68,7 +68,7 @@ fun Route.articlesRoute() {
             )
 
             if (service.update(
-                    id = call.getId(),
+                    id = call.getNumberParam(),
                     category = request.category,
                     title = request.title,
                     description = request.description,

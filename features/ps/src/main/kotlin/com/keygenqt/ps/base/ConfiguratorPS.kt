@@ -23,6 +23,7 @@ import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
+import com.keygenqt.ps.route.upload.fileRoute
 import com.keygenqt.ps.route.projects.projectsRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
@@ -60,6 +61,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 single { TokensService(db) }
                 single { ArticlesService(db) }
                 single { ProjectsService(db) }
+                single { UploadsService(db) }
             }
         )
     }
@@ -68,6 +70,7 @@ class ConfiguratorPS : ConfiguratorApp() {
         "/${BASE_API_PATH}".let { basePath ->
             route(basePath) {
                 authRoute()
+                fileRoute() // @todo
             }
             authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {

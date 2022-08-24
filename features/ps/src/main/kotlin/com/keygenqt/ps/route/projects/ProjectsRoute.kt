@@ -16,7 +16,7 @@
 package com.keygenqt.ps.route.projects
 
 import com.keygenqt.core.exceptions.AppException
-import com.keygenqt.core.extension.getId
+import com.keygenqt.core.extension.getNumberParam
 import com.keygenqt.core.extension.receiveValidate
 import com.keygenqt.ps.extension.checkRoleAdmin
 import com.keygenqt.ps.route.projects.elements.ProjectRequest
@@ -36,7 +36,7 @@ fun Route.projectsRoute() {
         }
 
         get("/{id}") {
-            call.respond(service.getById(call.getId()) ?: throw AppException.Error404("Project not found"))
+            call.respond(service.getById(call.getNumberParam()) ?: throw AppException.Error404("Project not found"))
         }
 
         post {
@@ -67,7 +67,7 @@ fun Route.projectsRoute() {
             )
 
             if (service.update(
-                    id = call.getId(),
+                    id = call.getNumberParam(),
                     category = request.category,
                     language = request.language,
                     title = request.title,

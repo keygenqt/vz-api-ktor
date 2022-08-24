@@ -27,6 +27,11 @@ object Constants {
     const val APP_CONFIG = "ktor.apps.ps"
 
     /**
+     * Dir upload files
+     */
+    const val PATH_UPLOAD = "uploads/ps"
+
+    /**
      * App properties -> app.properties
      */
     object Properties {

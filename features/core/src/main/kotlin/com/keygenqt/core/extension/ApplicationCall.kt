@@ -28,7 +28,13 @@ suspend inline fun <reified T : Any> ApplicationCall.receiveValidate(
 }
 
 /**
- * Get ID from params with validate
+ * Get value from params with validate
  */
-fun ApplicationCall.getId(): Int = parameters["id"]
-    ?.toIntOrNull() ?: throw AppException.Error404("Must provide ID number")
+fun ApplicationCall.getNumberParam(key: String = "id"): Int = parameters[key]
+    ?.toIntOrNull() ?: throw AppException.Error404("Must provide $key number")
+
+/**
+ * Get value from params with validate
+ */
+fun ApplicationCall.getStringParam(key: String = "name"): String = parameters[key]
+    ?: throw AppException.Error404("Must provide $key")
