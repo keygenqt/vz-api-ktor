@@ -9,6 +9,8 @@ module = "org.mindrot:jbcrypt"
 module = "org.hibernate.validator:hibernate-validator"
 [libraries.jakarta_el]
 module = "org.glassfish:jakarta.el"
+[libraries.kotlinx_datetime]
+module = "org.jetbrains.kotlinx:kotlinx-datetime"
 
 # versions
 [libraries.koin_ktor.version]
@@ -21,6 +23,8 @@ ref = "jbcryptVersion"
 ref = "hibernateValidatorVersion"
 [libraries.jakarta_el.version]
 ref = "jakartaElVersion"
+[libraries.kotlinx_datetime.version]
+ref = "kotlinxDatetimeVersion"
 
 [bundles]
 other = [
@@ -29,4 +33,5 @@ other = [
     "jbcrypt",
     "hibernate_validator",
     "jakarta_el",
+    "kotlinx_datetime",
 ]

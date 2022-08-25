@@ -1,4 +1,4 @@
-package com.keygenqt.ps.base
+package com.keygenqt.core.base
 
 import java.io.BufferedReader
 import java.io.File

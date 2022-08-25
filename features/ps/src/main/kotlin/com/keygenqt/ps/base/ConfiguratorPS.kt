@@ -19,17 +19,22 @@ import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.base.LoaderConfig
 import com.keygenqt.core.base.Password
 import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.ps.components.github.GitHubService
 import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.dashboard.dashboardRoute
-import com.keygenqt.ps.route.upload.fileRoute
 import com.keygenqt.ps.route.projects.projectsRoute
+import com.keygenqt.ps.route.upload.fileRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
 import com.keygenqt.ps.utils.Constants.APP_CONFIG
 import com.keygenqt.ps.utils.Constants.BASE_API_PATH
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -37,6 +42,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
 import io.ktor.util.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import java.math.BigInteger
@@ -63,6 +69,19 @@ class ConfiguratorPS : ConfiguratorApp() {
                 single { ArticlesService(db) }
                 single { ProjectsService(db) }
                 single { UploadsService(db) }
+
+                // http client
+                single {
+                    GitHubService(HttpClient(CIO) {
+                        install(ContentNegotiation) {
+                            json(Json {
+                                isLenient = true
+                                ignoreUnknownKeys = true
+                            })
+                        }
+                        expectSuccess = true
+                    })
+                }
             }
         )
     }

@@ -15,10 +15,11 @@
  */
 package com.keygenqt.ps.route.dashboard
 
-import com.keygenqt.ps.base.Bash
+import com.keygenqt.core.base.Bash
 import com.keygenqt.ps.route.dashboard.elements.CountResponse
 import com.keygenqt.ps.route.dashboard.elements.HardDiskSizeResponse
 import com.keygenqt.ps.service.ArticlesService
+import com.keygenqt.ps.components.github.GitHubService
 import com.keygenqt.ps.service.ProjectsService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -27,11 +28,13 @@ import org.koin.ktor.ext.inject
 
 fun Route.dashboardRoute() {
 
+    val gitHubService: GitHubService by inject()
     val projectsService: ProjectsService by inject()
     val articlesService: ArticlesService by inject()
 
     route("/dashboard") {
 
+        // 0. size disk
         get("/hard-disk-size") {
 
             val result = Bash.exec("df | grep /\$")
@@ -57,6 +60,7 @@ fun Route.dashboardRoute() {
             )
         }
 
+        // 1. count projects
         get("/projects-count") {
             call.respond(
                 CountResponse(
@@ -65,6 +69,7 @@ fun Route.dashboardRoute() {
             )
         }
 
+        // 2. count articles
         get("/articles-count") {
             call.respond(
                 CountResponse(
@@ -73,8 +78,21 @@ fun Route.dashboardRoute() {
             )
         }
 
-        // 1. count projects
-        // 2. count articles
+        // 3. count followers
+        get("/followers-count") {
+            call.respond(
+                CountResponse(
+                    count = gitHubService.getFollowersCount()
+                )
+            )
+        }
+
+        // 3. count followers
+        get("/repos") {
+            call.respond(gitHubService.getPublicRepos())
+        }
+
+
         // 3. count followers
         // 4. count public repos
         // 5. project types (web, ios, android, other)

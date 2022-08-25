@@ -18,6 +18,8 @@ hikariCpVersion="5.0.1"
 exposedVersion="0.39.2"
 
 ## Other
+## https://github.com/Kotlin/kotlinx-datetime
+kotlinxDatetimeVersion="0.4.0"
 ## https://insert-koin.io/docs/setup/v3.2
 koinVersion="3.2.0"
 ## https://logback.qos.ch/download.html

@@ -5,6 +5,8 @@ module = "io.ktor:ktor-server-content-negotiation-jvm"
 module = "io.ktor:ktor-server-core-jvm"
 [libraries.ktor_serialization_kotlinx_json_jvm]
 module = "io.ktor:ktor-serialization-kotlinx-json-jvm"
+[libraries.ktor_client_content_negotiation]
+module = "io.ktor:ktor-client-content-negotiation"
 [libraries.ktor_server_netty_jvm]
 module = "io.ktor:ktor-server-netty-jvm"
 [libraries.ktor_server_status_pages]
@@ -27,6 +29,8 @@ ref = "ktorVersion"
 ref = "ktorVersion"
 [libraries.ktor_serialization_kotlinx_json_jvm.version]
 ref = "ktorVersion"
+[libraries.ktor_client_content_negotiation.version]
+ref = "ktorVersion"
 [libraries.ktor_server_netty_jvm.version]
 ref = "ktorVersion"
 [libraries.ktor_server_status_pages.version]
@@ -47,6 +51,7 @@ ktor = [
     "ktor_server_content_negotiation_jvm",
     "ktor_server_core_jvm",
     "ktor_serialization_kotlinx_json_jvm",
+    "ktor_client_content_negotiation",
     "ktor_server_netty_jvm",
     "ktor_server_status_pages",
     "ktor_server_auth",
