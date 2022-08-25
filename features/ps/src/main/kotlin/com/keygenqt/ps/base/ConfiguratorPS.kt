@@ -23,6 +23,7 @@ import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.auth.authRoute
+import com.keygenqt.ps.route.dashboard.dashboardRoute
 import com.keygenqt.ps.route.upload.fileRoute
 import com.keygenqt.ps.route.projects.projectsRoute
 import com.keygenqt.ps.service.*
@@ -70,7 +71,8 @@ class ConfiguratorPS : ConfiguratorApp() {
         "/${BASE_API_PATH}".let { basePath ->
             route(basePath) {
                 authRoute()
-                fileRoute() // @todo
+                fileRoute()
+                dashboardRoute() // @todo
             }
             authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {

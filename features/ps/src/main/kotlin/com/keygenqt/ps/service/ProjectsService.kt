@@ -24,6 +24,13 @@ class ProjectsService(
     val db: DatabaseMysql,
 ) {
     /**
+     * Get count models
+     */
+    suspend fun count(): Long = db.transaction {
+        ProjectEntity.count()
+    }
+
+    /**
      * Get all models
      */
     suspend fun getAll(): List<Project> = db.transaction {

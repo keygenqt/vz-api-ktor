@@ -23,6 +23,14 @@ import org.jetbrains.exposed.sql.SizedCollection
 class ArticlesService(
     val db: DatabaseMysql,
 ) {
+
+    /**
+     * Get count models
+     */
+    suspend fun count(): Long = db.transaction {
+        ArticleEntity.count()
+    }
+
     /**
      * Get all models
      */
