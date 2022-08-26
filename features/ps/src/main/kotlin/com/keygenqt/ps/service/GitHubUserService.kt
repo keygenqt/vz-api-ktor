@@ -23,6 +23,8 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.batchInsert
+import java.math.BigInteger
+import java.security.MessageDigest
 
 
 class GitHubUserService(
@@ -81,6 +83,10 @@ class GitHubUserService(
             this[GitHubUsers.followersCount] = it.followersCount
             this[GitHubUsers.publicReposCount] = it.publicReposCount
             this[GitHubUsers.createAt] = it.createAt ?: System.currentTimeMillis()
+            this[GitHubUsers.uniqueKey] = "${it.followersCount}-${it.publicReposCount}"
+                .toByteArray(Charsets.UTF_8)
+                .let { v -> MessageDigest.getInstance("MD5").digest(v) }
+                .let { v -> String.format("%032x", BigInteger(1, v)) }
         }
     }
 

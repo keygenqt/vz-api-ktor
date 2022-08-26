@@ -10,8 +10,9 @@ import org.jetbrains.exposed.sql.SizedIterable
 
 
 object GitHubUsers : IntIdTable() {
-    val publicReposCount = long("publicReposCount").uniqueIndex()
-    val followersCount = long("followersCount").uniqueIndex()
+    val uniqueKey = varchar("uniqueKey", 32).uniqueIndex()
+    val publicReposCount = long("publicReposCount")
+    val followersCount = long("followersCount")
     val createAt = long("createAt")
 }
 
