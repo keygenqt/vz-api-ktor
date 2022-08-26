@@ -17,14 +17,12 @@ package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.core.utils.Utils
-import com.keygenqt.ps.db.models.GitHubUser
-import com.keygenqt.ps.db.models.GitHubUserEntity
-import com.keygenqt.ps.db.models.GitHubUsers
-import com.keygenqt.ps.db.models.toGitHubUser
+import com.keygenqt.ps.db.models.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.batchInsert
 
 
 class GitHubUserService(
@@ -70,26 +68,38 @@ class GitHubUserService(
     }
 
     /**
-     * Add new [GitHubUser]
+     * Add new data [GitHubRepo]
      */
-    private suspend fun insert(
-        model: GitHubUser,
-    ): GitHubUser = db.transaction {
-        GitHubUserEntity.new {
-            this.publicReposCount = model.publicReposCount
-            this.followersCount = model.followersCount
-            this.createAt = model.createAt ?: System.currentTimeMillis()
-        }.toGitHubUser()
+    private suspend fun batchInsert(
+        models: List<GitHubUser>,
+    ) = db.transaction {
+        GitHubUsers.batchInsert(
+            data = models,
+            ignore = true,
+            shouldReturnGeneratedValues = false
+        ) {
+            this[GitHubUsers.followersCount] = it.followersCount
+            this[GitHubUsers.publicReposCount] = it.publicReposCount
+            this[GitHubUsers.createAt] = it.createAt ?: System.currentTimeMillis()
+        }
     }
 
     /**
      * Get followers count
      */
     private suspend fun getUserFromGitHub() = Utils.requestAndCatch {
-        insert(
-            client
-                .get("https://api.github.com/users/keygenqt")
-                .body<GitHubUser>()
-        )
+        client
+            .get("https://api.github.com/users/keygenqt")
+            .body<GitHubUser>().apply {
+                batchInsert(listOf(this).prepareInsert())
+            }
+    }
+
+    private fun List<GitHubUser>.prepareInsert(): List<GitHubUser> {
+        return map {
+            it.copy(
+                createAt = System.currentTimeMillis()
+            )
+        }
     }
 }

@@ -25,7 +25,7 @@ object GitHubRepos : IntIdTable() {
     val stargazersCount = long("stargazersCount")
     val name = varchar("name", 255)
     val description = text("description")
-    val url = varchar("url", 255)
+    val url = varchar("url", 255).uniqueIndex()
     val topics = text("topics")
     val gitHubCreateAt = varchar("gitHubCreateAt", 30)
     val category = enumeration("category", RepoCategory::class).default(RepoCategory.OTHER)

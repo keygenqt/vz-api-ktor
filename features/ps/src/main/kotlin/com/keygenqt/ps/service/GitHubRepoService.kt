@@ -23,6 +23,7 @@ import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteAll
 
 
@@ -71,22 +72,27 @@ class GitHubRepoService(
     }
 
     /**
-     * Add new [GitHubRepo]
+     * Add new data [GitHubRepo]
      */
-    private suspend fun insert(
-        model: GitHubRepo,
-    ): GitHubRepo = db.transaction {
-        GitHubRepoEntity.new {
-            this.language = model.language ?: ""
-            this.name = model.name
-            this.description = model.description ?: ""
-            this.url = model.url
-            this.topics = model.topics?.joinToString(", ") ?: ""
-            this.stargazersCount = model.stargazersCount
-            this.gitHubCreateAt = model.gitHubCreateAt.toString()
-            this.category = this.parseCategory()
-            this.createAt = model.createAt ?: System.currentTimeMillis()
-        }.toGitHubRepo()
+    private suspend fun batchInsert(
+        models: List<GitHubRepo>,
+    ) = db.transaction {
+        clear()
+        GitHubRepos.batchInsert(
+            data = models,
+            ignore = true,
+            shouldReturnGeneratedValues = false
+        ) {
+            this[GitHubRepos.language] = it.language ?: ""
+            this[GitHubRepos.name] = it.name
+            this[GitHubRepos.description] = it.description ?: ""
+            this[GitHubRepos.url] = it.url
+            this[GitHubRepos.topics] = it.topics?.joinToString(", ") ?: ""
+            this[GitHubRepos.stargazersCount] = it.stargazersCount
+            this[GitHubRepos.gitHubCreateAt] = it.gitHubCreateAt.toString()
+            this[GitHubRepos.category] = it.category ?: RepoCategory.OTHER
+            this[GitHubRepos.createAt] = it.createAt ?: System.currentTimeMillis()
+        }
     }
 
     /**
@@ -97,21 +103,27 @@ class GitHubRepoService(
     }
 
     /**
+     * Clear table [GitHubRepos]
+     */
+    private suspend fun isEmpty() = db.transaction {
+        GitHubRepoEntity.count() == 0L
+    }
+
+    /**
      * Get all public repos
      */
     private suspend fun getAllPublicRepos(): List<GitHubRepo> {
         var page = 1
         val result = mutableListOf<GitHubRepo>()
         while (true) {
+
             val response = Utils.requestAndCatch {
                 client.get("https://api.github.com/users/keygenqt/repos?per_page=100&page=$page")
                     .body<List<GitHubRepo>>()
             }
 
             if (response.isEmpty()) {
-                clear()
-                return result
-                    .map { insert(it) }
+                return result.prepareInsert().apply { batchInsert(this) }
                     .sortedBy { it.stargazersCount }
                     .reversed()
             } else {
@@ -125,31 +137,41 @@ class GitHubRepoService(
         }
     }
 
-    private fun GitHubRepoEntity.parseCategory(): RepoCategory {
-        if (name.contains("android")
-            || topics.contains("android")
-            || topics.contains("compose")
-        ) {
-            return RepoCategory.ANDROID
+    private fun List<GitHubRepo>.prepareInsert(): List<GitHubRepo> {
+        return map {
+            it.copy(
+                category = it.let {
+                    val name = it.name
+                    val topics = it.topics.toString()
+
+                    if (name.contains("android")
+                        || topics.contains("android")
+                        || topics.contains("compose")
+                    ) {
+                        return@let RepoCategory.ANDROID
+                    }
+                    if (name.contains("ios")
+                        || topics.contains("ios")
+                        || topics.contains("ios")
+                        || topics.contains("swiftUI")
+                        || topics.contains("swift")
+                    ) {
+                        return@let RepoCategory.IOS
+                    }
+                    if (name.contains("yii2")
+                        || name.contains("react")
+                        || name.contains("api")
+                        || topics.contains("api")
+                        || topics.contains("website")
+                        || topics.contains("react")
+                        || topics.contains("yii2")
+                    ) {
+                        return@let RepoCategory.WEB
+                    }
+                    return@let RepoCategory.OTHER
+                },
+                createAt = System.currentTimeMillis()
+            )
         }
-        if (name.contains("ios")
-            || topics.contains("ios")
-            || topics.contains("ios")
-            || topics.contains("swiftUI")
-            || topics.contains("swift")
-        ) {
-            return RepoCategory.IOS
-        }
-        if (name.contains("yii2")
-            || name.contains("react")
-            || name.contains("api")
-            || topics.contains("api")
-            || topics.contains("website")
-            || topics.contains("react")
-            || topics.contains("yii2")
-        ) {
-            return RepoCategory.WEB
-        }
-        return RepoCategory.OTHER
     }
 }

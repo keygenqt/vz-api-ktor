@@ -10,8 +10,8 @@ import org.jetbrains.exposed.sql.SizedIterable
 
 
 object GitHubUsers : IntIdTable() {
-    val publicReposCount = long("publicReposCount")
-    val followersCount = long("followersCount")
+    val publicReposCount = long("publicReposCount").uniqueIndex()
+    val followersCount = long("followersCount").uniqueIndex()
     val createAt = long("createAt")
 }
 
@@ -30,7 +30,7 @@ class GitHubUserEntity(id: EntityID<Int>) : IntEntity(id) {
 data class GitHubUser(
     @SerialName("public_repos") val publicReposCount: Long,
     @SerialName("followers") val followersCount: Long,
-    val createAt: Long? = System.currentTimeMillis(),
+    val createAt: Long? = null,
 )
 
 /**

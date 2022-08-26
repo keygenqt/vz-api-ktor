@@ -107,10 +107,10 @@ fun Route.dashboardRoute() {
         get("/repos-types") {
             call.respond(
                 InfoTypesResponse(
-                    web = gitHubRepoService.getReposMonthTypes()[RepoCategory.WEB]!!,
-                    android = gitHubRepoService.getReposMonthTypes()[RepoCategory.ANDROID]!!,
-                    ios = gitHubRepoService.getReposMonthTypes()[RepoCategory.IOS]!!,
-                    other = gitHubRepoService.getReposMonthTypes()[RepoCategory.OTHER]!!
+                    web = gitHubRepoService.getReposMonthTypes()[RepoCategory.WEB] ?: emptyList(),
+                    android = gitHubRepoService.getReposMonthTypes()[RepoCategory.ANDROID] ?: emptyList(),
+                    ios = gitHubRepoService.getReposMonthTypes()[RepoCategory.IOS] ?: emptyList(),
+                    other = gitHubRepoService.getReposMonthTypes()[RepoCategory.OTHER] ?: emptyList(),
                 )
             )
         }
