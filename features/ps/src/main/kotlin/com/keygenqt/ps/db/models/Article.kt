@@ -26,7 +26,7 @@ import org.jetbrains.exposed.sql.SizedIterable
  * Category article
  */
 enum class ArticleCategory {
-    ANDROID, PC, WEB, IOS, OTHER
+    ANDROID, WEB, IOS, OTHER
 }
 
 object Articles : IntIdTable() {

@@ -16,10 +16,14 @@
 package com.keygenqt.ps.route.dashboard
 
 import com.keygenqt.core.base.Bash
+import com.keygenqt.ps.db.models.RepoCategory
 import com.keygenqt.ps.route.dashboard.elements.CountResponse
 import com.keygenqt.ps.route.dashboard.elements.HardDiskSizeResponse
+import com.keygenqt.ps.route.dashboard.elements.InfoResponse
+import com.keygenqt.ps.route.dashboard.elements.InfoTypesResponse
 import com.keygenqt.ps.service.ArticlesService
-import com.keygenqt.ps.components.github.GitHubService
+import com.keygenqt.ps.service.GitHubRepoService
+import com.keygenqt.ps.service.GitHubUserService
 import com.keygenqt.ps.service.ProjectsService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -28,7 +32,8 @@ import org.koin.ktor.ext.inject
 
 fun Route.dashboardRoute() {
 
-    val gitHubService: GitHubService by inject()
+    val gitHubRepoService: GitHubRepoService by inject()
+    val gitHubUserService: GitHubUserService by inject()
     val projectsService: ProjectsService by inject()
     val articlesService: ArticlesService by inject()
 
@@ -44,9 +49,9 @@ fun Route.dashboardRoute() {
                 ?.filter { it.isNotBlank() }
 
             val name = result?.get(0) ?: ""
-            val blocks = result?.get(1)?.toLongOrNull() ?: 0
-            val available = result?.get(2)?.toLongOrNull() ?: 0
-            val used = result?.get(3)?.toLongOrNull() ?: 0
+            val blocks = (result?.get(1)?.toLongOrNull() ?: 0) * 1024
+            val available = (result?.get(2)?.toLongOrNull() ?: 0) * 1024
+            val used = (result?.get(3)?.toLongOrNull() ?: 0) * 1024
             val use = result?.get(4)?.replace("%", "")?.toIntOrNull() ?: 0
 
             call.respond(
@@ -64,7 +69,7 @@ fun Route.dashboardRoute() {
         get("/projects-count") {
             call.respond(
                 CountResponse(
-                    count = projectsService.count()
+                    count = projectsService.countPublic()
                 )
             )
         }
@@ -73,7 +78,7 @@ fun Route.dashboardRoute() {
         get("/articles-count") {
             call.respond(
                 CountResponse(
-                    count = articlesService.count()
+                    count = articlesService.countPublic()
                 )
             )
         }
@@ -81,24 +86,38 @@ fun Route.dashboardRoute() {
         // 3. count followers
         get("/followers-count") {
             call.respond(
-                CountResponse(
-                    count = gitHubService.getFollowersCount()
+                InfoResponse(
+                    count = gitHubUserService.getLast().followersCount,
+                    data = gitHubUserService.followersCounts()
                 )
             )
         }
 
-        // 3. count followers
-        get("/repos") {
-            call.respond(gitHubService.getPublicRepos())
+        // 3. count public repos
+        get("/repos-count") {
+            call.respond(
+                InfoResponse(
+                    count = gitHubUserService.getLast().publicReposCount,
+                    data = gitHubUserService.reposCounts()
+                )
+            )
         }
 
+        // 3. month
+        get("/repos-types") {
+            call.respond(
+                InfoTypesResponse(
+                    web = gitHubRepoService.getReposMonthTypes()[RepoCategory.WEB]!!,
+                    android = gitHubRepoService.getReposMonthTypes()[RepoCategory.ANDROID]!!,
+                    ios = gitHubRepoService.getReposMonthTypes()[RepoCategory.IOS]!!,
+                    other = gitHubRepoService.getReposMonthTypes()[RepoCategory.OTHER]!!
+                )
+            )
+        }
 
-        // 3. count followers
-        // 4. count public repos
-        // 5. project types (web, ios, android, other)
-        // 6. list top projects (repos)
-
-        // https://api.github.com/users/keygenqt
-        // https://api.github.com/users/keygenqt/repos?per_page=100&page=1
+        // 3. list popular
+        get("/repos-popular") {
+            call.respond(gitHubRepoService.getAllRepos().subList(0, 7))
+        }
     }
 }

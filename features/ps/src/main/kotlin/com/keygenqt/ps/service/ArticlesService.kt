@@ -21,14 +21,14 @@ import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.SizedCollection
 
 class ArticlesService(
-    val db: DatabaseMysql,
+    private val db: DatabaseMysql,
 ) {
 
     /**
      * Get count models
      */
-    suspend fun count(): Long = db.transaction {
-        ArticleEntity.count()
+    suspend fun countPublic(): Long = db.transaction {
+        ArticleEntity.find { (Articles.isPublished eq true) }.count()
     }
 
     /**

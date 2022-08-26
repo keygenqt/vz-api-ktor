@@ -26,7 +26,7 @@ import org.jetbrains.exposed.sql.SizedIterable
  * Project category
  */
 enum class ProjectCategory {
-    ANDROID, PC, WEB, IOS, OTHER
+    ANDROID, WEB, IOS, OTHER
 }
 
 /**

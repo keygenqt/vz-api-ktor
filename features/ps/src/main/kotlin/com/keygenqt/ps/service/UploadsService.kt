@@ -19,7 +19,7 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
 
 class UploadsService(
-    val db: DatabaseMysql,
+    private val db: DatabaseMysql,
 ) {
     /**
      * Get all models

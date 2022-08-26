@@ -1,4 +1,4 @@
-package com.keygenqt.ps.components.serializers
+package com.keygenqt.ps.serializers
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toLocalDateTime
