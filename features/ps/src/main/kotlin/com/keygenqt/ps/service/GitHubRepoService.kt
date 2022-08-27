@@ -26,10 +26,9 @@ import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteAll
 
-
 class GitHubRepoService(
     private val db: DatabaseMysql,
-    private val client: HttpClient,
+    private val client: HttpClient
 ) {
 
     /**
@@ -45,7 +44,6 @@ class GitHubRepoService(
                 }
                 result[category]?.set(month, result[category]?.get(month)?.plus(1) ?: 0)
             }
-
         }
         return result
     }
@@ -54,7 +52,6 @@ class GitHubRepoService(
      * Get last [GitHubUser]
      */
     suspend fun getAllRepos(): List<GitHubRepo> = db.transaction {
-
         val models = GitHubRepoEntity
             .all()
             .orderBy(GitHubRepos.stargazersCount to SortOrder.DESC)
@@ -75,7 +72,7 @@ class GitHubRepoService(
      * Add new data [GitHubRepo]
      */
     private suspend fun batchInsert(
-        models: List<GitHubRepo>,
+        models: List<GitHubRepo>
     ) = db.transaction {
         clear()
         GitHubRepos.batchInsert(
@@ -116,7 +113,6 @@ class GitHubRepoService(
         var page = 1
         val result = mutableListOf<GitHubRepo>()
         while (true) {
-
             val response = Utils.requestAndCatch {
                 client.get("https://api.github.com/users/keygenqt/repos?per_page=100&page=$page")
                     .body<List<GitHubRepo>>()
@@ -144,27 +140,27 @@ class GitHubRepoService(
                     val name = it.name
                     val topics = it.topics.toString()
 
-                    if (name.contains("android")
-                        || topics.contains("android")
-                        || topics.contains("compose")
+                    if (name.contains("android") ||
+                        topics.contains("android") ||
+                        topics.contains("compose")
                     ) {
                         return@let RepoCategory.ANDROID
                     }
-                    if (name.contains("ios")
-                        || topics.contains("ios")
-                        || topics.contains("ios")
-                        || topics.contains("swiftUI")
-                        || topics.contains("swift")
+                    if (name.contains("ios") ||
+                        topics.contains("ios") ||
+                        topics.contains("ios") ||
+                        topics.contains("swiftUI") ||
+                        topics.contains("swift")
                     ) {
                         return@let RepoCategory.IOS
                     }
-                    if (name.contains("yii2")
-                        || name.contains("react")
-                        || name.contains("api")
-                        || topics.contains("api")
-                        || topics.contains("website")
-                        || topics.contains("react")
-                        || topics.contains("yii2")
+                    if (name.contains("yii2") ||
+                        name.contains("react") ||
+                        name.contains("api") ||
+                        topics.contains("api") ||
+                        topics.contains("website") ||
+                        topics.contains("react") ||
+                        topics.contains("yii2")
                     ) {
                         return@let RepoCategory.WEB
                     }

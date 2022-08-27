@@ -53,7 +53,7 @@ data class Token(
     val token: String,
     val refreshToken: String,
     val expiresAt: Long,
-    val createAt: Long,
+    val createAt: Long
 )
 
 /**
@@ -66,7 +66,7 @@ fun TokenEntity.toToken() = Token(
     token = token,
     refreshToken = refreshToken,
     expiresAt = expiresAt,
-    createAt = createAt,
+    createAt = createAt
 )
 
 /**
@@ -75,4 +75,3 @@ fun TokenEntity.toToken() = Token(
 fun SizedIterable<TokenEntity>.toTokens(): List<Token> {
     return map { it.toToken() }
 }
-

@@ -17,7 +17,6 @@ package com.keygenqt.ps.db.models
 
 import org.jetbrains.exposed.sql.Table
 
-
 object ArticleUploads : Table() {
     val article = reference("article", Articles)
     val upload = reference("upload", Uploads)

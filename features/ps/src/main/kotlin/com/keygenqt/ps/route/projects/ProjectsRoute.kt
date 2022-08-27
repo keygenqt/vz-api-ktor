@@ -15,7 +15,6 @@
  */
 package com.keygenqt.ps.route.projects
 
-import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.core.extension.getNumberParam
 import com.keygenqt.core.extension.receiveValidate
 import com.keygenqt.ps.extension.checkRoleAdmin
@@ -27,20 +26,10 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.projectsRoute() {
-
     val service: ProjectsService by inject()
 
     route("/projects") {
-        get {
-            call.respond(service.getAll())
-        }
-
-        get("/{id}") {
-            call.respond(service.getById(call.getNumberParam()) ?: throw AppException.Error404("Project not found"))
-        }
-
         post {
-
             call.checkRoleAdmin()
 
             val request = call.receiveValidate<ProjectRequest>(
@@ -56,19 +45,19 @@ fun Route.projectsRoute() {
                     url = request.url,
                     description = request.description,
                     isPublished = request.isPublished,
-                    uploads = request.uploads,
+                    uploads = request.uploads
                 )
             )
         }
         put("/{id}") {
-
             call.checkRoleAdmin()
 
             val request = call.receiveValidate<ProjectRequest>(
                 "Error update project, please check the correctness of data entry"
             )
 
-            if (service.update(
+            call.respond(
+                service.update(
                     id = call.getNumberParam(),
                     category = request.category,
                     language = request.language,
@@ -77,13 +66,9 @@ fun Route.projectsRoute() {
                     url = request.url,
                     description = request.description,
                     isPublished = request.isPublished,
-                    uploads = request.uploads,
+                    uploads = request.uploads
                 )
-            ) {
-                call.respond(request)
-            } else {
-                throw AppException.Error500()
-            }
+            )
         }
     }
 }

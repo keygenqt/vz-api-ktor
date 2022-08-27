@@ -32,34 +32,21 @@ import org.koin.ktor.ext.inject
 import java.io.File
 import java.util.*
 
-
-fun Route.fileRoute() {
-
+fun Route.uploadRoute() {
     val service: UploadsService by inject()
 
     route("/file") {
-
-        get("/{name}") {
-            val name = call.getStringParam()
-            val file = File("$PATH_UPLOAD/$name")
-            if (file.exists()) {
-                call.respondFile(file)
-            } else throw AppException.Error404("File not found")
-        }
-
         post("/upload") {
-
             call.checkRoleAdmin()
 
             val multipart = call.receiveMultipart()
 
             multipart.forEachPart { part ->
                 if (part is PartData.FileItem) {
-
                     val upload = Upload(
                         fileName = "${UUID.randomUUID()}.${part.contentType.toExtension()}",
                         fileMime = part.contentType.toString(),
-                        originalFileName = part.originalFileName!!,
+                        originalFileName = part.originalFileName!!
                     )
 
                     val file = File("$PATH_UPLOAD/${upload.fileName}")
@@ -85,7 +72,6 @@ fun Route.fileRoute() {
         }
 
         delete("/{name}") {
-
             call.checkRoleAdmin()
 
             val name = call.getStringParam()

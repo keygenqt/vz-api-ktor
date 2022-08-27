@@ -19,7 +19,7 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
 
 class UploadsService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
     /**
      * Get all models
@@ -41,10 +41,9 @@ class UploadsService(
     suspend fun insert(
         fileName: String?,
         fileMime: String?,
-        originalFileName: String?,
+        originalFileName: String?
     ): Upload = db.transaction {
         UploadEntity.new {
-
             fileName?.let { this.fileName = fileName }
             fileMime?.let { this.fileMime = fileMime }
             originalFileName?.let { this.originalFileName = originalFileName }
@@ -54,7 +53,7 @@ class UploadsService(
     }
 
     suspend fun deleteByFileName(
-        fileName: String,
+        fileName: String
     ) = db.transaction {
         UploadEntity.find { (Uploads.fileName eq fileName) }.firstOrNull()?.delete()
     }

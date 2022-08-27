@@ -69,7 +69,7 @@ data class Article(
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
-    val uploads: List<Upload>,
+    val uploads: List<Upload>
 )
 
 /**
@@ -85,7 +85,7 @@ fun ArticleEntity.toArticle() = Article(
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
-    uploads = uploads.toUploads().reversed(),
+    uploads = uploads.toUploads().reversed()
 )
 
 /**

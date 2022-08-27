@@ -26,7 +26,7 @@ class TokensService(
      * Add new token
      */
     suspend fun insertToken(
-        model: Token,
+        model: Token
     ): Token = db.transaction {
         TokenEntity.new {
             this.userId = EntityID(model.userId, Users)

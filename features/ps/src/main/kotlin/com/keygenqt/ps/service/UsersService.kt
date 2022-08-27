@@ -22,7 +22,7 @@ import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
 
 class UsersService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
 
     /**
@@ -54,7 +54,7 @@ class UsersService(
      */
     suspend fun findUserByAuth(
         email: String?,
-        password: String?,
+        password: String?
     ) = db.transaction {
         UserEntity
             .find { (Users.email eq (email ?: "")) }

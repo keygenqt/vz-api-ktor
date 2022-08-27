@@ -79,7 +79,7 @@ data class Project(
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
-    val uploads: List<Upload>,
+    val uploads: List<Upload>
 )
 
 /**
@@ -96,7 +96,7 @@ fun ProjectEntity.toProject() = Project(
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
-    uploads = uploads.toUploads().reversed(),
+    uploads = uploads.toUploads().reversed()
 )
 
 /**

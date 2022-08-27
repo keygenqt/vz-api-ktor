@@ -31,17 +31,14 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.dashboardRoute() {
-
     val gitHubRepoService: GitHubRepoService by inject()
     val gitHubUserService: GitHubUserService by inject()
     val projectsService: ProjectsService by inject()
     val articlesService: ArticlesService by inject()
 
     route("/dashboard") {
-
         // 0. size disk
         get("/hard-disk-size") {
-
             val result = Bash.exec("df | grep /\$")
                 .firstOrNull()
                 ?.toString()
@@ -60,7 +57,7 @@ fun Route.dashboardRoute() {
                     blocks = blocks,
                     available = available,
                     used = used,
-                    use = use,
+                    use = use
                 )
             )
         }
@@ -110,7 +107,7 @@ fun Route.dashboardRoute() {
                     web = gitHubRepoService.getReposMonthTypes()[RepoCategory.WEB] ?: emptyList(),
                     android = gitHubRepoService.getReposMonthTypes()[RepoCategory.ANDROID] ?: emptyList(),
                     ios = gitHubRepoService.getReposMonthTypes()[RepoCategory.IOS] ?: emptyList(),
-                    other = gitHubRepoService.getReposMonthTypes()[RepoCategory.OTHER] ?: emptyList(),
+                    other = gitHubRepoService.getReposMonthTypes()[RepoCategory.OTHER] ?: emptyList()
                 )
             )
         }

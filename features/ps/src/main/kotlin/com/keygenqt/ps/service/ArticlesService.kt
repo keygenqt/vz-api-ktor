@@ -16,12 +16,13 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.SizedCollection
 
 class ArticlesService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
 
     /**
@@ -55,10 +56,9 @@ class ArticlesService(
         description: String?,
         content: String?,
         isPublished: Boolean?,
-        uploads: List<Int>,
+        uploads: List<Int>
     ): Article = db.transaction {
         ArticleEntity.new {
-
             category?.let { this.category = category }
             publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
@@ -83,10 +83,9 @@ class ArticlesService(
         description: String?,
         content: String?,
         isPublished: Boolean?,
-        uploads: List<Int>,
-    ): Boolean = db.transaction {
+        uploads: List<Int>
+    ): Article = db.transaction {
         ArticleEntity.findById(id)?.apply {
-
             category?.let { this.category = category }
             publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
@@ -96,6 +95,6 @@ class ArticlesService(
 
             this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
             this.updateAt = System.currentTimeMillis()
-        }.let { it != null }
+        }?.toArticle() ?: throw AppException.Error404("Resource not found")
     }
 }

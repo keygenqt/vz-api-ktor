@@ -26,10 +26,9 @@ import org.jetbrains.exposed.sql.batchInsert
 import java.math.BigInteger
 import java.security.MessageDigest
 
-
 class GitHubUserService(
     private val db: DatabaseMysql,
-    private val client: HttpClient,
+    private val client: HttpClient
 ) {
 
     /**
@@ -50,7 +49,6 @@ class GitHubUserService(
      * Get last [GitHubUser]
      */
     suspend fun getLast(): GitHubUser = db.transaction {
-
         val model = GitHubUserEntity
             .all()
             .orderBy(GitHubUsers.createAt to SortOrder.DESC)
@@ -73,7 +71,7 @@ class GitHubUserService(
      * Add new data [GitHubRepo]
      */
     private suspend fun batchInsert(
-        models: List<GitHubUser>,
+        models: List<GitHubUser>
     ) = db.transaction {
         GitHubUsers.batchInsert(
             data = models,

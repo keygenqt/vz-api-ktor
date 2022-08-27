@@ -22,14 +22,15 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
+import com.keygenqt.ps.route.articles.guestArticlesRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.dashboard.dashboardRoute
+import com.keygenqt.ps.route.projects.guestProjectsRoute
 import com.keygenqt.ps.route.projects.projectsRoute
-import com.keygenqt.ps.route.upload.fileRoute
+import com.keygenqt.ps.route.upload.guestUploadRoute
+import com.keygenqt.ps.route.upload.uploadRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
-import com.keygenqt.ps.utils.Constants.APP_CONFIG
-import com.keygenqt.ps.utils.Constants.BASE_API_PATH
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.cache.*
@@ -74,10 +75,12 @@ class ConfiguratorPS : ConfiguratorApp() {
                 HttpClient(CIO) {
                     install(HttpCache)
                     install(ContentNegotiation) {
-                        json(Json {
-                            isLenient = true
-                            ignoreUnknownKeys = true
-                        })
+                        json(
+                            Json {
+                                isLenient = true
+                                ignoreUnknownKeys = true
+                            }
+                        )
                     }
                     expectSuccess = true
                 }.let { client ->
@@ -99,13 +102,16 @@ class ConfiguratorPS : ConfiguratorApp() {
     }
 
     override fun Route.routing() {
-        "/${BASE_API_PATH}".let { basePath ->
+        "/${Constants.BASE_API_PATH}".let { basePath ->
             route(basePath) {
                 authRoute()
-                fileRoute()
+                guestUploadRoute()
+                guestArticlesRoute()
+                guestProjectsRoute()
             }
             authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {
+                    uploadRoute()
                     dashboardRoute()
                     articlesRoute()
                     projectsRoute()
@@ -117,12 +123,12 @@ class ConfiguratorPS : ConfiguratorApp() {
     override fun Application.configure() {
         with(environment.config) {
             // auth secret
-            appConf = LoaderConfig.loadProperties(this.property("${APP_CONFIG}.properties").getString())
+            appConf = LoaderConfig.loadProperties(this.property("${Constants.APP_CONFIG}.properties").getString())
 
             // init db app
             db = DatabaseMysql(
-                config = property("${APP_CONFIG}.config").getString(),
-                migration = property("${APP_CONFIG}.migration").getString()
+                config = property("${Constants.APP_CONFIG}.config").getString(),
+                migration = property("${Constants.APP_CONFIG}.migration").getString()
             )
 
             // init securityService
@@ -149,7 +155,6 @@ class ConfiguratorPS : ConfiguratorApp() {
     }
 
     override fun SessionsConfig.session() {
-
         val secretHex = appConf.getPropOrNull<String>(Constants.Properties.secret)!!.toByteArray(Charsets.UTF_8)
             .let { MessageDigest.getInstance("MD5").digest(it) }
             .let { String.format("%032x", BigInteger(1, it)) }

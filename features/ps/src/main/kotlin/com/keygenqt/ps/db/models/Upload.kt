@@ -47,7 +47,7 @@ data class Upload(
     val fileName: String,
     val fileMime: String,
     val originalFileName: String,
-    val createAt: Long? = null,
+    val createAt: Long? = null
 )
 
 /**
@@ -58,7 +58,7 @@ fun UploadEntity.toUpload() = Upload(
     fileName = fileName,
     fileMime = fileMime,
     originalFileName = originalFileName,
-    createAt = createAt,
+    createAt = createAt
 )
 
 /**

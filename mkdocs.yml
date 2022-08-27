@@ -9,10 +9,27 @@ nav:
   - 'Overview': index.md
   - 'Personal Site':
     - 'Overview': ps/overview.md
-    - 'API': /api/features/ps/
-  - 'KChat':
-      - 'Overview': kchat/overview.md
-      - 'API': /api/features/kchat/
+    - 'API':
+      - 'Auth':
+        - 'Auth Session': ps/api/auth/auth-session.md
+        - 'Auth token': ps/api/auth/auth-token.md
+        - 'Refresh token': ps/api/auth/refresh-token.md
+        - 'Logout': ps/api/auth/logout.md
+      - 'Articles':
+        - 'Get Models': ps/api/articles/list.md
+        - 'Get Model': ps/api/articles/view.md
+        - 'Create': ps/api/articles/create.md
+        - 'Update': ps/api/articles/update.md
+      - 'Projects':
+        - 'Get Models': ps/api/projects/list.md
+        - 'Get Model': ps/api/projects/view.md
+        - 'Create': ps/api/projects/create.md
+        - 'Update': ps/api/projects/update.md
+      - 'Uploads':
+        - 'Get File': ps/api/uploads/get.md
+        - 'Upload Files': ps/api/uploads/upload.md
+        - 'Delete File': ps/api/uploads/delete.md
+    - 'Dokka': /api/features/ps/
 
 # Configuration
 theme:

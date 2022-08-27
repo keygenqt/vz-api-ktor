@@ -28,12 +28,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import jakarta.validation.ConstraintViolation
 import org.koin.ktor.ext.inject
 
-
 fun Route.authRoute() {
-
     val userService: UsersService by inject()
     val securityService: SecurityService by inject()
 
@@ -96,7 +93,7 @@ fun Route.authRoute() {
 private suspend fun ApplicationCall.serve(
     user: User,
     deviceId: String,
-    type: AuthType,
+    type: AuthType
 ) {
     val tokenService: TokensService by inject()
     val securityService: SecurityService by inject()
@@ -113,7 +110,7 @@ private suspend fun ApplicationCall.serve(
                     email = user.email,
                     role = user.role,
                     token = token.token,
-                    refreshToken = token.refreshToken,
+                    refreshToken = token.refreshToken
                 )
             )
         }
@@ -123,14 +120,14 @@ private suspend fun ApplicationCall.serve(
                 UserSession(
                     role = user.role.name,
                     token = token.refreshToken,
-                    deviceId = deviceId,
+                    deviceId = deviceId
                 )
             )
             respond(
                 AuthSessionResponse(
                     id = user.id,
                     email = user.email,
-                    role = user.role,
+                    role = user.role
                 )
             )
         }

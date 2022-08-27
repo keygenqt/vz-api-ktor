@@ -16,12 +16,13 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.SizedCollection
 
 class ProjectsService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
     /**
      * Get count models
@@ -55,10 +56,9 @@ class ProjectsService(
         url: String?,
         description: String?,
         isPublished: Boolean?,
-        uploads: List<Int>,
+        uploads: List<Int>
     ): Project = db.transaction {
         ProjectEntity.new {
-
             category?.let { this.category = category }
             language?.let { this.language = language }
             publicImage?.let { this.publicImage = publicImage }
@@ -85,10 +85,9 @@ class ProjectsService(
         url: String?,
         description: String?,
         isPublished: Boolean?,
-        uploads: List<Int>,
-    ): Boolean = db.transaction {
+        uploads: List<Int>
+    ): Project = db.transaction {
         ProjectEntity.findById(id)?.apply {
-
             category?.let { this.category = category }
             language?.let { this.language = language }
             publicImage?.let { this.publicImage = publicImage }
@@ -99,6 +98,6 @@ class ProjectsService(
 
             this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
             this.updateAt = System.currentTimeMillis()
-        }.let { it != null }
+        }?.toProject() ?: throw AppException.Error404("Resource not found")
     }
 }

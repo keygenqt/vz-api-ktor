@@ -22,12 +22,11 @@ import org.flywaydb.core.Flyway
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.slf4j.LoggerFactory
-import java.sql.Connection.TRANSACTION_READ_UNCOMMITTED
 import javax.sql.DataSource
 
 class DatabaseMysql(
     private val config: String,
-    private val migration: String,
+    private val migration: String
 ) {
 
     private var db: Database

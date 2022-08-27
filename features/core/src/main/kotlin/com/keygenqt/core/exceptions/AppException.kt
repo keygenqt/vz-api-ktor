@@ -1,23 +1,37 @@
+/*
+ * Copyright 2022 Vitaliy Zarubin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keygenqt.core.exceptions
 
 import com.keygenqt.core.extension.genException
 import io.ktor.http.*
 import jakarta.validation.ConstraintViolation
 
-
 /**
  * Errors app
  */
 sealed class AppException(
     open val status: HttpStatusCode,
-    open val exception: IDataException,
+    open val exception: IDataException
 ) : RuntimeException(exception.message) {
 
     /**
      * Error authorized
      */
     data class ErrorAuthorized(
-        override val status: HttpStatusCode = HttpStatusCode.Unauthorized,
+        override val status: HttpStatusCode = HttpStatusCode.Unauthorized
     ) : AppException(status, status.genException())
 
     /**
@@ -25,7 +39,7 @@ sealed class AppException(
      */
     data class ErrorForbidden(
         val msg: String? = null,
-        override val status: HttpStatusCode = HttpStatusCode.Forbidden,
+        override val status: HttpStatusCode = HttpStatusCode.Forbidden
     ) : AppException(status, status.genException(msg))
 
     /**
@@ -33,14 +47,14 @@ sealed class AppException(
      */
     data class JsonDecodingException(
         val msg: String? = null,
-        override val status: HttpStatusCode = HttpStatusCode.BadRequest,
+        override val status: HttpStatusCode = HttpStatusCode.BadRequest
     ) : AppException(status, status.genException(msg))
 
     /**
      * Error 500
      */
     data class Error500(
-        override val status: HttpStatusCode = HttpStatusCode.InternalServerError,
+        override val status: HttpStatusCode = HttpStatusCode.InternalServerError
     ) : AppException(status, status.genException())
 
     /**
@@ -48,7 +62,7 @@ sealed class AppException(
      */
     data class Error404(
         val msg: String? = null,
-        override val status: HttpStatusCode = HttpStatusCode.NotFound,
+        override val status: HttpStatusCode = HttpStatusCode.NotFound
     ) : AppException(status, status.genException(msg))
 
     /**
@@ -56,7 +70,7 @@ sealed class AppException(
      */
     data class Error400(
         val msg: String? = null,
-        override val status: HttpStatusCode = HttpStatusCode.BadRequest,
+        override val status: HttpStatusCode = HttpStatusCode.BadRequest
     ) : AppException(status, status.genException(msg))
 
     /**
@@ -65,6 +79,6 @@ sealed class AppException(
     data class Error422(
         val msg: String? = null,
         val violation: Set<ConstraintViolation<*>> = emptySet(),
-        override val status: HttpStatusCode = HttpStatusCode.UnprocessableEntity,
+        override val status: HttpStatusCode = HttpStatusCode.UnprocessableEntity
     ) : AppException(status, status.genException(msg, violation))
 }

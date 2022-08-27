@@ -58,8 +58,8 @@ data class User(
     val email: String,
     val password: String,
     val role: UserRole,
-    val tokens: List<Token>,
-): Principal
+    val tokens: List<Token>
+) : Principal
 
 /**
  * Convert
@@ -69,7 +69,7 @@ fun UserEntity.toUser() = User(
     email = email,
     password = password,
     role = role,
-    tokens = tokens.toTokens(),
+    tokens = tokens.toTokens()
 )
 
 /**
