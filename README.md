@@ -5,7 +5,7 @@ Multi-module API on [Ktor](https://ktor.io/). All open source projects in one pl
 
 ### Projects
 
-* [Personal Site](/ps/overview/)
+* [Personal Site](https://api.keygenqt.com/ps/overview/)
 
 ### Contacts
 
