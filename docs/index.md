@@ -7,9 +7,11 @@ Multi-module API on [Ktor](https://ktor.io/). All open source projects in one pl
 
 1. [React Website]((https://version2.keygenqt.com/))
 
-![alt text](data/adminka-preview.png)
+![alt text](https://github.com/keygenqt/vz-api-ktor/blob/main/data/ps/website-preview.png?raw=true)
 
 2. [React Admin Panel](https://adminka.keygenqt.com/)
+
+![alt text](https://github.com/keygenqt/vz-api-ktor/blob/main/data/ps/adminka-preview.png?raw=true)
 
 # License
 
