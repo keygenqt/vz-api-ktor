@@ -27,8 +27,10 @@ await fetch('/api/ps/file/upload', {
 })
 ```
 
+<div style="padding-top: 10px">
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/26ab.png"/> &nbsp;
 HTTP response status codes
+</div>
 
 | Status code | Description    |
 |-------------|----------------|
