@@ -3,15 +3,15 @@ My API
 
 Multi-module API on [Ktor](https://ktor.io/). All open source projects in one place.
 
-### Personal Site API
+### Projects
 
-1. [React Website]((https://version2.keygenqt.com/))
+* [Personal Site](/ps/overview/)
 
-![alt text](https://github.com/keygenqt/vz-api-ktor/blob/main/data/ps/website-preview.png?raw=true)
+### Contacts
 
-2. [React Admin Panel](https://adminka.keygenqt.com/)
-
-![alt text](https://github.com/keygenqt/vz-api-ktor/blob/main/data/ps/adminka-preview.png?raw=true)
+* [Email](mailto:keygenqt@gmail.com)
+* [Telegram](https://t.me/keygenqt)
+* [LinkedIn](https://www.linkedin.com/in/vitaliy-zarubin-6a8257150/)
 
 # License
 
@@ -30,3 +30,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+<style>
+  .md-content__button {
+    display: none;
+  }
+</style>

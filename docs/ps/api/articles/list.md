@@ -61,3 +61,9 @@ HTTP response status codes
     "message": "Internal Error"
 }
 ```
+
+<style>
+  .md-content__button {
+    display: none;
+  }
+</style>
