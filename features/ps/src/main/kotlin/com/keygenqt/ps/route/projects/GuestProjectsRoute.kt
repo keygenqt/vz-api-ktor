@@ -31,7 +31,7 @@ import org.koin.ktor.ext.inject
 fun Route.guestProjectsRoute() {
 
     val projectsService: ProjectsService by inject()
-    val likesService: LikesProjectService by inject()
+    val likesProjectService: LikesProjectService by inject()
 
     route("/projects") {
 
@@ -54,11 +54,11 @@ fun Route.guestProjectsRoute() {
         }
 
         post("/like/{id}") {
-            val like = likesService.getByKeys(
+            val like = likesProjectService.getByKeys(
                 modelId = call.getNumberParam(),
                 key = call.request.host().md5()
             ) ?: run {
-                likesService.insert(
+                likesProjectService.insert(
                     modelId = call.getNumberParam(),
                     key = call.request.host().md5()
                 )
@@ -67,7 +67,7 @@ fun Route.guestProjectsRoute() {
         }
 
         delete("/like/{id}") {
-            likesService.delete(
+            likesProjectService.delete(
                 modelId = call.getNumberParam(),
                 key = call.request.host().md5()
             )

@@ -23,8 +23,8 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 
 
 object LikesProject : IntIdTable() {
-    val projectId = reference("projectId", Projects)
-    val key = varchar("key", 255).uniqueIndex()
+    val projectId = reference("projectId", Projects).uniqueIndex()
+    val key = varchar("key", 255)
     val createAt = long("createAt")
 }
 

@@ -16,10 +16,15 @@
 package com.keygenqt.ps.route.articles
 
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.exceptions.md5
 import com.keygenqt.core.extension.getNumberParam
 import com.keygenqt.ps.extension.connectKey
 import com.keygenqt.ps.service.ArticlesService
+import com.keygenqt.ps.service.LikesArticleService
+import com.keygenqt.ps.service.LikesProjectService
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
@@ -27,6 +32,7 @@ import org.koin.ktor.ext.inject
 fun Route.guestArticlesRoute() {
 
     val articlesService: ArticlesService by inject()
+    val likesArticleService: LikesArticleService by inject()
 
     route("/articles") {
 
@@ -46,6 +52,27 @@ fun Route.guestArticlesRoute() {
                 )
                     ?: throw AppException.Error404("Article not found")
             )
+        }
+
+        post("/like/{id}") {
+            val like = likesArticleService.getByKeys(
+                modelId = call.getNumberParam(),
+                key = call.request.host().md5()
+            ) ?: run {
+                likesArticleService.insert(
+                    modelId = call.getNumberParam(),
+                    key = call.request.host().md5()
+                )
+            }
+            call.respond(like)
+        }
+
+        delete("/like/{id}") {
+            likesArticleService.delete(
+                modelId = call.getNumberParam(),
+                key = call.request.host().md5()
+            )
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
