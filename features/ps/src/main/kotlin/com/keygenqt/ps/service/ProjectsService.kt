@@ -19,10 +19,12 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.dao.with
 import org.jetbrains.exposed.sql.SizedCollection
+import org.jetbrains.exposed.sql.and
 
 class ProjectsService(
-    private val db: DatabaseMysql
+    private val db: DatabaseMysql,
 ) {
     /**
      * Get count models
@@ -34,15 +36,45 @@ class ProjectsService(
     /**
      * Get all models
      */
-    suspend fun getAll(): List<Project> = db.transaction {
-        ProjectEntity.all().toProjects()
+    suspend fun getAll(
+        connectKey: String,
+        isNotAuth: Boolean,
+    ): List<Project> = db.transaction {
+        if (isNotAuth) {
+            ProjectEntity
+                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
+                .find { (Projects.isPublished eq false) }
+                .toProjects()
+        } else {
+            ProjectEntity
+                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
+                .all()
+                .toProjects()
+        }
     }
 
     /**
      * Get model by id
      */
-    suspend fun getById(id: Int): Project? = db.transaction {
-        ProjectEntity.findById(id)?.load(ProjectEntity::uploads)?.toProject()
+    suspend fun getById(
+        connectKey: String,
+        isNotAuth: Boolean,
+        id: Int,
+    ): Project? = db.transaction {
+        if (isNotAuth) {
+            ProjectEntity
+                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
+                .find { ((Projects.id eq id) and (Projects.isPublished eq true)) }
+                .with(ProjectEntity::uploads)
+                .firstOrNull()
+                ?.toProject()
+        } else {
+            ProjectEntity
+                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
+                .findById(id)
+                ?.load(ProjectEntity::uploads)
+                ?.toProject()
+        }
     }
 
     /**
@@ -50,20 +82,20 @@ class ProjectsService(
      */
     suspend fun insert(
         category: ProjectCategory?,
-        language: ProjectLanguage?,
         publicImage: String?,
         title: String?,
         url: String?,
+        urlGitHub: String?,
         description: String?,
         isPublished: Boolean?,
-        uploads: List<Int>
+        uploads: List<Int>,
     ): Project = db.transaction {
         ProjectEntity.new {
             category?.let { this.category = category }
-            language?.let { this.language = language }
             publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
             url?.let { this.url = url }
+            urlGitHub?.let { this.urlGitHub = urlGitHub }
             description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
@@ -79,20 +111,20 @@ class ProjectsService(
     suspend fun update(
         id: Int,
         category: ProjectCategory?,
-        language: ProjectLanguage?,
         publicImage: String?,
         title: String?,
         url: String?,
+        urlGitHub: String?,
         description: String?,
         isPublished: Boolean?,
-        uploads: List<Int>
+        uploads: List<Int>,
     ): Project = db.transaction {
         ProjectEntity.findById(id)?.apply {
             category?.let { this.category = category }
-            language?.let { this.language = language }
             publicImage?.let { this.publicImage = publicImage }
             title?.let { this.title = title }
             url?.let { this.url = url }
+            urlGitHub?.let { this.urlGitHub = urlGitHub }
             description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 

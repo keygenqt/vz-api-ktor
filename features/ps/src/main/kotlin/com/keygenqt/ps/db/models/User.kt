@@ -75,6 +75,6 @@ fun UserEntity.toUser() = User(
 /**
  * Convert list
  */
-fun SizedIterable<UserEntity>.toUsers(): List<User> {
+fun Iterable<UserEntity>.toUsers(): List<User> {
     return map { it.toUser() }
 }

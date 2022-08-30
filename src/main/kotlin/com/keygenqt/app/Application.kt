@@ -17,6 +17,7 @@ package com.keygenqt.app
 
 import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.utils.AppLogger
 import com.keygenqt.core.utils.AppLogger.initAppLogger
 import com.keygenqt.kchat.base.ConfiguratorKChat
 import com.keygenqt.ps.base.ConfiguratorPS
@@ -31,6 +32,7 @@ import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import io.ktor.util.logging.*
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 
@@ -111,6 +113,7 @@ fun Application.module() {
                 }
             } else {
                 println(cause)
+                AppLogger.log.error(cause)
                 AppException.Error500().let {
                     call.respond(
                         status = it.status,

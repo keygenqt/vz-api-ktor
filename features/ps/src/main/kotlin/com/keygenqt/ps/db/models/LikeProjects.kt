@@ -20,58 +20,46 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.SizedIterable
 
-object Tokens : IntIdTable() {
-    val userId = reference("userId", Users)
-    val deviceId = varchar("deviceId", 255)
-    val token = varchar("token", 255).uniqueIndex()
-    val refreshToken = varchar("refreshToken", 255).uniqueIndex()
-    val expiresAt = long("expiresAt")
+
+object LikeProjects : IntIdTable() {
+    val projectId = reference("projectId", Projects)
+    val key = varchar("key", 255).uniqueIndex()
     val createAt = long("createAt")
 }
 
 /**
  * Exposed entity
  */
-class TokenEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<TokenEntity>(Tokens)
+class LikeProjectsEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<LikeProjectsEntity>(LikeProjects)
 
-    var userId by Tokens.userId
-    var deviceId by Tokens.deviceId
-    var token by Tokens.token
-    var refreshToken by Tokens.refreshToken
-    var expiresAt by Tokens.expiresAt
-    var createAt by Tokens.createAt
+    var projectId by LikeProjects.projectId
+    var key by LikeProjects.key
+    var createAt by LikeProjects.createAt
 }
 
 @Serializable
-data class Token(
+data class Like(
     val id: Int? = null,
-    val userId: Int,
-    val deviceId: String,
-    val token: String,
-    val refreshToken: String,
-    val expiresAt: Long,
-    val createAt: Long
+    val projectId: Int,
+    val key: String,
+    val createAt: Long? = null,
 )
 
 /**
  * Convert to model
  */
-fun TokenEntity.toToken() = Token(
+fun LikeProjectsEntity.toLike() = Like(
     id = id.value,
-    userId = userId.value,
-    deviceId = deviceId,
-    token = token,
-    refreshToken = refreshToken,
-    expiresAt = expiresAt,
+    projectId = projectId.value,
+    key = key,
     createAt = createAt
 )
 
 /**
  * Convert list
  */
-fun Iterable<TokenEntity>.toTokens(): List<Token> {
-    return map { it.toToken() }
+fun Iterable<LikeProjectsEntity>.toLikes(): List<Like> {
+    return map { it.toLike() }
 }

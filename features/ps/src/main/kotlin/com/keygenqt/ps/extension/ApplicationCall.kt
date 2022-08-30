@@ -16,9 +16,11 @@
 package com.keygenqt.ps.extension
 
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.exceptions.md5
 import com.keygenqt.ps.base.UserSession
 import com.keygenqt.ps.db.models.UserRole
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.sessions.*
 
 /**
@@ -30,3 +32,13 @@ fun ApplicationCall.checkRoleAdmin() {
         throw AppException.ErrorForbidden("Action is forbidden, log in with a user who has more rights ;)")
     }
 }
+
+/**
+ * Check is not auth user
+ */
+fun ApplicationCall.isNotAuth() = sessions.get<UserSession>() == null
+
+/**
+ * Get unique connect
+ */
+fun ApplicationCall.connectKey() = request.host().md5()

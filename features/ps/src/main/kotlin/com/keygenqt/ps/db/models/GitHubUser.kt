@@ -60,6 +60,6 @@ fun GitHubUserEntity.toGitHubUser() = GitHubUser(
 /**
  * Convert list
  */
-fun SizedIterable<GitHubUserEntity>.toGitHubUsers(): List<GitHubUser> {
+fun Iterable<GitHubUserEntity>.toGitHubUsers(): List<GitHubUser> {
     return map { it.toGitHubUser() }
 }

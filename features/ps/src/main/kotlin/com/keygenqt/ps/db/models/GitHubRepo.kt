@@ -111,6 +111,6 @@ fun GitHubRepoEntity.toGitHubRepo() = GitHubRepo(
 /**
  * Convert list
  */
-fun SizedIterable<GitHubRepoEntity>.toGitHubRepos(): List<GitHubRepo> {
+fun Iterable<GitHubRepoEntity>.toGitHubRepos(): List<GitHubRepo> {
     return map { it.toGitHubRepo() }
 }

@@ -19,6 +19,7 @@ import com.keygenqt.core.base.ConfiguratorApp
 import com.keygenqt.core.base.LoaderConfig
 import com.keygenqt.core.base.Password
 import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.core.exceptions.md5Hex
 import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
@@ -41,13 +42,10 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import io.ktor.util.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import java.math.BigInteger
-import java.security.MessageDigest
 
 class ConfiguratorPS : ConfiguratorApp() {
 
@@ -70,6 +68,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 single { ArticlesService(db) }
                 single { ProjectsService(db) }
                 single { UploadsService(db) }
+                single { LikesService(db) }
 
                 // GitHub services
                 HttpClient(CIO) {
@@ -155,18 +154,13 @@ class ConfiguratorPS : ConfiguratorApp() {
     }
 
     override fun SessionsConfig.session() {
-        val secretHex = appConf.getPropOrNull<String>(Constants.Properties.secret)!!.toByteArray(Charsets.UTF_8)
-            .let { MessageDigest.getInstance("MD5").digest(it) }
-            .let { String.format("%032x", BigInteger(1, it)) }
-            .let { hex(it) }
-
-        val signKey = appConf.getPropOrNull<String>(Constants.Properties.signKey)!!.toByteArray(Charsets.UTF_8)
-            .let { MessageDigest.getInstance("MD5").digest(it) }
-            .let { String.format("%032x", BigInteger(1, it)) }
-            .let { hex(it) }
-
         cookie<UserSession>("ps_session") {
-            transform(SessionTransportTransformerEncrypt(secretHex, signKey))
+            transform(
+                SessionTransportTransformerEncrypt(
+                    appConf.getPropOrNull<String>(Constants.Properties.secret).md5Hex(),
+                    appConf.getPropOrNull<String>(Constants.Properties.signKey).md5Hex()
+                )
+            )
         }
     }
 

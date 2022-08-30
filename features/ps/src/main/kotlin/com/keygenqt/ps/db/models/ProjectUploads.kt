@@ -18,7 +18,7 @@ package com.keygenqt.ps.db.models
 import org.jetbrains.exposed.sql.Table
 
 object ProjectUploads : Table() {
-    val project = reference("article", Projects)
+    val project = reference("project", Projects)
     val upload = reference("upload", Uploads)
-    override val primaryKey = PrimaryKey(project, upload, name = "PK_ArticleUploads_a_u")
+    override val primaryKey = PrimaryKey(project, upload, name = "PK_ProjectUploads_p_u")
 }

@@ -16,23 +16,64 @@
 package com.keygenqt.ps.route.projects
 
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.exceptions.md5
 import com.keygenqt.core.extension.getNumberParam
+import com.keygenqt.ps.extension.connectKey
+import com.keygenqt.ps.extension.isNotAuth
+import com.keygenqt.ps.service.LikesService
 import com.keygenqt.ps.service.ProjectsService
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.guestProjectsRoute() {
-    val service: ProjectsService by inject()
+
+    val projectsService: ProjectsService by inject()
+    val likesService: LikesService by inject()
 
     route("/projects") {
         get {
-            call.respond(service.getAll())
+            call.respond(
+                projectsService.getAll(
+                    connectKey = call.connectKey(),
+                    isNotAuth = call.isNotAuth()
+                )
+            )
         }
 
         get("/{id}") {
-            call.respond(service.getById(call.getNumberParam()) ?: throw AppException.Error404("Project not found"))
+            call.respond(
+                projectsService.getById(
+                    connectKey = call.connectKey(),
+                    isNotAuth = call.isNotAuth(),
+                    id = call.getNumberParam(),
+                )
+                    ?: throw AppException.Error404("Project not found")
+            )
+        }
+
+        post("/like/{id}") {
+            val like = likesService.getByKeys(
+                modelId = call.getNumberParam(),
+                key = call.request.host().md5()
+            ) ?: run {
+                likesService.insert(
+                    modelId = call.getNumberParam(),
+                    key = call.request.host().md5()
+                )
+            }
+            call.respond(like)
+        }
+
+        delete("/like/{id}") {
+            likesService.delete(
+                modelId = call.getNumberParam(),
+                key = call.request.host().md5()
+            )
+            call.respond(HttpStatusCode.OK)
         }
     }
 }

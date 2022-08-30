@@ -39,10 +39,10 @@ fun Route.projectsRoute() {
             call.respond(
                 service.insert(
                     category = request.category,
-                    language = request.language,
                     publicImage = request.publicImage,
                     title = request.title,
                     url = request.url,
+                    urlGitHub = request.urlGitHub,
                     description = request.description,
                     isPublished = request.isPublished,
                     uploads = request.uploads
@@ -60,10 +60,10 @@ fun Route.projectsRoute() {
                 service.update(
                     id = call.getNumberParam(),
                     category = request.category,
-                    language = request.language,
                     publicImage = request.publicImage,
                     title = request.title,
                     url = request.url,
+                    urlGitHub = request.urlGitHub,
                     description = request.description,
                     isPublished = request.isPublished,
                     uploads = request.uploads

@@ -91,6 +91,6 @@ fun ArticleEntity.toArticle() = Article(
 /**
  * Convert list
  */
-fun SizedIterable<ArticleEntity>.toArticles(): List<Article> {
+fun Iterable<ArticleEntity>.toArticles(): List<Article> {
     return map { it.toArticle() }
 }

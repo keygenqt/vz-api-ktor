@@ -16,6 +16,7 @@
 package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
+import com.keygenqt.core.exceptions.md5
 import com.keygenqt.core.utils.Utils
 import com.keygenqt.ps.db.models.*
 import io.ktor.client.*
@@ -23,12 +24,10 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.batchInsert
-import java.math.BigInteger
-import java.security.MessageDigest
 
 class GitHubUserService(
     private val db: DatabaseMysql,
-    private val client: HttpClient
+    private val client: HttpClient,
 ) {
 
     /**
@@ -71,7 +70,7 @@ class GitHubUserService(
      * Add new data [GitHubRepo]
      */
     private suspend fun batchInsert(
-        models: List<GitHubUser>
+        models: List<GitHubUser>,
     ) = db.transaction {
         GitHubUsers.batchInsert(
             data = models,
@@ -81,10 +80,7 @@ class GitHubUserService(
             this[GitHubUsers.followersCount] = it.followersCount
             this[GitHubUsers.publicReposCount] = it.publicReposCount
             this[GitHubUsers.createAt] = it.createAt ?: System.currentTimeMillis()
-            this[GitHubUsers.uniqueKey] = "${it.followersCount}-${it.publicReposCount}"
-                .toByteArray(Charsets.UTF_8)
-                .let { v -> MessageDigest.getInstance("MD5").digest(v) }
-                .let { v -> String.format("%032x", BigInteger(1, v)) }
+            this[GitHubUsers.uniqueKey] = "${it.followersCount}-${it.publicReposCount}".md5()
         }
     }
 

@@ -64,6 +64,6 @@ fun UploadEntity.toUpload() = Upload(
 /**
  * Convert list
  */
-fun SizedIterable<UploadEntity>.toUploads(): List<Upload> {
+fun Iterable<UploadEntity>.toUploads(): List<Upload> {
     return map { it.toUpload() }
 }

@@ -15,12 +15,12 @@
  */
 package com.keygenqt.ps.db.models
 
+import com.keygenqt.core.db.IntSubQueryEntityClass
+import com.keygenqt.core.db.IntSubQueryEntityClass.Companion.isHas
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.SizedIterable
 
 /**
  * Project category
@@ -29,19 +29,13 @@ enum class ProjectCategory {
     ANDROID, WEB, IOS, OTHER
 }
 
-/**
- * Base language project
- */
-enum class ProjectLanguage {
-    KOTLIN, JAVASCRIPT, SWIFT, PHP, PYTHON, BASH, OTHER
-}
 
 object Projects : IntIdTable() {
     val category = enumeration("category", ProjectCategory::class).default(ProjectCategory.OTHER)
-    val language = enumeration("language", ProjectLanguage::class).default(ProjectLanguage.OTHER)
     val publicImage = varchar("publicImage", 255)
     val title = varchar("title", 255)
     val url = varchar("url", 255).default("")
+    val urlGitHub = varchar("urlGitHub", 255).default("")
     val description = varchar("description", 255)
     val isPublished = bool("isPublished").default(false)
     val createAt = long("createAt")
@@ -52,56 +46,60 @@ object Projects : IntIdTable() {
  * Exposed entity
  */
 class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<ProjectEntity>(Projects)
+    companion object : IntSubQueryEntityClass<ProjectEntity>(Projects)
 
     var category by Projects.category
-    var language by Projects.language
     var publicImage by Projects.publicImage
     var title by Projects.title
     var url by Projects.url
+    var urlGitHub by Projects.urlGitHub
     var description by Projects.description
     var isPublished by Projects.isPublished
     var createAt by Projects.createAt
     var updateAt by Projects.updateAt
 
     var uploads by UploadEntity via ProjectUploads
+    val isLike by Boolean isHas LikeProjects.projectId
 }
+
 
 @Serializable
 data class Project(
     val id: Int? = null,
     val category: ProjectCategory,
-    val language: ProjectLanguage,
     val publicImage: String,
     val title: String,
     val url: String,
+    val urlGitHub: String,
     val description: String,
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
-    val uploads: List<Upload>
+    val uploads: List<Upload>,
+    val isLike: Boolean,
 )
 
 /**
- * Convert to model
+ * Convert [ProjectEntity] to model
  */
 fun ProjectEntity.toProject() = Project(
     id = id.value,
     category = category,
-    language = language,
     publicImage = publicImage,
     title = title,
     url = url,
+    urlGitHub = urlGitHub,
     description = description,
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
-    uploads = uploads.toUploads().reversed()
+    uploads = uploads.toUploads().reversed(),
+    isLike = isLike,
 )
 
 /**
  * Convert list
  */
-fun SizedIterable<ProjectEntity>.toProjects(): List<Project> {
+fun Iterable<ProjectEntity>.toProjects(): List<Project> {
     return map { it.toProject() }
 }
