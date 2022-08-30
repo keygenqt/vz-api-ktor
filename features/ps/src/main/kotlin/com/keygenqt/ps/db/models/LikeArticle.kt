@@ -22,8 +22,8 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 
-object LikeProjects : IntIdTable() {
-    val projectId = reference("projectId", Projects)
+object LikesArticle : IntIdTable() {
+    val articleId = reference("articleId", Articles)
     val key = varchar("key", 255).uniqueIndex()
     val createAt = long("createAt")
 }
@@ -31,18 +31,18 @@ object LikeProjects : IntIdTable() {
 /**
  * Exposed entity
  */
-class LikeProjectsEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<LikeProjectsEntity>(LikeProjects)
+class LikeArticleEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<LikeArticleEntity>(LikesArticle)
 
-    var projectId by LikeProjects.projectId
-    var key by LikeProjects.key
-    var createAt by LikeProjects.createAt
+    var articleId by LikesArticle.articleId
+    var key by LikesArticle.key
+    var createAt by LikesArticle.createAt
 }
 
 @Serializable
-data class Like(
+data class LikeArticle(
     val id: Int? = null,
-    val projectId: Int,
+    val articleId: Int,
     val key: String,
     val createAt: Long? = null,
 )
@@ -50,9 +50,9 @@ data class Like(
 /**
  * Convert to model
  */
-fun LikeProjectsEntity.toLike() = Like(
+fun LikeArticleEntity.toLike() = Like(
     id = id.value,
-    projectId = projectId.value,
+    projectId = articleId.value,
     key = key,
     createAt = createAt
 )
@@ -60,6 +60,6 @@ fun LikeProjectsEntity.toLike() = Like(
 /**
  * Convert list
  */
-fun Iterable<LikeProjectsEntity>.toLikes(): List<Like> {
+fun Iterable<LikeArticleEntity>.toLikes(): List<Like> {
     return map { it.toLike() }
 }

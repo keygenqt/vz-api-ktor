@@ -15,12 +15,12 @@
  */
 package com.keygenqt.ps.db.models
 
+import com.keygenqt.core.db.IntSubQueryEntityClass
+import com.keygenqt.core.db.IntSubQueryEntityClass.Companion.isHas
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.SizedIterable
 
 /**
  * Category article
@@ -44,7 +44,7 @@ object Articles : IntIdTable() {
  * Exposed entity
  */
 class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<ArticleEntity>(Articles)
+    companion object : IntSubQueryEntityClass<ArticleEntity>(Articles)
 
     var category by Articles.category
     var publicImage by Articles.publicImage
@@ -56,6 +56,7 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     var updateAt by Articles.updateAt
 
     var uploads by UploadEntity via ArticleUploads
+    val isLike by Boolean isHas LikesArticle.articleId
 }
 
 @Serializable
@@ -69,7 +70,8 @@ data class Article(
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
-    val uploads: List<Upload>
+    val uploads: List<Upload>,
+    val isLike: Boolean,
 )
 
 /**
@@ -85,7 +87,8 @@ fun ArticleEntity.toArticle() = Article(
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,
-    uploads = uploads.toUploads().reversed()
+    uploads = uploads.toUploads().reversed(),
+    isLike = isLike
 )
 
 /**

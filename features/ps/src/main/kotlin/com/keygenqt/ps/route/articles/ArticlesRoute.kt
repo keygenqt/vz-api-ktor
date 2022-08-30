@@ -15,9 +15,11 @@
  */
 package com.keygenqt.ps.route.articles
 
+import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.core.extension.getNumberParam
 import com.keygenqt.core.extension.receiveValidate
 import com.keygenqt.ps.extension.checkRoleAdmin
+import com.keygenqt.ps.extension.connectKey
 import com.keygenqt.ps.route.articles.elements.ArticleRequest
 import com.keygenqt.ps.service.ArticlesService
 import io.ktor.server.application.*
@@ -26,9 +28,29 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.articlesRoute() {
-    val service: ArticlesService by inject()
+
+    val articlesService: ArticlesService by inject()
 
     route("/articles") {
+
+        get("/all") {
+            call.respond(
+                articlesService.getAll(
+                    connectKey = call.connectKey(),
+                )
+            )
+        }
+
+        get("/all/{id}") {
+            call.respond(
+                articlesService.getById(
+                    connectKey = call.connectKey(),
+                    id = call.getNumberParam(),
+                )
+                    ?: throw AppException.Error404("Project not found")
+            )
+        }
+
         post {
             call.checkRoleAdmin()
 
@@ -37,7 +59,7 @@ fun Route.articlesRoute() {
             )
 
             call.respond(
-                service.insert(
+                articlesService.insert(
                     category = request.category,
                     publicImage = request.publicImage,
                     title = request.title,
@@ -56,7 +78,7 @@ fun Route.articlesRoute() {
             )
 
             call.respond(
-                service.update(
+                articlesService.update(
                     id = call.getNumberParam(),
                     category = request.category,
                     publicImage = request.publicImage,

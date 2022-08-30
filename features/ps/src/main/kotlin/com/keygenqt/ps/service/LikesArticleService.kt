@@ -20,7 +20,7 @@ import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.and
 
-class LikesService(
+class LikesArticleService(
     private val db: DatabaseMysql,
 ) {
 
@@ -31,8 +31,8 @@ class LikesService(
         modelId: Int,
         key: String,
     ): Like? = db.transaction {
-        LikeProjectsEntity
-            .find { (LikeProjects.key eq key) and (LikeProjects.projectId eq modelId) }
+        LikeArticleEntity
+            .find { (LikesArticle.key eq key) and (LikesArticle.articleId eq modelId) }
             .firstOrNull()
             ?.toLike()
     }
@@ -44,8 +44,8 @@ class LikesService(
         modelId: Int,
         key: String,
     ): Like = db.transaction {
-        LikeProjectsEntity.new {
-            this.projectId = EntityID(modelId, Projects)
+        LikeArticleEntity.new {
+            this.articleId = EntityID(modelId, Articles)
             this.key = key
             this.createAt = System.currentTimeMillis()
         }.toLike()
@@ -58,8 +58,8 @@ class LikesService(
         modelId: Int,
         key: String,
     ) = db.transaction {
-        LikeProjectsEntity
-            .find { (LikeProjects.key eq key) and (LikeProjects.projectId eq modelId) }
+        LikeArticleEntity
+            .find { (LikesArticle.key eq key) and (LikesArticle.articleId eq modelId) }
             .firstOrNull()
             ?.delete()
     }

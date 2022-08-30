@@ -19,12 +19,13 @@ import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.dao.with
 import org.jetbrains.exposed.sql.SizedCollection
+import org.jetbrains.exposed.sql.and
 
 class ArticlesService(
-    private val db: DatabaseMysql
+    private val db: DatabaseMysql,
 ) {
-
     /**
      * Get count models
      */
@@ -35,15 +36,54 @@ class ArticlesService(
     /**
      * Get all models
      */
-    suspend fun getAll(): List<Article> = db.transaction {
-        ArticleEntity.all().toArticles()
+    suspend fun getAll(
+        connectKey: String,
+    ): List<Article> = db.transaction {
+        ArticleEntity
+            .isHas(ArticleEntity::isLike) { (LikesArticle.key eq connectKey) }
+            .all()
+            .toArticles()
+    }
+
+    /**
+     * Get all public models
+     */
+    suspend fun getAllPublic(
+        connectKey: String,
+    ): List<Article> = db.transaction {
+        ArticleEntity
+            .isHas(ArticleEntity::isLike) { (LikesArticle.key eq connectKey) }
+            .find { (Articles.isPublished eq true) }
+            .toArticles()
     }
 
     /**
      * Get model by id
      */
-    suspend fun getById(id: Int): Article? = db.transaction {
-        ArticleEntity.findById(id)?.load(ArticleEntity::uploads)?.toArticle()
+    suspend fun getById(
+        connectKey: String,
+        id: Int,
+    ): Article? = db.transaction {
+        ArticleEntity
+            .isHas(ArticleEntity::isLike) { (LikesArticle.key eq connectKey) }
+            .findById(id)
+            ?.load(ArticleEntity::uploads)
+            ?.toArticle()
+    }
+
+    /**
+     * Get public model by id
+     */
+    suspend fun getByIdPublic(
+        connectKey: String,
+        id: Int,
+    ): Article? = db.transaction {
+        ArticleEntity
+            .isHas(ArticleEntity::isLike) { (LikesArticle.key eq connectKey) }
+            .find { ((Articles.id eq id) and (Articles.isPublished eq true)) }
+            .with(ArticleEntity::uploads)
+            .firstOrNull()
+            ?.toArticle()
     }
 
     /**
@@ -56,7 +96,7 @@ class ArticlesService(
         description: String?,
         content: String?,
         isPublished: Boolean?,
-        uploads: List<Int>
+        uploads: List<Int>,
     ): Article = db.transaction {
         ArticleEntity.new {
             category?.let { this.category = category }
@@ -83,7 +123,7 @@ class ArticlesService(
         description: String?,
         content: String?,
         isPublished: Boolean?,
-        uploads: List<Int>
+        uploads: List<Int>,
     ): Article = db.transaction {
         ArticleEntity.findById(id)?.apply {
             category?.let { this.category = category }

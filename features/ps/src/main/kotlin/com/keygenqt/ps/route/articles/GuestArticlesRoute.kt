@@ -17,6 +17,7 @@ package com.keygenqt.ps.route.articles
 
 import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.core.extension.getNumberParam
+import com.keygenqt.ps.extension.connectKey
 import com.keygenqt.ps.service.ArticlesService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -24,15 +25,27 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.guestArticlesRoute() {
-    val service: ArticlesService by inject()
+
+    val articlesService: ArticlesService by inject()
 
     route("/articles") {
+
         get {
-            call.respond(service.getAll())
+            call.respond(
+                articlesService.getAllPublic(
+                    connectKey = call.connectKey(),
+                )
+            )
         }
 
         get("/{id}") {
-            call.respond(service.getById(call.getNumberParam()) ?: throw AppException.Error404("Article not found"))
+            call.respond(
+                articlesService.getByIdPublic(
+                    connectKey = call.connectKey(),
+                    id = call.getNumberParam(),
+                )
+                    ?: throw AppException.Error404("Article not found")
+            )
         }
     }
 }

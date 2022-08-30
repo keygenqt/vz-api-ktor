@@ -59,7 +59,7 @@ class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
     var updateAt by Projects.updateAt
 
     var uploads by UploadEntity via ProjectUploads
-    val isLike by Boolean isHas LikeProjects.projectId
+    val isLike by Boolean isHas LikesProject.projectId
 }
 
 

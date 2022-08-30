@@ -38,19 +38,23 @@ class ProjectsService(
      */
     suspend fun getAll(
         connectKey: String,
-        isNotAuth: Boolean,
     ): List<Project> = db.transaction {
-        if (isNotAuth) {
-            ProjectEntity
-                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
-                .find { (Projects.isPublished eq false) }
-                .toProjects()
-        } else {
-            ProjectEntity
-                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
-                .all()
-                .toProjects()
-        }
+        ProjectEntity
+            .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
+            .all()
+            .toProjects()
+    }
+
+    /**
+     * Get all public models
+     */
+    suspend fun getAllPublic(
+        connectKey: String,
+    ): List<Project> = db.transaction {
+        ProjectEntity
+            .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
+            .find { (Projects.isPublished eq true) }
+            .toProjects()
     }
 
     /**
@@ -58,23 +62,28 @@ class ProjectsService(
      */
     suspend fun getById(
         connectKey: String,
-        isNotAuth: Boolean,
         id: Int,
     ): Project? = db.transaction {
-        if (isNotAuth) {
-            ProjectEntity
-                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
-                .find { ((Projects.id eq id) and (Projects.isPublished eq true)) }
-                .with(ProjectEntity::uploads)
-                .firstOrNull()
-                ?.toProject()
-        } else {
-            ProjectEntity
-                .isHas(ProjectEntity::isLike) { (LikeProjects.key eq connectKey) }
-                .findById(id)
-                ?.load(ProjectEntity::uploads)
-                ?.toProject()
-        }
+        ProjectEntity
+            .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
+            .findById(id)
+            ?.load(ProjectEntity::uploads)
+            ?.toProject()
+    }
+
+    /**
+     * Get public model by id
+     */
+    suspend fun getByIdPublic(
+        connectKey: String,
+        id: Int,
+    ): Project? = db.transaction {
+        ProjectEntity
+            .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
+            .find { ((Projects.id eq id) and (Projects.isPublished eq true)) }
+            .with(ProjectEntity::uploads)
+            .firstOrNull()
+            ?.toProject()
     }
 
     /**

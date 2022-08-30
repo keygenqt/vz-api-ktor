@@ -68,7 +68,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 single { ArticlesService(db) }
                 single { ProjectsService(db) }
                 single { UploadsService(db) }
-                single { LikesService(db) }
+                single { LikesProjectService(db) }
 
                 // GitHub services
                 HttpClient(CIO) {
