@@ -59,7 +59,8 @@ fun Route.articlesRoute() {
             call.respond(
                 articlesService.insert(
                     category = request.category,
-                    publicImage = request.publicImage,
+                    listImage = request.listImage,
+                    viewImage = request.viewImage,
                     title = request.title,
                     description = request.description,
                     content = request.content,
@@ -79,7 +80,8 @@ fun Route.articlesRoute() {
                 articlesService.update(
                     id = call.getNumberParam(),
                     category = request.category,
-                    publicImage = request.publicImage,
+                    listImage = request.listImage,
+                    viewImage = request.viewImage,
                     title = request.title,
                     description = request.description,
                     content = request.content,

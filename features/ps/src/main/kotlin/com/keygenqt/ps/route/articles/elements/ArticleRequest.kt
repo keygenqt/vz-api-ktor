@@ -34,7 +34,11 @@ data class ArticleRequest(
 
     @field:NotNullNotBlank
     @field:URL(message = "Must be a valid URL")
-    val publicImage: String? = null,
+    val listImage: String? = null,
+
+    @field:NotNullNotBlank
+    @field:URL(message = "Must be a valid URL")
+    val viewImage: String? = null,
 
     @field:NotNullNotBlank
     @field:Size(min = 3, max = 255, message = "Size must be between 3 and 255")

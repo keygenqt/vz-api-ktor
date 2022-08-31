@@ -31,7 +31,8 @@ enum class ArticleCategory {
 
 object Articles : IntIdTable() {
     val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
-    val publicImage = varchar("publicImage", 255)
+    val listImage = varchar("listImage", 255)
+    val viewImage = varchar("viewImage", 255)
     val title = varchar("title", 255)
     val description = varchar("description", 500)
     val content = text("content")
@@ -47,7 +48,8 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntSubQueryEntityClass<ArticleEntity>(Articles)
 
     var category by Articles.category
-    var publicImage by Articles.publicImage
+    var listImage by Articles.listImage
+    var viewImage by Articles.viewImage
     var title by Articles.title
     var description by Articles.description
     var content by Articles.content
@@ -63,7 +65,8 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
 data class Article(
     val id: Int? = null,
     val category: ArticleCategory,
-    val publicImage: String,
+    val listImage: String,
+    val viewImage: String,
     val title: String,
     val description: String,
     val content: String,
@@ -80,7 +83,8 @@ data class Article(
 fun ArticleEntity.toArticle() = Article(
     id = id.value,
     category = category,
-    publicImage = publicImage,
+    listImage = listImage,
+    viewImage = viewImage,
     title = title,
     description = description,
     content = content,

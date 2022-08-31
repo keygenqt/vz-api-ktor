@@ -32,6 +32,11 @@ object Constants {
     const val PATH_UPLOAD = "uploads/ps"
 
     /**
+     * Dir upload files
+     */
+    const val PATH_DATA_MIGRATION = "data/migration/ps"
+
+    /**
      * App properties -> app.properties
      */
     object Properties {

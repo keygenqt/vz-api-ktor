@@ -34,7 +34,8 @@ await fetch('/api/ps/articles', {
     },
     body: JSON.stringify({
         category: 'OTHER',
-        publicImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
+        listImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
+        viewImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
         title: 'Title',
         description: 'Description',
         content: 'Content',
@@ -65,7 +66,8 @@ HTTP response status codes
 {
     "id": 1,
     "category": "OTHER",
-    "publicImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
+    "listImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
+    "viewImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
     "title": "Title",
     "description": "Description",
     "content": "Content",

@@ -91,7 +91,8 @@ class ArticlesService(
      */
     suspend fun insert(
         category: ArticleCategory?,
-        publicImage: String?,
+        listImage: String?,
+        viewImage: String?,
         title: String?,
         description: String?,
         content: String?,
@@ -100,7 +101,8 @@ class ArticlesService(
     ): Article = db.transaction {
         ArticleEntity.new {
             category?.let { this.category = category }
-            publicImage?.let { this.publicImage = publicImage }
+            listImage?.let { this.listImage = listImage }
+            viewImage?.let { this.viewImage = viewImage }
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
@@ -118,7 +120,8 @@ class ArticlesService(
     suspend fun update(
         id: Int,
         category: ArticleCategory?,
-        publicImage: String?,
+        listImage: String?,
+        viewImage: String?,
         title: String?,
         description: String?,
         content: String?,
@@ -127,7 +130,8 @@ class ArticlesService(
     ): Article = db.transaction {
         ArticleEntity.findById(id)?.apply {
             category?.let { this.category = category }
-            publicImage?.let { this.publicImage = publicImage }
+            listImage?.let { this.listImage = listImage }
+            viewImage?.let { this.viewImage = viewImage }
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
