@@ -1,18 +1,18 @@
-Get Project
+Like Project
 ===================
 
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f536.png"/> &nbsp;
-Method: <code>GET</code>
+Method: <code>POST</code>
 
 ```
-/api/ps/projects/{ID}
+/api/ps/projects/like/{ID}
 ```
 
 <b>Code samples</b>
 
 ```
-await fetch('/api/ps/projects/{ID}', {
-    method: 'GET'
+await fetch('/api/ps/projects/like/{ID}', {
+    method: 'POST',
 }).then(async (response) => {
     console.log(response)
 })
@@ -34,26 +34,10 @@ HTTP response status codes
 
 ```
 {
-    "id": 1,
-    "category": "OTHER",
-    "language": "OTHER",
-    "publicImage": "https://keygenqt.com/images/blog/61337b11b1300.jpg",
-    "title": "Title",
-    "url": "https://api.keygenqt.com/",
-    "description": "Description",
-    "isPublished": false,
-    "isLike": false,
-    "createAt": 1661533680528,
-    "updateAt": 1661533680528,
-    "uploads": [
-        {
-            "id": 1,
-            "fileName": "d523f3fb-a8fe-49d9-9e67-3ce8b3231037.png",
-            "fileMime": "image/png",
-            "originalFileName": "screenshot-17.png",
-            "createAt": 1661592987307
-        }
-    ]
+    "id": 31,
+    "projectId": 3,
+    "key": "421aa90e079fa326b6494f812ad13e79",
+    "createAt": 1661929660607
 }
 ```
 

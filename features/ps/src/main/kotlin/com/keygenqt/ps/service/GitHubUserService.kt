@@ -27,7 +27,7 @@ import org.jetbrains.exposed.sql.batchInsert
 
 class GitHubUserService(
     private val db: DatabaseMysql,
-    private val client: HttpClient,
+    private val client: HttpClient
 ) {
 
     /**
@@ -70,7 +70,7 @@ class GitHubUserService(
      * Add new data [GitHubRepo]
      */
     private suspend fun batchInsert(
-        models: List<GitHubUser>,
+        models: List<GitHubUser>
     ) = db.transaction {
         GitHubUsers.batchInsert(
             data = models,

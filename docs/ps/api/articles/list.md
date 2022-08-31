@@ -1,4 +1,4 @@
-Get Articles
+Get Articles *public*
 ===================
 
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f536.png"/> &nbsp;
@@ -41,6 +41,7 @@ HTTP response status codes
         "description": "Description",
         "content": "Content",
         "isPublished": false,
+        "isLike": false,
         "uploads": [
             {
                 "id": 1,

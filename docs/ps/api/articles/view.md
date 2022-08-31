@@ -41,6 +41,7 @@ HTTP response status codes
     "description": "Description",
     "content": "Content",
     "isPublished": false,
+    "isLike": false,
     "uploads": [
         {
             "id": 1,

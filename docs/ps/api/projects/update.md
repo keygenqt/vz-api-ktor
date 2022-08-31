@@ -17,10 +17,10 @@ Method: <code>PUT</code>
 <b>Parameters</b>
 
 * <code>category</code> - ANDROID, WEB, IOS, OTHER, *required*
-* <code>language</code> - KOTLIN, JAVASCRIPT, SWIFT, PHP, PYTHON, BASH, OTHER, *required*
 * <code>publicImage</code> - url image, *required*
 * <code>title</code> - title article, *required*
 * <code>url</code> - url to website project, *optional*
+* <code>urlGitHub</code> - url to website project, *optional*
 * <code>description</code> - short description, *required*
 * <code>isPublished</code> - is public on website, *required*
 * <code>uploads</code> - ids uploads for relations, *required*
@@ -35,10 +35,10 @@ await fetch('/api/ps/projects/{ID}', {
     },
     body: JSON.stringify({
         category: 'OTHER',
-        language: 'OTHER',
         publicImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
         title: 'Title',
         url: 'https://api.keygenqt.com/',
+        urlGitHub: 'https://github.com/keygenqt',
         description: 'Description',
         isPublished: false,
         uploads: [1, 2, 3], // ids uploads for relations
@@ -68,10 +68,10 @@ HTTP response status codes
 {
     "id": 1,
     "category": "OTHER",
-    "language": "OTHER",
     "publicImage": "https://keygenqt.com/images/blog/61337b11b1300.jpg",
     "title": "Title",
     "url": "https://api.keygenqt.com/",
+    "urlGitHub": "https://github.com/keygenqt",
     "description": "Description",
     "isPublished": false,
     "createAt": 1661533680528,

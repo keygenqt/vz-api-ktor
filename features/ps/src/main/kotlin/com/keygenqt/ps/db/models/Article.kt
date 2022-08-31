@@ -71,7 +71,7 @@ data class Article(
     val createAt: Long,
     val updateAt: Long,
     val uploads: List<Upload>,
-    val isLike: Boolean,
+    val isLike: Boolean
 )
 
 /**

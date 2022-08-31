@@ -1,17 +1,17 @@
-Get Projects *public*
+Get Articles
 ===================
 
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f536.png"/> &nbsp;
 Method: <code>GET</code>
 
 ```
-/api/ps/projects
+/api/ps/articles/all
 ```
 
 <b>Code samples</b>
 
 ```
-await fetch('/api/ps/projects', {
+await fetch('/api/ps/articles/all', {
     method: 'GET'
 }).then(async (response) => {
     console.log(response)
@@ -36,15 +36,12 @@ HTTP response status codes
     {
         "id": 1,
         "category": "OTHER",
-        "publicImage": "https://keygenqt.com/images/blog/61337b11b1300.jpg",
+        "publicImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
         "title": "Title",
-        "url": "https://api.keygenqt.com/",
-        "urlGitHub": "https://github.com/keygenqt",
         "description": "Description",
+        "content": "Content",
         "isPublished": false,
         "isLike": false,
-        "createAt": 1661533680528,
-        "updateAt": 1661533680528,
         "uploads": [
             {
                 "id": 1,

@@ -55,5 +55,5 @@ data class ProjectRequest(
     @field:NotNull(message = "Must not be null")
     val isPublished: Boolean? = null,
 
-    val uploads: List<Int> = listOf(),
+    val uploads: List<Int> = listOf()
 )

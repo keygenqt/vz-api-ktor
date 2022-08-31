@@ -1,17 +1,17 @@
-Get Projects *public*
+Get Projects
 ===================
 
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f536.png"/> &nbsp;
 Method: <code>GET</code>
 
 ```
-/api/ps/projects
+/api/ps/projects/all
 ```
 
 <b>Code samples</b>
 
 ```
-await fetch('/api/ps/projects', {
+await fetch('/api/ps/projects/all', {
     method: 'GET'
 }).then(async (response) => {
     console.log(response)
@@ -34,6 +34,7 @@ HTTP response status codes
 ```
 [
     {
+        "id": 1,
         "id": 1,
         "category": "OTHER",
         "publicImage": "https://keygenqt.com/images/blog/61337b11b1300.jpg",

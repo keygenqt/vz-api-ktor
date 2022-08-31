@@ -29,16 +29,14 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.guestProjectsRoute() {
-
     val projectsService: ProjectsService by inject()
     val likesProjectService: LikesProjectService by inject()
 
     route("/projects") {
-
         get {
             call.respond(
                 projectsService.getAllPublic(
-                    connectKey = call.connectKey(),
+                    connectKey = call.connectKey()
                 )
             )
         }
@@ -47,7 +45,7 @@ fun Route.guestProjectsRoute() {
             call.respond(
                 projectsService.getByIdPublic(
                     connectKey = call.connectKey(),
-                    id = call.getNumberParam(),
+                    id = call.getNumberParam()
                 )
                     ?: throw AppException.Error404("Project not found")
             )

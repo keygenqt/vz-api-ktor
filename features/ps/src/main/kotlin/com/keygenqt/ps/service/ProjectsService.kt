@@ -24,7 +24,7 @@ import org.jetbrains.exposed.sql.SizedCollection
 import org.jetbrains.exposed.sql.and
 
 class ProjectsService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
     /**
      * Get count models
@@ -37,7 +37,7 @@ class ProjectsService(
      * Get all models
      */
     suspend fun getAll(
-        connectKey: String,
+        connectKey: String
     ): List<Project> = db.transaction {
         ProjectEntity
             .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
@@ -49,7 +49,7 @@ class ProjectsService(
      * Get all public models
      */
     suspend fun getAllPublic(
-        connectKey: String,
+        connectKey: String
     ): List<Project> = db.transaction {
         ProjectEntity
             .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
@@ -62,7 +62,7 @@ class ProjectsService(
      */
     suspend fun getById(
         connectKey: String,
-        id: Int,
+        id: Int
     ): Project? = db.transaction {
         ProjectEntity
             .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
@@ -76,7 +76,7 @@ class ProjectsService(
      */
     suspend fun getByIdPublic(
         connectKey: String,
-        id: Int,
+        id: Int
     ): Project? = db.transaction {
         ProjectEntity
             .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
@@ -97,7 +97,7 @@ class ProjectsService(
         urlGitHub: String?,
         description: String?,
         isPublished: Boolean?,
-        uploads: List<Int>,
+        uploads: List<Int>
     ): Project = db.transaction {
         ProjectEntity.new {
             category?.let { this.category = category }
@@ -126,7 +126,7 @@ class ProjectsService(
         urlGitHub: String?,
         description: String?,
         isPublished: Boolean?,
-        uploads: List<Int>,
+        uploads: List<Int>
     ): Project = db.transaction {
         ProjectEntity.findById(id)?.apply {
             category?.let { this.category = category }

@@ -21,7 +21,6 @@ import com.keygenqt.core.extension.getNumberParam
 import com.keygenqt.ps.extension.connectKey
 import com.keygenqt.ps.service.ArticlesService
 import com.keygenqt.ps.service.LikesArticleService
-import com.keygenqt.ps.service.LikesProjectService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -30,16 +29,14 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.guestArticlesRoute() {
-
     val articlesService: ArticlesService by inject()
     val likesArticleService: LikesArticleService by inject()
 
     route("/articles") {
-
         get {
             call.respond(
                 articlesService.getAllPublic(
-                    connectKey = call.connectKey(),
+                    connectKey = call.connectKey()
                 )
             )
         }
@@ -48,7 +45,7 @@ fun Route.guestArticlesRoute() {
             call.respond(
                 articlesService.getByIdPublic(
                     connectKey = call.connectKey(),
-                    id = call.getNumberParam(),
+                    id = call.getNumberParam()
                 )
                     ?: throw AppException.Error404("Article not found")
             )

@@ -21,7 +21,6 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-
 object LikesArticle : IntIdTable() {
     val articleId = reference("articleId", Articles).uniqueIndex()
     val key = varchar("key", 255)
@@ -44,7 +43,7 @@ data class LikeArticle(
     val id: Int? = null,
     val articleId: Int,
     val key: String,
-    val createAt: Long? = null,
+    val createAt: Long? = null
 )
 
 /**

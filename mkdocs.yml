@@ -16,15 +16,21 @@ nav:
         - 'Refresh token': ps/api/auth/refresh-token.md
         - 'Logout': ps/api/auth/logout.md
       - 'Articles':
-        - 'Get Models': ps/api/articles/list.md
+        - 'Get Models': ps/api/articles/list_all.md
+        - 'Get Models Public': ps/api/articles/list.md
         - 'Get Model': ps/api/articles/view.md
         - 'Create': ps/api/articles/create.md
         - 'Update': ps/api/articles/update.md
+        - 'Like': ps/api/articles/like.md
+        - 'Unlike': ps/api/articles/unlike.md
       - 'Projects':
-        - 'Get Models': ps/api/projects/list.md
+        - 'Get Models': ps/api/projects/list_all.md
+        - 'Get Models Public': ps/api/projects/list.md
         - 'Get Model': ps/api/projects/view.md
         - 'Create': ps/api/projects/create.md
         - 'Update': ps/api/projects/update.md
+        - 'Like': ps/api/projects/like.md
+        - 'Unlike': ps/api/projects/unlike.md
       - 'Uploads':
         - 'Get File': ps/api/uploads/get.md
         - 'Upload Files': ps/api/uploads/upload.md

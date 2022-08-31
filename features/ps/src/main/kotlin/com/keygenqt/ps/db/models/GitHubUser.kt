@@ -21,7 +21,6 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
-import org.jetbrains.exposed.sql.SizedIterable
 
 object GitHubUsers : IntIdTable() {
     val uniqueKey = varchar("uniqueKey", 32).uniqueIndex()

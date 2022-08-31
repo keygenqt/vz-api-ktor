@@ -29,7 +29,6 @@ enum class ProjectCategory {
     ANDROID, WEB, IOS, OTHER
 }
 
-
 object Projects : IntIdTable() {
     val category = enumeration("category", ProjectCategory::class).default(ProjectCategory.OTHER)
     val publicImage = varchar("publicImage", 255)
@@ -62,7 +61,6 @@ class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
     val isLike by Boolean isHas LikesProject.projectId
 }
 
-
 @Serializable
 data class Project(
     val id: Int? = null,
@@ -76,7 +74,7 @@ data class Project(
     val createAt: Long,
     val updateAt: Long,
     val uploads: List<Upload>,
-    val isLike: Boolean,
+    val isLike: Boolean
 )
 
 /**
@@ -94,7 +92,7 @@ fun ProjectEntity.toProject() = Project(
     createAt = createAt,
     updateAt = updateAt,
     uploads = uploads.toUploads().reversed(),
-    isLike = isLike,
+    isLike = isLike
 )
 
 /**

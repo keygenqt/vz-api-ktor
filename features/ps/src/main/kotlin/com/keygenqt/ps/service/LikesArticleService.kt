@@ -21,7 +21,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.and
 
 class LikesArticleService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
 
     /**
@@ -29,7 +29,7 @@ class LikesArticleService(
      */
     suspend fun getByKeys(
         modelId: Int,
-        key: String,
+        key: String
     ): Like? = db.transaction {
         LikeArticleEntity
             .find { (LikesArticle.key eq key) and (LikesArticle.articleId eq modelId) }
@@ -42,7 +42,7 @@ class LikesArticleService(
      */
     suspend fun insert(
         modelId: Int,
-        key: String,
+        key: String
     ): Like = db.transaction {
         LikeArticleEntity.new {
             this.articleId = EntityID(modelId, Articles)
@@ -56,7 +56,7 @@ class LikesArticleService(
      */
     suspend fun delete(
         modelId: Int,
-        key: String,
+        key: String
     ) = db.transaction {
         LikeArticleEntity
             .find { (LikesArticle.key eq key) and (LikesArticle.articleId eq modelId) }
