@@ -41,7 +41,7 @@ private fun personalSite(host: String) {
             this.category = ProjectCategory.WEB
             this.publicImage = "$host/api/ps/file/${upload.fileName}"
             this.title = "Personal Site"
-            this.url = "https://version2.keygenqt.com"
+            this.url = ""
             this.urlGitHub = "https://github.com/keygenqt/vz-site-react"
             this.isPublished = true
             this.description =
