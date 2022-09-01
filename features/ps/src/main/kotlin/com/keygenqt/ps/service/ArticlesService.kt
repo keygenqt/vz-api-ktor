@@ -21,6 +21,7 @@ import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
 import org.jetbrains.exposed.sql.SizedCollection
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 
 class ArticlesService(
@@ -42,6 +43,7 @@ class ArticlesService(
         ArticleEntity
             .isHas(ArticleEntity::isLike) { (LikesArticle.key eq connectKey) }
             .all()
+            .orderBy(Pair(Articles.createAt, SortOrder.DESC))
             .toArticles()
     }
 
@@ -54,6 +56,7 @@ class ArticlesService(
         ArticleEntity
             .isHas(ArticleEntity::isLike) { (LikesArticle.key eq connectKey) }
             .find { (Articles.isPublished eq true) }
+            .orderBy(Pair(Articles.createAt, SortOrder.DESC))
             .toArticles()
     }
 

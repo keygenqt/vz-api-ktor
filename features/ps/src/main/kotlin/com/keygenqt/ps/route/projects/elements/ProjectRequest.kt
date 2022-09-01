@@ -48,6 +48,18 @@ data class ProjectRequest(
     @field:Size(max = 255, message = "Must be less than or equal to 255")
     val urlGitHub: String? = null,
 
+    @field:URL(message = "Must be a valid URL")
+    @field:Size(max = 255, message = "Must be less than or equal to 255")
+    val urlSnapcraft: String? = null,
+
+    @field:URL(message = "Must be a valid URL")
+    @field:Size(max = 255, message = "Must be less than or equal to 255")
+    val urlDownload: String? = null,
+
+    @field:URL(message = "Must be a valid URL")
+    @field:Size(max = 255, message = "Must be less than or equal to 255")
+    val urlYouTube: String? = null,
+
     @field:NotNullNotBlank
     @field:Size(min = 3, max = 500, message = "Size must be between 3 and 500")
     val description: String? = null,

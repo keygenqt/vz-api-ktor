@@ -17,17 +17,26 @@ package com.keygenqt.ps.route.upload
 
 import com.keygenqt.core.exceptions.AppException
 import com.keygenqt.core.extension.getStringParam
+import com.keygenqt.ps.service.UploadsService
 import com.keygenqt.ps.utils.Constants.PATH_UPLOAD
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 import java.io.File
 
 fun Route.guestUploadRoute() {
+
+    val uploadsService: UploadsService by inject()
+
     route("/file") {
         get("/{name}") {
             val name = call.getStringParam()
-            val file = File("$PATH_UPLOAD/$name")
+
+            val upload = uploadsService.getByFileName(name) ?: uploadsService.getByOriginalFileName(name)
+
+            val file = File("$PATH_UPLOAD/${upload?.fileName}")
+
             if (file.exists()) {
                 call.respondFile(file)
             } else throw AppException.Error404("File not found")

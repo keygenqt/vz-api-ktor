@@ -63,6 +63,9 @@ fun Route.projectsRoute() {
                     title = request.title,
                     url = request.url,
                     urlGitHub = request.urlGitHub,
+                    urlSnapcraft = request.urlSnapcraft,
+                    urlDownload = request.urlDownload,
+                    urlYouTube = request.urlYouTube,
                     description = request.description,
                     isPublished = request.isPublished,
                     uploads = request.uploads
@@ -84,6 +87,9 @@ fun Route.projectsRoute() {
                     title = request.title,
                     url = request.url,
                     urlGitHub = request.urlGitHub,
+                    urlSnapcraft = request.urlSnapcraft,
+                    urlDownload = request.urlDownload,
+                    urlYouTube = request.urlYouTube,
                     description = request.description,
                     isPublished = request.isPublished,
                     uploads = request.uploads

@@ -21,6 +21,9 @@ Method: <code>POST</code>
 * <code>title</code> - title article, *required*
 * <code>url</code> - url to website project, *optional*
 * <code>urlGitHub</code> - url to website project, *optional*
+* <code>urlSnapcraft</code> - url to website project, *optional*
+* <code>urlDownload</code> - url to website project, *optional*
+* <code>urlYouTube</code> - url to website project, *optional*
 * <code>description</code> - short description, *required*
 * <code>isPublished</code> - is public on website, *required*
 * <code>uploads</code> - ids uploads for relations, *required*
@@ -39,6 +42,9 @@ await fetch('/api/ps/projects', {
         title: 'Title',
         url: 'https://api.keygenqt.com/',
         urlGitHub: 'https://github.com/keygenqt',
+        urlSnapcraft: 'https://snapcraft.io/',
+        urlDownload: 'https://keygenqt.com/files/601076d399c15.zip',
+        urlYouTube: 'https://www.youtube.com/',
         description: 'Description',
         isPublished: false,
         uploads: [1, 2, 3], // ids uploads for relations
@@ -71,6 +77,9 @@ HTTP response status codes
     "title": "Title",
     "url": "https://api.keygenqt.com/",
     "urlGitHub": "https://github.com/keygenqt",
+    "urlSnapcraft": 'https://snapcraft.io/',
+    "urlDownload": 'https://keygenqt.com/files/601076d399c15.zip',
+    "urlYouTube": 'https://www.youtube.com/',
     "description": "Description",
     "isPublished": false,
     "createAt": 1661533680528,

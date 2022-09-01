@@ -35,6 +35,9 @@ object Projects : IntIdTable() {
     val title = varchar("title", 255)
     val url = varchar("url", 255).default("")
     val urlGitHub = varchar("urlGitHub", 255).default("")
+    val urlSnapcraft = varchar("urlSnapcraft", 255).default("")
+    val urlDownload = varchar("urlDownload", 255).default("")
+    val urlYouTube = varchar("urlYouTube", 255).default("")
     val description = varchar("description", 255)
     val isPublished = bool("isPublished").default(false)
     val createAt = long("createAt")
@@ -52,6 +55,9 @@ class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
     var title by Projects.title
     var url by Projects.url
     var urlGitHub by Projects.urlGitHub
+    var urlSnapcraft by Projects.urlSnapcraft
+    var urlDownload by Projects.urlDownload
+    var urlYouTube by Projects.urlYouTube
     var description by Projects.description
     var isPublished by Projects.isPublished
     var createAt by Projects.createAt
@@ -69,6 +75,9 @@ data class Project(
     val title: String,
     val url: String,
     val urlGitHub: String,
+    val urlSnapcraft: String,
+    val urlDownload: String,
+    val urlYouTube: String,
     val description: String,
     val isPublished: Boolean,
     val createAt: Long,
@@ -87,6 +96,9 @@ fun ProjectEntity.toProject() = Project(
     title = title,
     url = url,
     urlGitHub = urlGitHub,
+    urlSnapcraft = urlSnapcraft,
+    urlDownload = urlDownload,
+    urlYouTube = urlYouTube,
     description = description,
     isPublished = isPublished,
     createAt = createAt,

@@ -16,6 +16,7 @@
 package com.keygenqt.core.utils
 
 import com.keygenqt.core.exceptions.AppException
+import com.keygenqt.core.utils.ConstantsMime.toExtension
 import io.ktor.http.*
 
 object ConstantsMime {
@@ -24,13 +25,13 @@ object ConstantsMime {
      * Mime to extension
      */
     fun ContentType?.toExtension() = CONSTANTS_EXT_MIME_FILES
-        .filterValues { it == this.toString() }.keys.firstOrNull() ?: throw AppException.Error404()
+        .filterValues { it == this.toString() }.keys.firstOrNull() ?: throw AppException.Error404("Mime '$this' not found.")
 
     /**
      * Extension to mime
      */
     fun String?.toMime() = this
-        ?.let { CONSTANTS_EXT_MIME_FILES[it] } ?: throw AppException.Error404()
+        ?.let { CONSTANTS_EXT_MIME_FILES[it] } ?: throw AppException.Error404("Extension '$this' not found.")
 
     /**
      * Mimes
@@ -288,7 +289,7 @@ object ConstantsMime {
         "ivu" to "application/vnd.immervision-ivu",
         "jad" to "text/vnd.sun.j2me.app-descriptor",
         "jam" to "application/vnd.jam",
-        "jar" to "application/java-archive",
+        "jar" to "application/x-java-archive",
         "java" to "text/x-java-source,java",
         "jisp" to "application/vnd.jisp",
         "jlt" to "application/vnd.hp-jlyt",

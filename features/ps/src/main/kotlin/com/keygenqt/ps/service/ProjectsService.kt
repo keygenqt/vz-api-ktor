@@ -21,6 +21,7 @@ import com.keygenqt.ps.db.models.*
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
 import org.jetbrains.exposed.sql.SizedCollection
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 
 class ProjectsService(
@@ -42,6 +43,7 @@ class ProjectsService(
         ProjectEntity
             .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
             .all()
+            .orderBy(Pair(Projects.createAt, SortOrder.DESC))
             .toProjects()
     }
 
@@ -54,6 +56,7 @@ class ProjectsService(
         ProjectEntity
             .isHas(ProjectEntity::isLike) { (LikesProject.key eq connectKey) }
             .find { (Projects.isPublished eq true) }
+            .orderBy(Pair(Projects.createAt, SortOrder.DESC))
             .toProjects()
     }
 
@@ -95,6 +98,9 @@ class ProjectsService(
         title: String?,
         url: String?,
         urlGitHub: String?,
+        urlSnapcraft: String?,
+        urlDownload: String?,
+        urlYouTube: String?,
         description: String?,
         isPublished: Boolean?,
         uploads: List<Int>
@@ -105,6 +111,9 @@ class ProjectsService(
             title?.let { this.title = title }
             url?.let { this.url = url }
             urlGitHub?.let { this.urlGitHub = urlGitHub }
+            urlSnapcraft?.let { this.urlSnapcraft = urlSnapcraft }
+            urlDownload?.let { this.urlDownload = urlDownload }
+            urlYouTube?.let { this.urlYouTube = urlYouTube }
             description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
@@ -124,6 +133,9 @@ class ProjectsService(
         title: String?,
         url: String?,
         urlGitHub: String?,
+        urlSnapcraft: String?,
+        urlDownload: String?,
+        urlYouTube: String?,
         description: String?,
         isPublished: Boolean?,
         uploads: List<Int>
@@ -134,6 +146,9 @@ class ProjectsService(
             title?.let { this.title = title }
             url?.let { this.url = url }
             urlGitHub?.let { this.urlGitHub = urlGitHub }
+            urlSnapcraft?.let { this.urlSnapcraft = urlSnapcraft }
+            urlDownload?.let { this.urlDownload = urlDownload }
+            urlYouTube?.let { this.urlYouTube = urlYouTube }
             description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
