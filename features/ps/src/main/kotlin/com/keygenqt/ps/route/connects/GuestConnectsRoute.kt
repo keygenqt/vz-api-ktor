@@ -30,7 +30,6 @@ fun Route.guestConnectsRoute() {
 
     route("/connects") {
         post {
-            call.checkRoleAdmin()
 
             val request = call.receiveValidate<ConnectRequest>(
                 "Error creating connect, please check the correctness of data entry"
