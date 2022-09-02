@@ -30,12 +30,18 @@ enum class ArticleCategory {
 }
 
 object Articles : IntIdTable() {
-    val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
-    val listImage = varchar("listImage", 255)
-    val viewImage = varchar("viewImage", 255)
+
     val title = varchar("title", 255)
     val description = varchar("description", 500)
     val content = text("content")
+
+    val titleRu = varchar("titleRu", 255).nullable()
+    val descriptionRu = varchar("descriptionRu", 500).nullable()
+    val contentRu = text("contentRu").nullable()
+
+    val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
+    val listImage = varchar("listImage", 255)
+    val viewImage = varchar("viewImage", 255)
     val isPublished = bool("isPublished").default(false)
     val createAt = long("createAt")
     val updateAt = long("updateAt")
@@ -47,12 +53,17 @@ object Articles : IntIdTable() {
 class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntSubQueryEntityClass<ArticleEntity>(Articles)
 
-    var category by Articles.category
-    var listImage by Articles.listImage
-    var viewImage by Articles.viewImage
     var title by Articles.title
     var description by Articles.description
     var content by Articles.content
+
+    var titleRu by Articles.titleRu
+    var descriptionRu by Articles.descriptionRu
+    var contentRu by Articles.contentRu
+
+    var category by Articles.category
+    var listImage by Articles.listImage
+    var viewImage by Articles.viewImage
     var isPublished by Articles.isPublished
     var createAt by Articles.createAt
     var updateAt by Articles.updateAt
@@ -64,12 +75,15 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
 @Serializable
 data class Article(
     val id: Int? = null,
-    val category: ArticleCategory,
-    val listImage: String,
-    val viewImage: String,
     val title: String,
     val description: String,
     val content: String,
+    val titleRu: String?,
+    val descriptionRu: String?,
+    val contentRu: String?,
+    val category: ArticleCategory,
+    val listImage: String,
+    val viewImage: String,
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
@@ -82,12 +96,15 @@ data class Article(
  */
 fun ArticleEntity.toArticle() = Article(
     id = id.value,
-    category = category,
-    listImage = listImage,
-    viewImage = viewImage,
     title = title,
     description = description,
     content = content,
+    titleRu = titleRu,
+    descriptionRu = descriptionRu,
+    contentRu = contentRu,
+    category = category,
+    listImage = listImage,
+    viewImage = viewImage,
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,

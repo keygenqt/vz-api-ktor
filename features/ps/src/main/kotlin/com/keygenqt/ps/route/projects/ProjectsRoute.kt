@@ -58,15 +58,17 @@ fun Route.projectsRoute() {
 
             call.respond(
                 projectsService.insert(
+                    title = request.title,
+                    description = request.description,
+                    titleRu = request.titleRu,
+                    descriptionRu = request.descriptionRu,
                     category = request.category,
                     publicImage = request.publicImage,
-                    title = request.title,
                     url = request.url,
                     urlGitHub = request.urlGitHub,
                     urlSnapcraft = request.urlSnapcraft,
                     urlDownload = request.urlDownload,
                     urlYouTube = request.urlYouTube,
-                    description = request.description,
                     isPublished = request.isPublished,
                     uploads = request.uploads
                 )
@@ -82,15 +84,17 @@ fun Route.projectsRoute() {
             call.respond(
                 projectsService.update(
                     id = call.getNumberParam(),
+                    title = request.title,
+                    description = request.description,
+                    titleRu = request.titleRu,
+                    descriptionRu = request.descriptionRu,
                     category = request.category,
                     publicImage = request.publicImage,
-                    title = request.title,
                     url = request.url,
                     urlGitHub = request.urlGitHub,
                     urlSnapcraft = request.urlSnapcraft,
                     urlDownload = request.urlDownload,
                     urlYouTube = request.urlYouTube,
-                    description = request.description,
                     isPublished = request.isPublished,
                     uploads = request.uploads
                 )

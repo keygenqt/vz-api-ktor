@@ -93,28 +93,32 @@ class ProjectsService(
      * Add model [Article]
      */
     suspend fun insert(
+        title: String?,
+        description: String?,
+        titleRu: String?,
+        descriptionRu: String?,
         category: ProjectCategory?,
         publicImage: String?,
-        title: String?,
         url: String?,
         urlGitHub: String?,
         urlSnapcraft: String?,
         urlDownload: String?,
         urlYouTube: String?,
-        description: String?,
         isPublished: Boolean?,
         uploads: List<Int>
     ): Project = db.transaction {
         ProjectEntity.new {
+            title?.let { this.title = title }
+            description?.let { this.description = description }
+            titleRu?.let { this.titleRu = titleRu }
+            descriptionRu?.let { this.descriptionRu = descriptionRu }
             category?.let { this.category = category }
             publicImage?.let { this.publicImage = publicImage }
-            title?.let { this.title = title }
             url?.let { this.url = url }
             urlGitHub?.let { this.urlGitHub = urlGitHub }
             urlSnapcraft?.let { this.urlSnapcraft = urlSnapcraft }
             urlDownload?.let { this.urlDownload = urlDownload }
             urlYouTube?.let { this.urlYouTube = urlYouTube }
-            description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
             this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
@@ -128,28 +132,32 @@ class ProjectsService(
      */
     suspend fun update(
         id: Int,
+        title: String?,
+        description: String?,
+        titleRu: String?,
+        descriptionRu: String?,
         category: ProjectCategory?,
         publicImage: String?,
-        title: String?,
         url: String?,
         urlGitHub: String?,
         urlSnapcraft: String?,
         urlDownload: String?,
         urlYouTube: String?,
-        description: String?,
         isPublished: Boolean?,
         uploads: List<Int>
     ): Project = db.transaction {
         ProjectEntity.findById(id)?.apply {
+            title?.let { this.title = title }
+            description?.let { this.description = description }
+            titleRu?.let { this.titleRu = titleRu }
+            descriptionRu?.let { this.descriptionRu = descriptionRu }
             category?.let { this.category = category }
             publicImage?.let { this.publicImage = publicImage }
-            title?.let { this.title = title }
             url?.let { this.url = url }
             urlGitHub?.let { this.urlGitHub = urlGitHub }
             urlSnapcraft?.let { this.urlSnapcraft = urlSnapcraft }
             urlDownload?.let { this.urlDownload = urlDownload }
             urlYouTube?.let { this.urlYouTube = urlYouTube }
-            description?.let { this.description = description }
             isPublished?.let { this.isPublished = isPublished }
 
             this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })

@@ -51,17 +51,155 @@ object InsertArticles {
             this.updateAt = "2022-09-01T12:50:40Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "Сложность"
             this.category = ArticleCategory.OTHER
             this.listImage = "$host/api/ps/file/${listImage?.fileName}"
             this.viewImage = "$host/api/ps/file/${viewImage?.fileName}"
 
-            // content
+            // content default
+            this.title = "Complexity"
             this.description = """
-                Часто, для решения задач недостаточно получить только результат, так же важно получить эффективный способ ее решения. Статья о сложностях в решаемых вами задачах.
+                Often, to solve problems, it is not enough to get only the result, it is also important to get an effective way to solve it. 
+                An article about the difficulties in the tasks you solve.
+            """.trimIndent()
+            this.content = """
+Have you ever been in a situation where the solved problem did not fit the conditions of time or use of resources?
+Often, to solve problems, it is not enough to get only the result, it is also important to get an effective way to solve it.
+Many programmers devote a lot of time to the efficiency of algorithms, reducing machine hours and thereby increasing their salary.
+
+Efficiency is expressed in the amount of time spent and memory allocated for the implementation.
+*Working time* is the most important parameter.
+Differences in the execution time of the optimal solution and the solution in the "forehead" can differ very significantly.
+*Memory allocations* is another important performance parameter.
+There is a high probability that if you do not fit in on time, it is unlikely that you will be able to meet from memory.
+Also, when solving a problem, you need to take into account the possibility of * reusing * code.
+The algorithm should be *easy to implement*, don't forget you or your colleague may still have to work with this code.
+
+### Asymptotic complexity
+
+The *asymptotic complexity* (or simply *complexity*) of an algorithm is defined by a function that indicates how the performance of the algorithm worsens as the problem becomes more complex.
+It is defined by a function, which is written in parentheses with the letter O.
+
+For example, `O(N²)`, or you can also write it like this `O(N^2)`, means that with an increase in the number of input data by 2 times, the execution will slow down by 4 times, by 3 times - it will slow down by 9 times.
+
+<div class="PrettyImage">
+  <img src="$host/api/ps/file/${articleImage1?.fileName}"/>
+</div>
+
+#### Complexity `O(1)`
+
+An algorithm with this performance runs in the same period of time, regardless of the number of elements.
+As a rule, we are talking about a limited range of commands, since for `O (1)` it is impossible even to sort through the incoming data.
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+console.log(arr[2]) // => 3
+```
+
+#### Complexity `O(log N)`
+
+Divides the number of elements by a fixed factor at each step.
+If it takes 1 second to calculate elements, it will take 2 seconds to calculate 10 elements, 3 seconds to calculate 100 elements, and so on.
+
+```javascript
+const count = 100
+for (let i = 1; i < count; i *= 2) {
+    console.log("Hey - I'm busy looking at: " + i);
+}
+```
+
+#### Complexity `O(N)`
+
+Complexity increases linearly with respect to the number of elements. That is, proportional to the number of elements.
+If it takes 1 second to calculate elements, it will take 10 seconds to calculate 10 elements, 100 to calculate 100 elements, and so on.
+
+```javascript
+const count = 100
+for (let i = 1; i < count; i++) {
+    console.log("Hey - I'm busy looking at: " + i);
+}
+```
+
+#### Complexity `O(N log N)`
+
+The algorithm performs an O(log N) operation and performs element processing at each step.
+It is any algorithm that repeatedly divides a dataset in half and then processes those halves independently with a sub algorithm,
+which has O(N) time complexity will have a total time complexity of `O(N log N)`.
+
+```javascript
+const count = 100
+for (let i = 1; i <= count; i++) {
+    for (let j = 1; j < count; j = j * 2) {
+        console.log("Hey - I'm busy looking at: " + i + " and " + j);
+    }
+}
+```
+
+#### Complexity `O(N^2)`
+
+Iterate over each element in which each element is iterated over for each element.
+Other powers of N are possible, such as `O(N^3)` or `O(N^4)`, and are much slower.
+
+```javascript
+const count = 100
+for (let i = 1; i <= count; i++) {
+    for (let j = 1; j <= count; j++) {
+        console.log("Hey - I'm busy looking at: " + i + " and " + j);
+    }
+}
+```
+
+#### Complexity `O(2^N)`
+
+Exponential function, increases with lightning speed is applicable for a narrow range of tasks.
+You can often notice a heuristic algorithm - giving an acceptable result, but not the best.
+
+```javascript
+const count = 100
+for (let i = 1; i <= Math.pow(2, count); i++) {
+    console.log("Hey - I'm busy looking at: " + i);
+}
+```
+
+#### Complexity `O(N!)`
+
+"N factorial". With a similar growth rate, functions tend to look for the optimal distribution of input data.
+It grows much faster than the exponential function `O(2^N)`.
+
+```javascript
+const count = 100
+
+const factorial = (num) => {
+    if (num < 0)
+        return -1;
+    else if (num === 0)
+        return 1;
+    else {
+        return (num * factorial(num - 1));
+    }
+}
+
+for (let i = 1; i <= factorial(count); i++) {
+    console.log("Hey - I'm busy looking at: " + i);
+}
+```
+
+### Pessimistic and medium difficulty
+
+Not all input parameters are the same, there is a problem with that.
+If the algorithm depends on the type of output data, it is difficult to compose an exact complexity function.
+In such situations, pessimistic complexity (worst-case complexity) or average complexity (average complexity) is most often used.
+In olympiad problems, the word "complexity" is usually understood as pessimistic complexity.
+In such cases, the worst result is taken from the possible variants of the incoming data.
             """.trimIndent()
 
-            this.content =
+            // content ru
+            this.titleRu = "Сложность"
+            this.descriptionRu = """
+                Часто, для решения задач недостаточно получить только результат, так же важно получить эффективный способ ее решения. 
+                Статья о сложностях в решаемых вами задачах.
+            """.trimIndent()
+
+            this.contentRu =
                 """
 Бывали ли в ситуации когда решенная задача не подходила по условиям времени или использования ресурсов?
 Часто, для решения задач недостаточно получить только результат, так же важно получить эффективный способ ее решения.

@@ -42,7 +42,6 @@ object InsertProjects {
             this.updateAt = "2020-03-08T00:00:00Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "Personal Site 1.0"
             this.category = ProjectCategory.WEB
             this.publicImage = "$host/api/ps/file/${publicImage?.fileName}"
 
@@ -53,9 +52,13 @@ object InsertProjects {
             this.urlDownload = ""
             this.urlYouTube = ""
 
-            // content
-            this.description =
-                "My first personal site. Keep for history. Written in Yii2, PHP."
+            // content default
+            this.title = "Personal Site 1.0"
+            this.description = "My first personal site. Keep for history. Written in Yii2, PHP."
+
+            // content ru
+            this.titleRu = "Personal Site 1.0"
+            this.descriptionRu = "Мой персональный сайт 1.0. Решил сохранить для истории. Написан на Yii2, PHP."
         }
     }
 
@@ -78,7 +81,6 @@ object InsertProjects {
             this.updateAt = "2022-07-14T00:00:00Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "Personal Site 2.0"
             this.category = ProjectCategory.WEB
             this.publicImage = "$host/api/ps/file/${publicImage?.fileName}"
 
@@ -89,9 +91,13 @@ object InsertProjects {
             this.urlDownload = ""
             this.urlYouTube = ""
 
-            // content
-            this.description =
-                "My personal site 2.0. Open, modern, informative. Written in React, JS."
+            // content default
+            this.title = "Personal Site 2.0"
+            this.description = "My personal site 2.0. Open, modern, informative. Written in React, JS."
+
+            // content ru
+            this.titleRu = "Personal Site 2.0"
+            this.descriptionRu = "Мой личный сайт 2.0. Открыто, современно, информативно. Написано на React, JS."
         }
     }
 
@@ -114,7 +120,6 @@ object InsertProjects {
             this.updateAt = "2022-07-17T00:00:00Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "Adminka"
             this.category = ProjectCategory.WEB
             this.publicImage = "$host/api/ps/file/${publicImage?.fileName}"
 
@@ -125,9 +130,13 @@ object InsertProjects {
             this.urlDownload = ""
             this.urlYouTube = ""
 
-            // content
-            this.description =
-                "My admin panel for all open source projects. Written in React, JS."
+            // content default
+            this.title = "Adminka"
+            this.description = "My admin panel for all open source projects. Written in React, JS."
+
+            // content ru
+            this.titleRu = "Adminka"
+            this.descriptionRu = "Моя админка для всех проектов с открытым исходным кодом. Написано на React, JS."
         }
     }
 
@@ -150,7 +159,6 @@ object InsertProjects {
             this.updateAt = "2022-07-17T00:00:00Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "My API"
             this.category = ProjectCategory.WEB
             this.publicImage = "$host/api/ps/file/${publicImage?.fileName}"
 
@@ -161,9 +169,13 @@ object InsertProjects {
             this.urlDownload = ""
             this.urlYouTube = ""
 
-            // content
-            this.description =
-                "My API for all open source projects. Written in Ktor, Kotlin."
+            // content default
+            this.title = "My API"
+            this.description = "My API for all open source projects. Written in Ktor, Kotlin."
+
+            // content ru
+            this.titleRu = "My API"
+            this.descriptionRu = "Мой API для всех проектов с открытым исходным кодом. Написано на Ktor, Kotlin."
         }
     }
 
@@ -186,7 +198,6 @@ object InsertProjects {
             this.updateAt = "2021-01-24T00:00:00Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "Changeln"
             this.category = ProjectCategory.OTHER
             this.publicImage = "$host/api/ps/file/${publicImage?.fileName}"
 
@@ -197,9 +208,13 @@ object InsertProjects {
             this.urlDownload = "https://github.com/keygenqt/ChangelnCLI/raw/master/data/changeln-1.0.6.pyz"
             this.urlYouTube = ""
 
-            // content
-            this.description =
-                "Generate changelog from git to markdown, html, pdf. Written in Click, Python."
+            // content default
+            this.title = "Changeln"
+            this.description = "Generate changelog from git to markdown, html, pdf. Written in Click, Python."
+
+            // content ru
+            this.titleRu = "Changeln"
+            this.descriptionRu = "Генерация журнал изменений с git на markdown, html, pdf. Написано в Click, Python."
         }
     }
 
@@ -222,7 +237,6 @@ object InsertProjects {
             this.updateAt = "2021-09-02T00:00:00Z".toInstant().epochSeconds * 1000
 
             // info
-            this.title = "Autoway"
             this.category = ProjectCategory.OTHER
             this.publicImage = "$host/api/ps/file/${publicImage?.fileName}"
 
@@ -233,9 +247,13 @@ object InsertProjects {
             this.urlDownload = "https://github.com/keygenqt/api-Autoway/raw/master/data/release/Autoway-0.0.1-all.jar"
             this.urlYouTube = "https://youtu.be/HHQzB457xmI"
 
-            // content
-            this.description =
-                "Replacing mocks with a full-fledged REST backend. Written in Kotlinx-CLI, Kotlin."
+            // content default
+            this.title = "Autoway"
+            this.description = "Replacing mocks with a full-fledged REST backend. Written in Kotlinx-CLI, Kotlin."
+
+            // content ru
+            this.titleRu = "Autoway"
+            this.descriptionRu = "Замена моков на автогенериющийся из миграций REST-бэкенд. Написано в Kotlinx-CLI, Kotlin."
         }
     }
 }

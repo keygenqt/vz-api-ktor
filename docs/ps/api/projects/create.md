@@ -16,15 +16,17 @@ Method: <code>POST</code>
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f518.png"/> &nbsp;
 <b>Parameters</b>
 
+* <code>title</code> - title project, *required*
+* <code>description</code> - short description, *required*
+* <code>titleRu</code> - title project, *optional*
+* <code>descriptionRu</code> - short description, *optional*
 * <code>category</code> - ANDROID, WEB, IOS, OTHER, *required*
 * <code>publicImage</code> - url image, *required*
-* <code>title</code> - title article, *required*
 * <code>url</code> - url to website project, *optional*
 * <code>urlGitHub</code> - url to website project, *optional*
 * <code>urlSnapcraft</code> - url to website project, *optional*
 * <code>urlDownload</code> - url to website project, *optional*
 * <code>urlYouTube</code> - url to website project, *optional*
-* <code>description</code> - short description, *required*
 * <code>isPublished</code> - is public on website, *required*
 * <code>uploads</code> - ids uploads for relations, *required*
 
@@ -37,15 +39,17 @@ await fetch('/api/ps/projects', {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+        title: 'Title',
+        description: 'Description',
+        titleRu: 'Title',
+        descriptionRu: 'Description',
         category: 'OTHER',
         publicImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
-        title: 'Title',
         url: 'https://api.keygenqt.com/',
         urlGitHub: 'https://github.com/keygenqt',
         urlSnapcraft: 'https://snapcraft.io/',
         urlDownload: 'https://keygenqt.com/files/601076d399c15.zip',
         urlYouTube: 'https://www.youtube.com/',
-        description: 'Description',
         isPublished: false,
         uploads: [1, 2, 3], // ids uploads for relations
     })
@@ -72,15 +76,17 @@ HTTP response status codes
 ```
 {
     "id": 1,
+    "title": "Title",
+    "description": "Description",
+    "titleRu": "Title",
+    "descriptionRu": "Description",
     "category": "OTHER",
     "publicImage": "https://keygenqt.com/images/blog/61337b11b1300.jpg",
-    "title": "Title",
     "url": "https://api.keygenqt.com/",
     "urlGitHub": "https://github.com/keygenqt",
     "urlSnapcraft": 'https://snapcraft.io/',
     "urlDownload": 'https://keygenqt.com/files/601076d399c15.zip',
     "urlYouTube": 'https://www.youtube.com/',
-    "description": "Description",
     "isPublished": false,
     "createAt": 1661533680528,
     "updateAt": 1661533680528,

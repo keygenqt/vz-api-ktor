@@ -15,6 +15,7 @@
  */
 package com.keygenqt.ps.route.projects.elements
 
+import com.keygenqt.core.validators.NotBlank
 import com.keygenqt.core.validators.NotNullNotBlank
 import com.keygenqt.ps.db.models.ProjectCategory
 import jakarta.validation.constraints.NotNull
@@ -29,16 +30,28 @@ import org.hibernate.validator.constraints.URL
 data class ProjectRequest(
     val id: Int? = null,
 
+    @field:NotNullNotBlank
+    @field:Size(min = 3, max = 255, message = "Size must be between 3 and 255")
+    val title: String? = null,
+
+    @field:NotNullNotBlank
+    @field:Size(min = 3, max = 500, message = "Size must be between 3 and 500")
+    val description: String? = null,
+
+    @field:NotBlank(message = "Must not be blank")
+    @field:Size(max = 255, message = "Size must be between 3 and 255")
+    val titleRu: String? = null,
+
+    @field:NotBlank(message = "Must not be blank")
+    @field:Size(max = 500, message = "Size must be between 3 and 500")
+    val descriptionRu: String? = null,
+
     @field:NotNull(message = "Select category required")
     val category: ProjectCategory? = null,
 
     @field:NotNullNotBlank
     @field:URL(message = "Must be a valid URL")
     val publicImage: String? = null,
-
-    @field:NotNullNotBlank
-    @field:Size(min = 3, max = 255, message = "Size must be between 3 and 255")
-    val title: String? = null,
 
     @field:URL(message = "Must be a valid URL")
     @field:Size(max = 255, message = "Must be less than or equal to 255")
@@ -59,10 +72,6 @@ data class ProjectRequest(
     @field:URL(message = "Must be a valid URL")
     @field:Size(max = 255, message = "Must be less than or equal to 255")
     val urlYouTube: String? = null,
-
-    @field:NotNullNotBlank
-    @field:Size(min = 3, max = 500, message = "Size must be between 3 and 500")
-    val description: String? = null,
 
     @field:NotNull(message = "Must not be null")
     val isPublished: Boolean? = null,

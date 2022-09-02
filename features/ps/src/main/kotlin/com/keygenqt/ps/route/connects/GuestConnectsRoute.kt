@@ -16,7 +16,6 @@
 package com.keygenqt.ps.route.connects
 
 import com.keygenqt.core.extension.receiveValidate
-import com.keygenqt.ps.extension.checkRoleAdmin
 import com.keygenqt.ps.route.connects.elements.ConnectRequest
 import com.keygenqt.ps.service.ConnectsService
 import io.ktor.http.*
@@ -30,7 +29,6 @@ fun Route.guestConnectsRoute() {
 
     route("/connects") {
         post {
-
             val request = call.receiveValidate<ConnectRequest>(
                 "Error creating connect, please check the correctness of data entry"
             )

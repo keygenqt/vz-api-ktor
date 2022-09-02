@@ -17,6 +17,8 @@ package com.keygenqt.ps.db.models
 
 import com.keygenqt.core.db.IntSubQueryEntityClass
 import com.keygenqt.core.db.IntSubQueryEntityClass.Companion.isHas
+import com.keygenqt.ps.db.models.Articles.default
+import com.keygenqt.ps.db.models.Articles.nullable
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.id.EntityID
@@ -30,15 +32,19 @@ enum class ProjectCategory {
 }
 
 object Projects : IntIdTable() {
+    val title = varchar("title", 255)
+    val description = varchar("description", 255)
+
+    val titleRu = varchar("titleRu", 255).nullable()
+    val descriptionRu = varchar("descriptionRu", 255).nullable()
+
     val category = enumeration("category", ProjectCategory::class).default(ProjectCategory.OTHER)
     val publicImage = varchar("publicImage", 255)
-    val title = varchar("title", 255)
     val url = varchar("url", 255).default("")
     val urlGitHub = varchar("urlGitHub", 255).default("")
     val urlSnapcraft = varchar("urlSnapcraft", 255).default("")
     val urlDownload = varchar("urlDownload", 255).default("")
     val urlYouTube = varchar("urlYouTube", 255).default("")
-    val description = varchar("description", 255)
     val isPublished = bool("isPublished").default(false)
     val createAt = long("createAt")
     val updateAt = long("updateAt")
@@ -50,15 +56,18 @@ object Projects : IntIdTable() {
 class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntSubQueryEntityClass<ProjectEntity>(Projects)
 
+    var title by Projects.title
+    var description by Projects.description
+    var titleRu by Projects.titleRu
+    var descriptionRu by Projects.descriptionRu
+
     var category by Projects.category
     var publicImage by Projects.publicImage
-    var title by Projects.title
     var url by Projects.url
     var urlGitHub by Projects.urlGitHub
     var urlSnapcraft by Projects.urlSnapcraft
     var urlDownload by Projects.urlDownload
     var urlYouTube by Projects.urlYouTube
-    var description by Projects.description
     var isPublished by Projects.isPublished
     var createAt by Projects.createAt
     var updateAt by Projects.updateAt
@@ -70,15 +79,17 @@ class ProjectEntity(id: EntityID<Int>) : IntEntity(id) {
 @Serializable
 data class Project(
     val id: Int? = null,
+    val title: String,
+    val description: String,
+    val titleRu: String?,
+    val descriptionRu: String?,
     val category: ProjectCategory,
     val publicImage: String,
-    val title: String,
     val url: String,
     val urlGitHub: String,
     val urlSnapcraft: String,
     val urlDownload: String,
     val urlYouTube: String,
-    val description: String,
     val isPublished: Boolean,
     val createAt: Long,
     val updateAt: Long,
@@ -91,15 +102,17 @@ data class Project(
  */
 fun ProjectEntity.toProject() = Project(
     id = id.value,
+    title = title,
+    description = description,
+    titleRu = titleRu,
+    descriptionRu = descriptionRu,
     category = category,
     publicImage = publicImage,
-    title = title,
     url = url,
     urlGitHub = urlGitHub,
     urlSnapcraft = urlSnapcraft,
     urlDownload = urlDownload,
     urlYouTube = urlYouTube,
-    description = description,
     isPublished = isPublished,
     createAt = createAt,
     updateAt = updateAt,

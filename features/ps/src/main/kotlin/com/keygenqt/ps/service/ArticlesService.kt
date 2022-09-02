@@ -93,22 +93,28 @@ class ArticlesService(
      * Add model [Article]
      */
     suspend fun insert(
-        category: ArticleCategory?,
-        listImage: String?,
-        viewImage: String?,
         title: String?,
         description: String?,
         content: String?,
+        titleRu: String?,
+        descriptionRu: String?,
+        contentRu: String?,
+        category: ArticleCategory?,
+        listImage: String?,
+        viewImage: String?,
         isPublished: Boolean?,
         uploads: List<Int>
     ): Article = db.transaction {
         ArticleEntity.new {
-            category?.let { this.category = category }
-            listImage?.let { this.listImage = listImage }
-            viewImage?.let { this.viewImage = viewImage }
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
+            titleRu?.let { this.titleRu = titleRu }
+            descriptionRu?.let { this.descriptionRu = descriptionRu }
+            contentRu?.let { this.contentRu = contentRu }
+            category?.let { this.category = category }
+            listImage?.let { this.listImage = listImage }
+            viewImage?.let { this.viewImage = viewImage }
             isPublished?.let { this.isPublished = isPublished }
 
             this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })
@@ -122,22 +128,28 @@ class ArticlesService(
      */
     suspend fun update(
         id: Int,
-        category: ArticleCategory?,
-        listImage: String?,
-        viewImage: String?,
         title: String?,
         description: String?,
         content: String?,
+        titleRu: String?,
+        descriptionRu: String?,
+        contentRu: String?,
+        category: ArticleCategory?,
+        listImage: String?,
+        viewImage: String?,
         isPublished: Boolean?,
         uploads: List<Int>
     ): Article = db.transaction {
         ArticleEntity.findById(id)?.apply {
-            category?.let { this.category = category }
-            listImage?.let { this.listImage = listImage }
-            viewImage?.let { this.viewImage = viewImage }
             title?.let { this.title = title }
             description?.let { this.description = description }
             content?.let { this.content = content }
+            titleRu?.let { this.titleRu = titleRu }
+            descriptionRu?.let { this.descriptionRu = descriptionRu }
+            contentRu?.let { this.contentRu = contentRu }
+            category?.let { this.category = category }
+            listImage?.let { this.listImage = listImage }
+            viewImage?.let { this.viewImage = viewImage }
             isPublished?.let { this.isPublished = isPublished }
 
             this.uploads = SizedCollection(uploads.mapNotNull { UploadEntity.findById(it) })

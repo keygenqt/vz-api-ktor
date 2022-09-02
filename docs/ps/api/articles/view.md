@@ -35,12 +35,15 @@ HTTP response status codes
 ```
 {
     "id": 1,
-    "category": "OTHER",
-    "listImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
-    "viewImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
     "title": "Title",
     "description": "Description",
     "content": "Content",
+    "titleRu": "Title",
+    "descriptionRu": "Description",
+    "contentRu": "Content",
+    "category": "OTHER",
+    "listImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
+    "viewImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
     "isPublished": false,
     "isLike": false,
     "uploads": [

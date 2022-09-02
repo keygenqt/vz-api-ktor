@@ -16,11 +16,14 @@ Method: <code>PUT</code>
 <img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f518.png"/> &nbsp;
 <b>Parameters</b>
 
-* <code>category</code> - ANDROID, WEB, IOS, OTHER, *required*
-* <code>publicImage</code> - url image, *required*
 * <code>title</code> - title article, *required*
 * <code>description</code> - short description, *required*
 * <code>content</code> - content article, *required*
+* <code>titleRu</code> - title article, *optional*
+* <code>descriptionRu</code> - short description, *optional*
+* <code>contentRu</code> - content article, *optional*
+* <code>category</code> - ANDROID, WEB, IOS, OTHER, *required*
+* <code>publicImage</code> - url image, *required*
 * <code>isPublished</code> - is public on website, *required*
 * <code>uploads</code> - ids uploads for relations, *required*
 
@@ -33,12 +36,15 @@ await fetch('/api/ps/articles/{ID}', {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        category: 'OTHER',
-        listImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
-        viewImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
         title: 'Title',
         description: 'Description',
         content: 'Content',
+        titleRu: 'Title',
+        descriptionRu: 'Description',
+        contentRu: 'Content',
+        category: 'OTHER',
+        listImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
+        viewImage: 'https://keygenqt.com/images/blog/601076d399c15.jpg',
         isPublished: false,
         uploads: [1, 2, 3], // ids uploads for relations
     })
@@ -66,12 +72,15 @@ HTTP response status codes
 ```
 {
     "id": 1,
-    "category": "OTHER",
-    "listImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
-    "viewImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
     "title": "Title",
     "description": "Description",
     "content": "Content",
+    "titleRu": "Title",
+    "descriptionRu": "Description",
+    "contentRu": "Content",
+    "category": "OTHER",
+    "listImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
+    "viewImage": "https://keygenqt.com/images/blog/601076d399c15.jpg",
     "isPublished": false,
     "uploads": [
         {
