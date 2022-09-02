@@ -33,19 +33,22 @@ import java.io.File
 import java.util.*
 
 fun Route.uploadRoute() {
-
     val uploadsService: UploadsService by inject()
 
     route("/file") {
+        get("/uploads") {
+            call.respond(
+                uploadsService.getAll()
+            )
+        }
         post("/upload") {
-
             call.checkRoleAdmin()
 
+            val uploads = mutableListOf<Upload>()
             val multipart = call.receiveMultipart()
 
             multipart.forEachPart { part ->
                 if (part is PartData.FileItem) {
-
                     println(part.contentType)
 
                     val upload = Upload(
@@ -62,7 +65,7 @@ fun Route.uploadRoute() {
                         }
                     }
 
-                    call.respond(
+                    uploads.add(
                         uploadsService.insert(
                             fileName = upload.fileName,
                             fileMime = upload.fileMime,
@@ -70,10 +73,19 @@ fun Route.uploadRoute() {
                         )
                     )
                 }
+
                 part.dispose()
             }
 
-            throw AppException.Error400("Error upload file")
+            if (uploads.isNotEmpty()) {
+                if (uploads.size == 1) {
+                    call.respond(uploads.first())
+                } else {
+                    call.respond(call.respond(uploads))
+                }
+            } else {
+                throw AppException.Error400("Error upload file")
+            }
         }
 
         delete("/{name}") {

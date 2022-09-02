@@ -16,7 +16,6 @@
 package com.keygenqt.core.utils
 
 import com.keygenqt.core.exceptions.AppException
-import com.keygenqt.core.utils.ConstantsMime.toExtension
 import io.ktor.http.*
 
 object ConstantsMime {
@@ -37,6 +36,7 @@ object ConstantsMime {
      * Mimes
      */
     private val CONSTANTS_EXT_MIME_FILES = hashMapOf(
+        "xcf" to "image/x-xcf",
         "heic" to "image/heic",
         "heif" to "image/heif",
         "cod" to "image/cis-cod",
@@ -86,7 +86,7 @@ object ConstantsMime {
         "bdm" to "application/vnd.syncml.dm+wbxml",
         "bed" to "application/vnd.realvnc.bed",
         "bh2" to "application/vnd.fujitsu.oasysprs",
-        "bin" to "application/octet-stream",
+        "pyz" to "application/octet-stream",
         "bmi" to "application/vnd.bmi",
         "bmp" to "image/bmp",
         "box" to "application/vnd.previewsystems.box",

@@ -25,6 +25,8 @@ import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.articles.guestArticlesRoute
 import com.keygenqt.ps.route.auth.authRoute
+import com.keygenqt.ps.route.connects.connectsRoute
+import com.keygenqt.ps.route.connects.guestConnectsRoute
 import com.keygenqt.ps.route.dashboard.dashboardRoute
 import com.keygenqt.ps.route.projects.guestProjectsRoute
 import com.keygenqt.ps.route.projects.projectsRoute
@@ -70,6 +72,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 single { UploadsService(db) }
                 single { LikesArticleService(db) }
                 single { LikesProjectService(db) }
+                single { ConnectsService(db) }
 
                 // GitHub services
                 HttpClient(CIO) {
@@ -108,12 +111,14 @@ class ConfiguratorPS : ConfiguratorApp() {
                 guestUploadRoute()
                 guestArticlesRoute()
                 guestProjectsRoute()
+                guestConnectsRoute()
             }
             authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {
                     uploadRoute()
                     dashboardRoute()
                     articlesRoute()
+                    connectsRoute()
                     projectsRoute()
                 }
             }

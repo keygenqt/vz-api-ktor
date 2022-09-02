@@ -15,9 +15,10 @@
  */
 package com.keygenqt.ps.db.models
 
+import com.keygenqt.core.db.IntSubQueryEntityClass
+import com.keygenqt.core.db.IntSubQueryEntityClass.Companion.isHas
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
@@ -32,12 +33,15 @@ object Uploads : IntIdTable() {
  * Exposed entity
  */
 class UploadEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<UploadEntity>(Uploads)
+    companion object : IntSubQueryEntityClass<UploadEntity>(Uploads)
 
     var fileName by Uploads.fileName
     var fileMime by Uploads.fileMime
     var originalFileName by Uploads.originalFileName
     var createAt by Uploads.createAt
+
+    val isRelationArticle by Boolean isHas ArticleUploads.upload
+    val isRelationProject by Boolean isHas ProjectUploads.upload
 }
 
 @Serializable
@@ -46,7 +50,9 @@ data class Upload(
     val fileName: String,
     val fileMime: String,
     val originalFileName: String,
-    val createAt: Long? = null
+    val createAt: Long? = null,
+    val isRelationArticle: Boolean? = null,
+    val isRelationProject: Boolean? = null
 )
 
 /**
@@ -57,7 +63,9 @@ fun UploadEntity.toUpload() = Upload(
     fileName = fileName,
     fileMime = fileMime,
     originalFileName = originalFileName,
-    createAt = createAt
+    createAt = createAt,
+    isRelationArticle = isRelationArticle,
+    isRelationProject = isRelationProject
 )
 
 /**

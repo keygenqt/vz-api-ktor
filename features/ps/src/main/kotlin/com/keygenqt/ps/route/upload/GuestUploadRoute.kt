@@ -26,7 +26,6 @@ import org.koin.ktor.ext.inject
 import java.io.File
 
 fun Route.guestUploadRoute() {
-
     val uploadsService: UploadsService by inject()
 
     route("/file") {

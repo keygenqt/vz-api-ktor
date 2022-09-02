@@ -17,15 +17,17 @@ package com.keygenqt.ps.service
 
 import com.keygenqt.core.db.DatabaseMysql
 import com.keygenqt.ps.db.models.*
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.deleteWhere
 
 class UploadsService(
-    private val db: DatabaseMysql,
+    private val db: DatabaseMysql
 ) {
     /**
      * Get all models
      */
     suspend fun getAll(): List<Upload> = db.transaction {
-        UploadEntity.all().toUploads()
+        UploadEntity.all().orderBy(Pair(Uploads.createAt, SortOrder.DESC)).toUploads()
     }
 
     /**
@@ -55,7 +57,7 @@ class UploadsService(
     suspend fun insert(
         fileName: String?,
         fileMime: String?,
-        originalFileName: String?,
+        originalFileName: String?
     ): Upload = db.transaction {
         UploadEntity.new {
             fileName?.let { this.fileName = fileName }
@@ -70,8 +72,16 @@ class UploadsService(
      * Delete by [Uploads.fileName]
      */
     suspend fun deleteByFileName(
-        fileName: String,
+        fileName: String
     ) = db.transaction {
-        UploadEntity.find { (Uploads.fileName eq fileName) }.firstOrNull()?.delete()
+        val upload = UploadEntity
+            .find { (Uploads.fileName eq fileName) }
+            .firstOrNull()
+
+        if (upload != null) {
+            ArticleUploads.deleteWhere { ArticleUploads.upload eq upload.id }
+            ProjectUploads.deleteWhere { ProjectUploads.upload eq upload.id }
+            upload.delete()
+        }
     }
 }

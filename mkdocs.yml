@@ -31,8 +31,13 @@ nav:
         - 'Update': ps/api/projects/update.md
         - 'Like': ps/api/projects/like.md
         - 'Unlike': ps/api/projects/unlike.md
+      - 'Connects':
+          - 'Get Models': ps/api/connects/list.md
+          - 'Create': ps/api/connects/create.md
+          - 'Update': ps/api/connects/update.md
       - 'Uploads':
         - 'Get File': ps/api/uploads/get.md
+        - 'Get Files': ps/api/uploads/list.md
         - 'Upload Files': ps/api/uploads/upload.md
         - 'Delete File': ps/api/uploads/delete.md
     - 'Dokka': /api/features/ps/

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2022 Vitaliy Zarubin
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.keygenqt.ps.db.inserts
 
 import com.keygenqt.ps.db.models.ArticleCategory
@@ -13,7 +28,7 @@ object InsertArticles {
      */
     fun insertAsymptoticComplexity(
         dirFiles: String,
-        host: String,
+        host: String
     ) {
         val listImage = dirFiles.createFileUploadArticle("list.jpg")
         val viewImage = dirFiles.createFileUploadArticle("view.jpg")
@@ -21,14 +36,13 @@ object InsertArticles {
         val articleImage1 = dirFiles.createFileUploadArticle("article_1.jpg")
 
         ArticleEntity.new {
-
             // base
             this.isPublished = true
             this.uploads = SizedCollection(
                 *listOfNotNull(
                     listImage,
                     viewImage,
-                    articleImage1,
+                    articleImage1
                 ).toTypedArray()
             )
 
@@ -69,7 +83,7 @@ object InsertArticles {
 Например `O(N²)`, или еще можно записать так `O(N^2)`, означает что при увеличении количества входных данных в 2 раза выполнение замедлится в 4 раза, в 3 раза - замедлится в 9 раз.
 
 <div class="PrettyImage">
-  <img src="${host}/api/ps/file/${articleImage1?.fileName}"/>
+  <img src="$host/api/ps/file/${articleImage1?.fileName}"/>
 </div>
 
 #### Сложность `O(1)`
@@ -177,7 +191,7 @@ for (let i = 1; i <= factorial(count); i++) {
 В олимпиадных задачах под словом “сложность” обычно понимают пессимистичную сложность.
 В таких случаях берется худший результат из возможных вариантов поступающих данных.
 
-            """.trimIndent()
+                """.trimIndent()
         }
     }
 }
