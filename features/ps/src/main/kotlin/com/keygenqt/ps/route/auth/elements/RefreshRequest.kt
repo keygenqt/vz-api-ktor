@@ -18,7 +18,7 @@ package com.keygenqt.ps.route.auth.elements
 import kotlinx.serialization.Serializable
 
 /**
- * Route request auth
+ * Route request refresh token
  */
 @Serializable
 data class RefreshRequest(

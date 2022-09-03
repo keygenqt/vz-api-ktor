@@ -24,7 +24,7 @@ import kotlinx.serialization.Serializable
 import org.hibernate.validator.constraints.URL
 
 /**
- * Route request auth
+ * Route request article
  */
 @Serializable
 data class ArticleRequest(

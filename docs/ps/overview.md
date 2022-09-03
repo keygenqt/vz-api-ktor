@@ -21,7 +21,7 @@ list models, get view model, update model, create model, upload files.
 #### Other
 * [Serialization](https://kotlinlang.org/docs/serialization.html)
 * Upload files, files management
-* Ktor client for GitHub API
+* Ktor client for [GitHub API](https://docs.github.com/en/rest)
 * Execution requests to the server
 * Migrations with uploads files
 * Roles Guest, Admin

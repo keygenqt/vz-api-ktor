@@ -20,7 +20,7 @@ import jakarta.validation.constraints.Email
 import kotlinx.serialization.Serializable
 
 /**
- * Route request auth
+ * Route request connect
  */
 @Serializable
 data class ConnectRequest(
