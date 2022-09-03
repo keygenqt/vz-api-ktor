@@ -20,7 +20,13 @@ list models, get view model, update model, create model, upload files.
 
 #### Other
 * [Serialization](https://kotlinlang.org/docs/serialization.html)
-
+* Upload files, files management
+* Ktor client for GitHub API
+* Execution requests to the server
+* Migrations with uploads files
+* Roles Guest, Admin
+* Validation request [Jakarta](https://beanvalidation.org/)
+* DI - [Koin](https://insert-koin.io/)
 
 ## Preview projects
 
@@ -29,17 +35,21 @@ list models, get view model, update model, create model, upload files.
 * [To Project](https://version2.keygenqt.com/)
 * [GitHub](https://github.com/keygenqt/vz-site-react)
 
-![alt text](https://github.com/keygenqt/vz-api-ktor/blob/main/data/ps/website-preview.png?raw=true)
+![alt text](https://github.com/keygenqt/vz-site-react/blob/main/data/preview-1000.png?raw=true)
 
 #### Admin Panel
 
 * [To Project](https://adminka.keygenqt.com/)
 * [GitHub](https://github.com/keygenqt/vz-site-admin-react)
 
-![alt text](https://github.com/keygenqt/vz-api-ktor/blob/main/data/ps/adminka-preview.png?raw=true)
+![alt text](https://github.com/keygenqt/vz-site-admin-react/blob/main/data/preview-1000.png?raw=true)
 
 <style>
   .md-content__button {
     display: none;
+  }
+  img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
   }
 </style>
