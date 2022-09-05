@@ -28,11 +28,12 @@ object InsertArticles {
      */
     fun insertAsymptoticComplexity(
         dirFiles: String,
-        host: String
+        host: String,
     ) {
         val listImage = dirFiles.createFileUploadArticle("list.jpg")
         val viewImage = dirFiles.createFileUploadArticle("view.jpg")
 
+        val articleImage0 = dirFiles.createFileUploadArticle("06d97c0e5102ced1db05ada3cb55b4c1.jpg")
         val articleImage1 = dirFiles.createFileUploadArticle("article_1.jpg")
 
         ArticleEntity.new {
@@ -58,21 +59,25 @@ object InsertArticles {
             // content default
             this.title = "Complexity"
             this.description = """
-                Often, to solve problems, it is not enough to get only the result, it is also important to get an effective way to solve it. 
-                An article about the difficulties in the tasks you solve.
+                 Often, to solve problems, it is not enough to get only the result, it is also important to get an effective way to solve it.
+                 An article about the difficulties in the tasks you solve.
             """.trimIndent()
             this.content = """
-Have you ever been in a situation where the solved problem did not fit the conditions of time or use of resources?
-Often, to solve problems, it is not enough to get only the result, it is also important to get an effective way to solve it.
-Many programmers devote a lot of time to the efficiency of algorithms, reducing machine hours and thereby increasing their salary.
+Have you ever been in a situation where the solved problem did not fit the conditions of execution time or resource usage?
+Often, to solve a problem, it is not enough to get only the result, it is also important to get an effective way to solve it.
+Many programmers devote a lot of time to finding an effective algorithm for solving a given problem,
+thereby reducing the resource consumption of the devices used and increasing your salary :v:
+
+![Sink about it]($host/api/ps/file/${articleImage0?.fileName})
+
+### Efficiency
 
 Efficiency is expressed in the amount of time spent and memory allocated for the implementation.
 *Working time* is the most important parameter.
 Differences in the execution time of the optimal solution and the solution in the "forehead" can differ very significantly.
 *Memory allocations* is another important performance parameter.
-There is a high probability that if you do not fit in on time, it is unlikely that you will be able to meet from memory.
-Also, when solving a problem, you need to take into account the possibility of * reusing * code.
-The algorithm should be *easy to implement*, don't forget you or your colleague may still have to work with this code.
+By the way, it is highly likely that if you do not meet the time, you are unlikely to be able to meet the memory.
+The algorithm should be *easy to implement*, be *reusable*, don't forget you or your colleague may still have to work with this code.
 
 ### Asymptotic complexity
 
@@ -85,7 +90,7 @@ For example, `O(N²)`, or you can also write it like this `O(N^2)`, means that w
   <img src="$host/api/ps/file/${articleImage1?.fileName}"/>
 </div>
 
-#### Complexity `O(1)`
+#### Function `O(1)`
 
 An algorithm with this performance runs in the same period of time, regardless of the number of elements.
 As a rule, we are talking about a limited range of commands, since for `O (1)` it is impossible even to sort through the incoming data.
@@ -95,10 +100,10 @@ const arr = [1, 2, 3, 4, 5];
 console.log(arr[2]) // => 3
 ```
 
-#### Complexity `O(log N)`
+#### Function `O(log N)`
 
-Divides the number of elements by a fixed factor at each step.
-If it takes 1 second to calculate elements, it will take 2 seconds to calculate 10 elements, 3 seconds to calculate 100 elements, and so on.
+The `O(log N)` performance algorithm divides the number of elements by a fixed factor at each step.
+For example, if it takes 1 second to calculate elements, it will take 2 seconds to calculate 10 elements, 3 seconds to calculate 100 elements, and so on.
 
 ```javascript
 const count = 100
@@ -107,9 +112,10 @@ for (let i = 1; i < count; i *= 2) {
 }
 ```
 
-#### Complexity `O(N)`
+#### Function `O(N)`
 
-Complexity increases linearly with respect to the number of elements. That is, proportional to the number of elements.
+An algorithm with this complexity grows linearly with respect to the number of elements.
+That is, proportional to the number of elements.
 If it takes 1 second to calculate elements, it will take 10 seconds to calculate 10 elements, 100 to calculate 100 elements, and so on.
 
 ```javascript
@@ -119,11 +125,11 @@ for (let i = 1; i < count; i++) {
 }
 ```
 
-#### Complexity `O(N log N)`
+#### Function `O(N log N)`
 
-The algorithm performs an O(log N) operation and performs element processing at each step.
-It is any algorithm that repeatedly divides a dataset in half and then processes those halves independently with a sub algorithm,
-which has O(N) time complexity will have a total time complexity of `O(N log N)`.
+An algorithm with such performance performs element processing at each step.
+Any algorithm that repeatedly divides a data set in half and then processes those halves independently with a sub algorithm,
+which has a time complexity of `O(N)` will have a total time complexity of `O(N log N)`.
 
 ```javascript
 const count = 100
@@ -134,10 +140,10 @@ for (let i = 1; i <= count; i++) {
 }
 ```
 
-#### Complexity `O(N^2)`
+#### Function `O(N^2)`
 
-Iterate over each element in which each element is iterated over for each element.
-Other powers of N are possible, such as `O(N^3)` or `O(N^4)`, and are much slower.
+The algorithm with `O(N^2)` performance performs an iteration of each element, where each element is iterated over each element.
+Other powers of N are possible, such as `O(N^3)` or `O(N^4)`, they are much slower.
 
 ```javascript
 const count = 100
@@ -148,10 +154,10 @@ for (let i = 1; i <= count; i++) {
 }
 ```
 
-#### Complexity `O(2^N)`
+#### Function `O(2^N)`
 
 Exponential function, increases with lightning speed is applicable for a narrow range of tasks.
-You can often notice a heuristic algorithm - giving an acceptable result, but not the best.
+You can often see on [heuristic algorithm](https://en.wikipedia.org/wiki/Heuristic_(computer_science)) - giving an acceptable result, but not the best.
 
 ```javascript
 const count = 100
@@ -160,7 +166,7 @@ for (let i = 1; i <= Math.pow(2, count); i++) {
 }
 ```
 
-#### Complexity `O(N!)`
+#### Function `O(N!)`
 
 "N factorial". With a similar growth rate, functions tend to look for the optimal distribution of input data.
 It grows much faster than the exponential function `O(2^N)`.
@@ -183,13 +189,13 @@ for (let i = 1; i <= factorial(count); i++) {
 }
 ```
 
-### Pessimistic and medium difficulty
+### Worst-case complexity and Average-case complexity
 
-Not all input parameters are the same, there is a problem with that.
-If the algorithm depends on the type of output data, it is difficult to compose an exact complexity function.
-In such situations, pessimistic complexity (worst-case complexity) or average complexity (average complexity) is most often used.
+The available data is not always the same and is performed with the same complexity.
+If the algorithm depends on the type of data, how to compose the exact complexity function?
+In such situations, [worst-case complexity](https://en.wikipedia.org/wiki/Worst-case_complexity) or [average-case complexity](https://en.wikipedia.org/wiki/Average-case_complexity) are most often used.
 In olympiad problems, the word "complexity" is usually understood as pessimistic complexity.
-In such cases, the worst result is taken from the possible variants of the incoming data.
+In such cases, the worst result is taken from the possible variants of the input data.
             """.trimIndent()
 
             // content ru
@@ -201,17 +207,21 @@ In such cases, the worst result is taken from the possible variants of the incom
 
             this.contentRu =
                 """
-Бывали ли в ситуации когда решенная задача не подходила по условиям времени или использования ресурсов?
-Часто, для решения задач недостаточно получить только результат, так же важно получить эффективный способ ее решения.
-Многие программисты уделяют много времени эффективности алгоритмов, сокращая машино-часы и увеличивая тем самым себе зарплату.
+Бывали ли в ситуации когда решенная задача не подходила по условиям времени выполнения или использования ресурсов?
+Часто, для решения задачи недостаточно получить только результат, так же важно получить эффективный способ ее решения.
+Многие программисты уделяют много времени поиску эффективного алгоритма решения поставленной задачи,
+тем самым сокращая потребление ресурсов используемых устройств и увеличивая себе зарплату :v:
+
+![Sink about it]($host/api/ps/file/${articleImage0?.fileName})
+
+### Эффективность
 
 Эффективность выражается в количестве затраченного времени и выделения памяти под реализацию.
 *Время работы* - важнейший параметр.
 Отличия времени выполнения оптимального решения и решения в "лоб" может отличаться очень значительно.
 *Выделения памяти* - другой важный параметр определяющий эффективность.
-Велика вероятность того что если вы не укладываетесь по времени вряд ли вам удастся уложиться по памяти.
-Так же при решения задачи нужно учитывать возможность *повторного использования* кода.
-Алгоритм должен быть *прост в реализации*, не забывайте вам или вашему коллеге возможно еще придется работать с этим кодом.
+Кстати, велика вероятность того что если вы не уложились по времени вряд ли вам удастся уложиться по памяти.
+Алгоритм должен быть *прост в реализации*, иметь возможность *повторного использования*, не забывайте вам или вашему коллеге возможно еще придется работать с этим кодом.
 
 ### Асимптотическая сложность
 
@@ -224,7 +234,7 @@ In such cases, the worst result is taken from the possible variants of the incom
   <img src="$host/api/ps/file/${articleImage1?.fileName}"/>
 </div>
 
-#### Сложность `O(1)`
+#### Функция `O(1)`
 
 Алгоритм с такой производительностью выполняется за одинаковый период времени независимо от количества элементов.
 Как правило речь идет об ограниченном круге команд, поскольку за `O(1)` невозможно даже перебрать поступающие данные.
@@ -234,10 +244,10 @@ const arr = [1, 2, 3, 4, 5];
 console.log(arr[2]) // => 3
 ```
 
-#### Сложность `O(log N)`
+#### Функция `O(log N)`
 
-Делит количество элементов на фиксированный коэффициент при каждом шаге.
-Если для вычисления элементов требуется 1 секунда, для вычисления 10 элементов потребуются 2 секунды, для вычисления 100 элементов — 3 секунды и так далее.
+Алгоритм с производительностью функциии `O(log N)` делит количество элементов на фиксированный коэффициент при каждом шаге.
+Например, если для вычисления элементов требуется 1 секунда, для вычисления 10 элементов потребуются 2 секунды, для вычисления 100 элементов — 3 секунды и так далее.
 
 ```javascript
 const count = 100
@@ -246,9 +256,10 @@ for (let i = 1; i < count; i *= 2) {
 }
 ```
 
-#### Сложность `O(N)`
+#### Функция `O(N)`
 
-Сложность возрастает линейно относительно количества элементов. То eсть пропорционально количеству элементов.
+Алгоритм с такой сложностью возрастает линейно относительно количества элементов. 
+То eсть пропорционально количеству элементов.
 Если для вычисления элементов требуется 1 секунда, для вычисления 10 элементов потребуются 10 секунд, для вычисления 100 элементов — 100 и так далее.
 
 ```javascript
@@ -258,10 +269,10 @@ for (let i = 1; i < count; i++) {
 }
 ```
 
-#### Сложность `O(N log N)`
+#### Функция `O(N log N)`
 
-Алгоритм выполняет операцию O(log N) и на каждом шаге выполняет обработку элемента.
-Это любой алгоритм, который многократно делит набор данных пополам, а затем обрабатывает эти половины независимо с помощью под алгоритма, который имеет временную сложность O(N), будет иметь общую временную сложность `O(N log N)`.
+Алгоритм с такой производительностью и на каждом шаге выполняет обработку элемента.
+Любой алгоритм, который многократно делит набор данных пополам, а затем обрабатывает эти половины независимо с помощью под алгоритма, который имеет временную сложность `O(N)`, будет иметь общую временную сложность `O(N log N)`.
 
 ```javascript
 const count = 100
@@ -272,10 +283,10 @@ for (let i = 1; i <= count; i++) {
 }
 ```
 
-#### Сложность `O(N^2)`
+#### Функция `O(N^2)`
 
-Перебор каждого элемента при котором для каждого элемента осуществляется перебор каждого элемента.
-Возможны и другие степени N например `O(N^3)` или `O(N^4)` и они значительно медленнее.
+В алгоритме с производительностью `O(N^2)` выполняется перебор каждого элемента при котором для каждого элемента осуществляется перебор каждого элемента.
+Возможны и другие степени N например `O(N^3)` или `O(N^4)`, они значительно медленнее.
 
 ```javascript
 const count = 100
@@ -286,10 +297,10 @@ for (let i = 1; i <= count; i++) {
 }
 ```
 
-#### Сложность `O(2^N)`
+#### Функция `O(2^N)`
 
 Экспоненциальная функция, возрастает молниеносно применим для узкого круга задач.
-Часто можно заметить на эвристический алгоритм — дающий приемлемый результат, но не наилучший.
+Часто можно заметить на [эвристический алгоритм](https://ru.wikipedia.org/wiki/Эвристический_алгоритм) — дающий приемлемый результат, но не наилучший.
 
 ```javascript
 const count = 100
@@ -298,7 +309,7 @@ for (let i = 1; i <= Math.pow(2, count); i++) {
 }
 ```
 
-#### Сложность `O(N!)`
+#### Функция `O(N!)`
 
 “N факториал”. С подобной скоростью роста функции, как правило, ищут оптимальное распределение входных данных.
 Она возрастает намного быстрее чем экспоненциальная функция `O(2^N)`.
@@ -323,11 +334,11 @@ for (let i = 1; i <= factorial(count); i++) {
 
 ### Пессимистичная и средняя сложность
 
-Не все входные параметры одинаковы, в этом есть проблема.
-Если алгоритм зависит от типа выходных данных сложно составить точную функцию сложности.
-В таких ситуациях чаще всего используются пессимистичная сложность (worst-case complexity), либо средняя сложность (average complexity).
+Не всегда имеющиеся данные одинаковы и выполняются с единой сложностью.
+Если алгоритм зависит от типа данных как составить точную функцию сложности?
+В таких ситуациях чаще всего используются [пессимистичная сложность](https://en.wikipedia.org/wiki/Worst-case_complexity), либо [средняя сложность](https://ru.wikipedia.org/wiki/Сложность_алгоритма_в_среднем).
 В олимпиадных задачах под словом “сложность” обычно понимают пессимистичную сложность.
-В таких случаях берется худший результат из возможных вариантов поступающих данных.
+В таких случаях берется худший результат из возможных вариантов входящих данных.
 
                 """.trimIndent()
         }
