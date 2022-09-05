@@ -43,7 +43,8 @@ object InsertArticles {
                 *listOfNotNull(
                     listImage,
                     viewImage,
-                    articleImage1
+                    articleImage1,
+                    articleImage0,
                 ).toTypedArray()
             )
 
