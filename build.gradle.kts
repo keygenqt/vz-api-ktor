@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.keygenqt.app"
-version = "0.0.1"
+version = "1.0.0"
 
 application {
     mainClass.set("com.keygenqt.app.ApplicationKt")
@@ -16,7 +16,7 @@ application {
 
 ktor {
     fatJar {
-        archiveFileName.set("vz-api-${version}.jar")
+        archiveFileName.set("VZ-API.jar")
     }
 }
 
