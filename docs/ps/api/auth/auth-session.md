@@ -1,7 +1,7 @@
 Auth Session
 ===================
 
-<img style="max-height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f536.png"/> &nbsp;
+<img style="height: 13px;" src="https://github.githubassets.com/images/icons/emoji/unicode/1f536.png"/> &nbsp;
 Method: <code>POST</code>
 
 ```
