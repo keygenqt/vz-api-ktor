@@ -36,6 +36,7 @@ object ConstantsMime {
      * Mimes
      */
     private val CONSTANTS_EXT_MIME_FILES = hashMapOf(
+        "js" to "text/javascript",
         "xcf" to "image/x-xcf",
         "heic" to "image/heic",
         "heif" to "image/heif",
