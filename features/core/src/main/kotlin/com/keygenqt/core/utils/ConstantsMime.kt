@@ -301,7 +301,6 @@ object ConstantsMime {
         "jpeg" to "image/jpeg",
         "jpgv" to "video/jpeg",
         "jpm" to "video/jpm",
-        "js" to "application/javascript",
         "json" to "application/json",
         "karbon" to "application/vnd.kde.karbon",
         "kfo" to "application/vnd.kde.kformula",
