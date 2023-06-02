@@ -39,7 +39,7 @@ data class ArticleRequest(
     val description: String? = null,
 
     @field:NotNullNotBlank
-    @field:Size(max = 10000, message = "Must be less than or equal to 10000")
+    @field:Size(max = 50000, message = "Must be less than or equal to 50000")
     val content: String? = null,
 
     @field:NotBlank(message = "Must not be blank")
@@ -51,7 +51,7 @@ data class ArticleRequest(
     val descriptionRu: String? = null,
 
     @field:NotBlank(message = "Must not be blank")
-    @field:Size(max = 10000, message = "Must be less than or equal to 10000")
+    @field:Size(max = 50000, message = "Must be less than or equal to 50000")
     val contentRu: String? = null,
 
     @field:NotNull(message = "Select category required")
