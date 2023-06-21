@@ -24,6 +24,7 @@ import com.keygenqt.ps.db.models.UserEntity
 import com.keygenqt.ps.db.models.Users
 import com.keygenqt.ps.route.articles.articlesRoute
 import com.keygenqt.ps.route.articles.guestArticlesRoute
+import com.keygenqt.ps.route.videos.guestVideosRoute
 import com.keygenqt.ps.route.auth.authRoute
 import com.keygenqt.ps.route.connects.connectsRoute
 import com.keygenqt.ps.route.connects.guestConnectsRoute
@@ -32,6 +33,7 @@ import com.keygenqt.ps.route.projects.guestProjectsRoute
 import com.keygenqt.ps.route.projects.projectsRoute
 import com.keygenqt.ps.route.upload.guestUploadRoute
 import com.keygenqt.ps.route.upload.uploadRoute
+import com.keygenqt.ps.route.videos.videosRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
 import io.ktor.client.*
@@ -73,6 +75,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 single { LikesArticleService(db) }
                 single { LikesProjectService(db) }
                 single { ConnectsService(db) }
+                single { VideosService(db) }
 
                 // GitHub services
                 HttpClient(CIO) {
@@ -112,6 +115,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 guestArticlesRoute()
                 guestProjectsRoute()
                 guestConnectsRoute()
+                guestVideosRoute()
             }
             authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {
@@ -120,6 +124,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                     articlesRoute()
                     connectsRoute()
                     projectsRoute()
+                    videosRoute()
                 }
             }
         }

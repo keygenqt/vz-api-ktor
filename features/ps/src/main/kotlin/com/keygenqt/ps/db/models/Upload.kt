@@ -42,6 +42,7 @@ class UploadEntity(id: EntityID<Int>) : IntEntity(id) {
 
     val isRelationArticle by Boolean isHas ArticleUploads.upload
     val isRelationProject by Boolean isHas ProjectUploads.upload
+    val isRelationVideo by Boolean isHas VideoUploads.upload
 }
 
 @Serializable
@@ -52,7 +53,8 @@ data class Upload(
     val originalFileName: String,
     val createAt: Long? = null,
     val isRelationArticle: Boolean? = null,
-    val isRelationProject: Boolean? = null
+    val isRelationProject: Boolean? = null,
+    val isRelationVideo: Boolean? = null
 )
 
 /**
@@ -65,7 +67,8 @@ fun UploadEntity.toUpload() = Upload(
     originalFileName = originalFileName,
     createAt = createAt,
     isRelationArticle = isRelationArticle,
-    isRelationProject = isRelationProject
+    isRelationProject = isRelationProject,
+    isRelationVideo = isRelationVideo,
 )
 
 /**
