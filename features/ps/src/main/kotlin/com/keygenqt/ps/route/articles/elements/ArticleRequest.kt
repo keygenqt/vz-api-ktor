@@ -18,6 +18,7 @@ package com.keygenqt.ps.route.articles.elements
 import com.keygenqt.core.validators.NotBlank
 import com.keygenqt.core.validators.NotNullNotBlank
 import com.keygenqt.ps.db.models.ArticleCategory
+import com.keygenqt.ps.db.models.ArticleType
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import kotlinx.serialization.Serializable
@@ -38,7 +39,6 @@ data class ArticleRequest(
     @field:Size(min = 3, max = 500, message = "Size must be between 3 and 500")
     val description: String? = null,
 
-    @field:NotNullNotBlank
     @field:Size(max = 50000, message = "Must be less than or equal to 50000")
     val content: String? = null,
 
@@ -50,18 +50,23 @@ data class ArticleRequest(
     @field:Size(max = 500, message = "Size must be between 3 and 500")
     val descriptionRu: String? = null,
 
-    @field:NotBlank(message = "Must not be blank")
     @field:Size(max = 50000, message = "Must be less than or equal to 50000")
     val contentRu: String? = null,
 
     @field:NotNull(message = "Select category required")
     val category: ArticleCategory? = null,
 
+    @field:NotNull(message = "Select type required")
+    val type: ArticleType? = null,
+
+    @field:NotNullNotBlank
+    @field:URL(message = "Must be a valid URL")
+    val url: String? = null,
+
     @field:NotNullNotBlank
     @field:URL(message = "Must be a valid URL")
     val listImage: String? = null,
 
-    @field:NotNullNotBlank
     @field:URL(message = "Must be a valid URL")
     val viewImage: String? = null,
 

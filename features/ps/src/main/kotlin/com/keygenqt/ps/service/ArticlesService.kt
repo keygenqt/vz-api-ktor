@@ -100,6 +100,8 @@ class ArticlesService(
         descriptionRu: String?,
         contentRu: String?,
         category: ArticleCategory?,
+        type: ArticleType?,
+        url: String?,
         listImage: String?,
         viewImage: String?,
         isPublished: Boolean?,
@@ -113,6 +115,8 @@ class ArticlesService(
             descriptionRu?.let { this.descriptionRu = descriptionRu }
             contentRu?.let { this.contentRu = contentRu }
             category?.let { this.category = category }
+            type?.let { this.type = type }
+            url?.let { this.url = url }
             listImage?.let { this.listImage = listImage }
             viewImage?.let { this.viewImage = viewImage }
             isPublished?.let { this.isPublished = isPublished }
@@ -135,6 +139,8 @@ class ArticlesService(
         descriptionRu: String?,
         contentRu: String?,
         category: ArticleCategory?,
+        type: ArticleType?,
+        url: String?,
         listImage: String?,
         viewImage: String?,
         isPublished: Boolean?,
@@ -148,6 +154,8 @@ class ArticlesService(
             descriptionRu?.let { this.descriptionRu = descriptionRu }
             contentRu?.let { this.contentRu = contentRu }
             category?.let { this.category = category }
+            type?.let { this.type = type }
+            url?.let { this.url = url }
             listImage?.let { this.listImage = listImage }
             viewImage?.let { this.viewImage = viewImage }
             isPublished?.let { this.isPublished = isPublished }

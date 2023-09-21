@@ -29,6 +29,13 @@ enum class ArticleCategory {
     ANDROID, WEB, IOS, OTHER
 }
 
+/**
+ * Type article
+ */
+enum class ArticleType {
+    BLOG, HABR
+}
+
 object Articles : IntIdTable() {
 
     val title = varchar("title", 255)
@@ -40,6 +47,8 @@ object Articles : IntIdTable() {
     val contentRu = text("contentRu").nullable()
 
     val category = enumeration("category", ArticleCategory::class).default(ArticleCategory.OTHER)
+    val type = enumeration("type", ArticleType::class).default(ArticleType.BLOG)
+    val url = varchar("url", 255)
     val listImage = varchar("listImage", 255)
     val viewImage = varchar("viewImage", 255)
     val isPublished = bool("isPublished").default(false)
@@ -62,6 +71,8 @@ class ArticleEntity(id: EntityID<Int>) : IntEntity(id) {
     var contentRu by Articles.contentRu
 
     var category by Articles.category
+    var type by Articles.type
+    var url by Articles.url
     var listImage by Articles.listImage
     var viewImage by Articles.viewImage
     var isPublished by Articles.isPublished
@@ -82,6 +93,8 @@ data class Article(
     val descriptionRu: String?,
     val contentRu: String?,
     val category: ArticleCategory,
+    val type: ArticleType,
+    val url: String,
     val listImage: String,
     val viewImage: String,
     val isPublished: Boolean,
@@ -103,6 +116,8 @@ fun ArticleEntity.toArticle() = Article(
     descriptionRu = descriptionRu,
     contentRu = contentRu,
     category = category,
+    type = type,
+    url = url,
     listImage = listImage,
     viewImage = viewImage,
     isPublished = isPublished,
