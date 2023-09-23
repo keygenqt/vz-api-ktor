@@ -31,6 +31,8 @@ import com.keygenqt.ps.route.connects.guestConnectsRoute
 import com.keygenqt.ps.route.dashboard.dashboardRoute
 import com.keygenqt.ps.route.projects.guestProjectsRoute
 import com.keygenqt.ps.route.projects.projectsRoute
+import com.keygenqt.ps.route.search.guestSearchRoute
+import com.keygenqt.ps.route.search.searchRoute
 import com.keygenqt.ps.route.upload.guestUploadRoute
 import com.keygenqt.ps.route.upload.uploadRoute
 import com.keygenqt.ps.route.videos.videosRoute
@@ -116,6 +118,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                 guestProjectsRoute()
                 guestConnectsRoute()
                 guestVideosRoute()
+                guestSearchRoute()
             }
             authenticate(jwtAuth, sessionAuth) {
                 route(basePath) {
@@ -125,6 +128,7 @@ class ConfiguratorPS : ConfiguratorApp() {
                     connectsRoute()
                     projectsRoute()
                     videosRoute()
+                    searchRoute()
                 }
             }
         }

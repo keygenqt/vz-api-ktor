@@ -11,6 +11,14 @@ module = "org.hibernate.validator:hibernate-validator"
 module = "org.glassfish:jakarta.el"
 [libraries.kotlinx_datetime]
 module = "org.jetbrains.kotlinx:kotlinx-datetime"
+[libraries.opensearch_core]
+module = "org.opensearch.client:opensearch-java"
+[libraries.opensearch_client]
+module = "org.opensearch.client:opensearch-rest-high-level-client"
+[libraries.httpclient5]
+module = "org.apache.httpcomponents.client5:httpclient5"
+[libraries.jackson_kotlin]
+module = "com.fasterxml.jackson.module:jackson-module-kotlin"
 
 # versions
 [libraries.koin_ktor.version]
@@ -25,6 +33,14 @@ ref = "hibernateValidatorVersion"
 ref = "jakartaElVersion"
 [libraries.kotlinx_datetime.version]
 ref = "kotlinxDatetimeVersion"
+[libraries.opensearch_core.version]
+ref = "opensearchVersion"
+[libraries.opensearch_client.version]
+ref = "opensearchVersion"
+[libraries.httpclient5.version]
+ref = "httpclient5Version"
+[libraries.jackson_kotlin.version]
+ref = "jacksonKotlinVersion"
 
 [bundles]
 other = [
@@ -34,4 +50,8 @@ other = [
     "hibernate_validator",
     "jakarta_el",
     "kotlinx_datetime",
+    "opensearch_core",
+    "opensearch_client",
+    "httpclient5",
+    "jackson_kotlin",
 ]
