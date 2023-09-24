@@ -15,92 +15,44 @@
  */
 package com.keygenqt.ps.route.search
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.keygenqt.core.extension.getStringParam
+import com.keygenqt.ps.extension.connectKey
+import com.keygenqt.ps.route.search.elements.SearchArticle
+import com.keygenqt.ps.service.ArticlesService
+import com.keygenqt.ps.utils.Constants.INDEX_OPENSEARCH
+import com.keygenqt.ps.utils.createOpenSearchClient
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import kotlinx.serialization.Serializable
-import org.apache.hc.client5.http.auth.AuthScope
-import org.apache.hc.client5.http.auth.UsernamePasswordCredentials
-import org.apache.hc.client5.http.impl.async.HttpAsyncClientBuilder
-import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider
-import org.apache.hc.client5.http.impl.nio.PoolingAsyncClientConnectionManagerBuilder
-import org.apache.hc.client5.http.ssl.ClientTlsStrategyBuilder
-import org.apache.hc.client5.http.ssl.NoopHostnameVerifier
-import org.apache.hc.core5.http.HttpHost
-import org.apache.hc.core5.ssl.SSLContextBuilder
-import org.opensearch.client.json.jackson.JacksonJsonpMapper
+import org.koin.ktor.ext.inject
 import org.opensearch.client.opensearch.OpenSearchClient
+import org.opensearch.client.opensearch._types.Refresh
+import org.opensearch.client.opensearch._types.mapping.DateProperty
+import org.opensearch.client.opensearch._types.mapping.IntegerNumberProperty
+import org.opensearch.client.opensearch._types.mapping.Property
+import org.opensearch.client.opensearch._types.mapping.TextProperty
+import org.opensearch.client.opensearch._types.mapping.TypeMapping
 import org.opensearch.client.opensearch._types.query_dsl.MultiMatchQuery
 import org.opensearch.client.opensearch._types.query_dsl.Query
+import org.opensearch.client.opensearch.core.BulkRequest
 import org.opensearch.client.opensearch.core.SearchResponse
-import org.opensearch.client.transport.httpclient5.ApacheHttpClient5TransportBuilder
-import java.security.KeyManagementException
-import java.security.KeyStoreException
-import java.security.NoSuchAlgorithmException
-import java.security.cert.X509Certificate
+import org.opensearch.client.opensearch.core.bulk.BulkOperation
+import org.opensearch.client.opensearch.core.bulk.IndexOperation
+import org.opensearch.client.opensearch.indices.CreateIndexRequest
+import org.opensearch.client.opensearch.indices.DeleteIndexRequest
+import org.opensearch.client.opensearch.indices.IndexSettings
 
-
-@Serializable
-data class SearchArticle(
-    val title: String,
-    val content: String,
-    val timestamp: Int,
-)
-
-@Throws(NoSuchAlgorithmException::class, KeyStoreException::class, KeyManagementException::class)
-fun createOpenSearchClient(): OpenSearchClient {
-    val hosts = arrayOf(
-        HttpHost("https", "localhost", 9200)
-    )
-    val sslContext = SSLContextBuilder.create()
-        .loadTrustMaterial(
-            null
-        ) { chains: Array<X509Certificate?>?, authType: String? -> true }
-        .build()
-    val transport = ApacheHttpClient5TransportBuilder
-        .builder(*hosts)
-        .setMapper(
-            JacksonJsonpMapper(
-                jacksonObjectMapper()
-            )
-        )
-        .setHttpClientConfigCallback { httpClientBuilder: HttpAsyncClientBuilder ->
-            val credentialsProvider =
-                BasicCredentialsProvider()
-            for (host in hosts) {
-                credentialsProvider.setCredentials(
-                    AuthScope(host),
-                    UsernamePasswordCredentials("admin", "admin".toCharArray())
-                )
-            }
-            // Disable SSL/TLS verification as our local testing clusters use self-signed certificates
-            val tlsStrategy = ClientTlsStrategyBuilder.create()
-                .setSslContext(sslContext)
-                .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                .build()
-            val connectionManager = PoolingAsyncClientConnectionManagerBuilder.create()
-                .setTlsStrategy(tlsStrategy)
-                .build()
-            httpClientBuilder
-                .setDefaultCredentialsProvider(credentialsProvider)
-                .setConnectionManager(connectionManager)
-        }
-        .build()
-
-    return OpenSearchClient(transport)
-}
 
 fun Route.guestSearchRoute() {
-    val index = "sample-search-articles"
-    val client = createOpenSearchClient()
+
+    val openSearchClient: OpenSearchClient by inject()
 
     route("/search") {
         get {
             val searchText = call.getStringParam("value")
-            val searchResponse: SearchResponse<SearchArticle> = client.search({ s ->
-                s.index(index).query { q: Query.Builder ->
+            val searchResponse: SearchResponse<SearchArticle> = openSearchClient.search({ s ->
+                s.index(INDEX_OPENSEARCH).query { q: Query.Builder ->
                     q.multiMatch { m: MultiMatchQuery.Builder ->
                         m.fields(SearchArticle::title.name, SearchArticle::content.name).query(searchText)
                     }

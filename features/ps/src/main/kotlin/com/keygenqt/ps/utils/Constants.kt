@@ -37,6 +37,11 @@ object Constants {
     const val PATH_DATA_MIGRATION = "data/migration/ps"
 
     /**
+     * Index opensearch db
+     */
+    const val INDEX_OPENSEARCH = "ps-search-articles"
+
+    /**
      * App properties -> app.properties
      */
     object Properties {

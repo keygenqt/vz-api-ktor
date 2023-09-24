@@ -38,6 +38,7 @@ import com.keygenqt.ps.route.upload.uploadRoute
 import com.keygenqt.ps.route.videos.videosRoute
 import com.keygenqt.ps.service.*
 import com.keygenqt.ps.utils.Constants
+import com.keygenqt.ps.utils.createOpenSearchClient
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.cache.*
@@ -67,6 +68,9 @@ class ConfiguratorPS : ConfiguratorApp() {
             module {
                 // security routing service
                 single { securityService }
+
+                // opensearch client
+                single { createOpenSearchClient() }
 
                 // api db models services
                 single { UsersService(db) }
@@ -172,8 +176,8 @@ class ConfiguratorPS : ConfiguratorApp() {
         cookie<UserSession>("ps_session") {
             transform(
                 SessionTransportTransformerEncrypt(
-                    appConf.getPropOrNull<String>(Constants.Properties.secret).md5Hex(),
-                    appConf.getPropOrNull<String>(Constants.Properties.signKey).md5Hex()
+                    encryptionKey = appConf.getPropOrNull<String>(Constants.Properties.secret).md5Hex(),
+                    signKey = appConf.getPropOrNull<String>(Constants.Properties.signKey).md5Hex()
                 )
             )
         }
