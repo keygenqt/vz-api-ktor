@@ -1,0 +1,11 @@
+COMPOSE_PROJECT_NAME=new-website
+
+# DB
+DB_DATABASE=new_website_ps
+DB_USER=user_name
+DB_USER_PASSWORD=user_pass
+DB_ROOT_PASSWORD=root_pass
+
+# Ports
+PORT_API=3000
+PORT_DB=3001

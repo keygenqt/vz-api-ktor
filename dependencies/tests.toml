@@ -1,0 +1,33 @@
+##########################
+## VERSIONS
+##########################
+
+[versions]
+## https://ktor.io/changelog
+ktorVersion="2.0.3"
+## https://kotlinlang.org/docs/releases.html
+kotlinVersion="1.7.10"
+
+##########################
+## LIBRARIES
+##########################
+
+[libraries.ktor_server_tests_jvm]
+module = "io.ktor:ktor-server-tests-jvm"
+[libraries.ktor_server_tests_jvm.version]
+ref = "ktorVersion"
+
+[libraries.kotlin_test_junit]
+module = "org.jetbrains.kotlin:kotlin-test-junit"
+[libraries.kotlin_test_junit.version]
+ref = "kotlinVersion"
+
+##########################
+## BUNDLES
+##########################
+
+[bundles]
+tests = [
+    "ktor_server_tests_jvm",
+    "kotlin_test_junit",
+]

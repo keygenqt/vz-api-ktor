@@ -1,0 +1,103 @@
+version: "3"
+
+services:
+  # https://www.mysql.com
+  db:
+    container_name: nwa-database
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    restart: always
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - ./db/my.cnf:/etc/mysql/my.cnf
+      - ./db/init:/docker-entrypoint-initdb.d
+    networks:
+      - internal
+      - nwa-phpmyadmin
+
+  # https://www.phpmyadmin.net
+  phpmyadmin:
+    container_name: nwa-phpmyadmin
+    depends_on:
+      - db
+    image: phpmyadmin
+    restart: always
+    tty: true
+    ports:
+      - ${PORT_DB}:80
+    environment:
+      PMA_HOST: db
+      UPLOAD_LIMIT: 25M
+    networks:
+      - nwa-phpmyadmin
+
+  # https://www.mkdocs.org
+  mkdocs:
+    container_name: nwa-mkdocs
+    restart: no
+    build:
+      context: .
+      dockerfile: mkdocs/Dockerfile
+    command:
+      - /bin/bash
+      - -c
+      - |
+        mkdocs build
+        mv -f site /var/www/src/src/main/resources
+    working_dir: /var/www/src
+    volumes:
+      - ../:/var/www/src
+
+  # https://gradle.org
+  gradle:
+    container_name: nwa-gradle
+    restart: no
+    depends_on:
+      - mkdocs
+    build:
+      context: .
+      dockerfile: gradle/Dockerfile
+    command:
+      - /bin/bash
+      - -c
+      - |
+        gradle dokkaHtmlMultiModule
+        mv -f api /var/www/src/src/main/resources
+        gradle buildFatJar
+    working_dir: /var/www/src
+    volumes:
+      - ../:/var/www/src
+
+  # https://openjdk.org
+  java:
+    container_name: nwa-java
+    build:
+      context: .
+      dockerfile: java/Dockerfile
+    restart: always
+    tty: true
+    command: "java -jar VZ-API.jar"
+    ports:
+      - ${PORT_API}:3000
+    working_dir: /var/www/src/build/libs
+    volumes:
+      - ../:/var/www/src
+    networks:
+      - internal
+    healthcheck:
+      test: bash -c "[ -f /var/www/src/build/libs/VZ-API.jar ]"
+      interval: 10s
+      timeout: 60s
+      retries: 5
+
+networks:
+  nwa-phpmyadmin:
+  internal:
+    driver: bridge
+
+volumes:
+  nwa-database:

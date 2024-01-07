@@ -1,9 +1,6 @@
 ## docs
-/src/main/resources/api/
-/src/main/resources/site/
-## properties
-dbconfig.properties
-app.properties
+/src/main/resources/api
+/src/main/resources/site
 ## other
 *.iml
 .gradle
@@ -17,3 +14,6 @@ build
 /uploads/
 bin
 .vscode
+.env
+api
+site

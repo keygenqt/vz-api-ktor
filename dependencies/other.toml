@@ -1,0 +1,64 @@
+##########################
+## VERSIONS
+##########################
+
+[versions]
+## https://github.com/Kotlin/kotlinx-datetime
+kotlinxDatetimeVersion="0.4.0"
+## https://insert-koin.io/docs/setup/v3.2
+koinVersion="3.2.0"
+## https://logback.qos.ch/download.html
+logbackVersion="1.2.11"
+## https://github.com/jeremyh/jBCrypt
+jbcryptVersion = "0.4"
+## https://hibernate.org/validator/documentation/
+hibernateValidatorVersion = "7.0.5.Final"
+jakartaElVersion = "4.0.1"
+
+##########################
+## LIBRARIES
+##########################
+
+[libraries.koin_ktor]
+module = "io.insert-koin:koin-ktor"
+[libraries.koin_ktor.version]
+ref = "koinVersion"
+
+[libraries.logback]
+module = "ch.qos.logback:logback-classic"
+[libraries.logback.version]
+ref = "logbackVersion"
+
+[libraries.jbcrypt]
+module = "org.mindrot:jbcrypt"
+[libraries.jbcrypt.version]
+ref = "jbcryptVersion"
+
+[libraries.hibernate_validator]
+module = "org.hibernate.validator:hibernate-validator"
+[libraries.hibernate_validator.version]
+ref = "hibernateValidatorVersion"
+
+[libraries.jakarta_el]
+module = "org.glassfish:jakarta.el"
+[libraries.jakarta_el.version]
+ref = "jakartaElVersion"
+
+[libraries.kotlinx_datetime]
+module = "org.jetbrains.kotlinx:kotlinx-datetime"
+[libraries.kotlinx_datetime.version]
+ref = "kotlinxDatetimeVersion"
+
+##########################
+## BUNDLES
+##########################
+
+[bundles]
+other = [
+    "koin_ktor",
+    "logback",
+    "jbcrypt",
+    "hibernate_validator",
+    "jakarta_el",
+    "kotlinx_datetime",
+]

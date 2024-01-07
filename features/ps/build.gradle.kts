@@ -12,8 +12,8 @@ dependencies {
 }
 
 dependencies {
-    implementation(libs.bundles.ktor)
-    implementation(libs.bundles.other)
-    implementation(libs.bundles.database)
-    testImplementation(libs.bundles.tests)
+    implementation(libsKtor.bundles.ktor)
+    implementation(libsOther.bundles.other)
+    implementation(libsDatabase.bundles.database)
+    testImplementation(libsTests.bundles.tests)
 }

@@ -1,50 +1,73 @@
-# modules
+##########################
+## VERSIONS
+##########################
+
+[versions]
+## https://ktor.io/changelog
+ktorVersion="2.0.3"
+
+##########################
+## LIBRARIES
+##########################
+
 [libraries.ktor_server_content_negotiation_jvm]
 module = "io.ktor:ktor-server-content-negotiation-jvm"
-[libraries.ktor_server_core_jvm]
-module = "io.ktor:ktor-server-core-jvm"
-[libraries.ktor_serialization_kotlinx_json_jvm]
-module = "io.ktor:ktor-serialization-kotlinx-json-jvm"
-[libraries.ktor_client_content_negotiation]
-module = "io.ktor:ktor-client-content-negotiation"
-[libraries.ktor_server_netty_jvm]
-module = "io.ktor:ktor-server-netty-jvm"
-[libraries.ktor_server_status_pages]
-module = "io.ktor:ktor-server-status-pages"
-[libraries.ktor_server_auth]
-module = "io.ktor:ktor-server-auth"
-[libraries.ktor_server_auth_jwt]
-module = "io.ktor:ktor-server-auth-jwt"
-[libraries.ktor_client_cio]
-module = "io.ktor:ktor-client-cio"
-[libraries.ktor_server_sessions]
-module = "io.ktor:ktor-server-sessions"
-[libraries.ktor_server_call_logging]
-module = "io.ktor:ktor-server-call-logging"
-
-# versions
 [libraries.ktor_server_content_negotiation_jvm.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_core_jvm]
+module = "io.ktor:ktor-server-core-jvm"
 [libraries.ktor_server_core_jvm.version]
 ref = "ktorVersion"
+
+[libraries.ktor_serialization_kotlinx_json_jvm]
+module = "io.ktor:ktor-serialization-kotlinx-json-jvm"
 [libraries.ktor_serialization_kotlinx_json_jvm.version]
 ref = "ktorVersion"
+
+[libraries.ktor_client_content_negotiation]
+module = "io.ktor:ktor-client-content-negotiation"
 [libraries.ktor_client_content_negotiation.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_netty_jvm]
+module = "io.ktor:ktor-server-netty-jvm"
 [libraries.ktor_server_netty_jvm.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_status_pages]
+module = "io.ktor:ktor-server-status-pages"
 [libraries.ktor_server_status_pages.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_auth]
+module = "io.ktor:ktor-server-auth"
 [libraries.ktor_server_auth.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_auth_jwt]
+module = "io.ktor:ktor-server-auth-jwt"
 [libraries.ktor_server_auth_jwt.version]
 ref = "ktorVersion"
+
+[libraries.ktor_client_cio]
+module = "io.ktor:ktor-client-cio"
 [libraries.ktor_client_cio.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_sessions]
+module = "io.ktor:ktor-server-sessions"
 [libraries.ktor_server_sessions.version]
 ref = "ktorVersion"
+
+[libraries.ktor_server_call_logging]
+module = "io.ktor:ktor-server-call-logging"
 [libraries.ktor_server_call_logging.version]
 ref = "ktorVersion"
+
+##########################
+## BUNDLES
+##########################
 
 [bundles]
 ktor = [

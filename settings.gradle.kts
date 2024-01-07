@@ -24,8 +24,17 @@ dependencyResolutionManagement {
     }
 
     versionCatalogs {
-        create("libs") {
-            from(fileTree("dependencies"))
+        create("libsDatabase") {
+            from(files("dependencies/database.toml"))
+        }
+        create("libsKtor") {
+            from(files("dependencies/ktor.toml"))
+        }
+        create("libsOther") {
+            from(files("dependencies/other.toml"))
+        }
+        create("libsTests") {
+            from(files("dependencies/tests.toml"))
         }
     }
 }
