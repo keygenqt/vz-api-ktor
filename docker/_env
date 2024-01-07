@@ -1,4 +1,4 @@
-COMPOSE_PROJECT_NAME=new-website
+COMPOSE_PROJECT_NAME=nwa # new web api
 
 # DB
 DB_ROOT_PASSWORD=password

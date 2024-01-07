@@ -47,7 +47,8 @@ services:
       - -c
       - |
         mkdocs build
-        mv -f site /var/www/src/src/main/resources
+        rm -rf /var/www/src/src/main/resources/site
+        mv site /var/www/src/src/main/resources
     working_dir: /var/www/src
     volumes:
       - ../:/var/www/src
@@ -65,6 +66,7 @@ services:
       - /bin/bash
       - -c
       - |
+        rm -rf /var/www/src/src/main/resources/api
         gradle dokkaHtmlMultiModule
         mv -f api /var/www/src/src/main/resources
         gradle buildFatJar
