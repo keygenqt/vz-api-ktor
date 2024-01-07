@@ -32,16 +32,6 @@ class V0__create_uploads : BaseJavaMigration() {
                     File(path.joinToString(File.separator)).mkdir()
                 }
             }
-
-            // error is not dir
-            if (!uploadDir.isDirectory) {
-                exitProcess(1)
-            }
-
-            // clear files if restart all migrations
-            uploadDir.listFiles()?.forEach {
-                it.delete()
-            }
         }
     }
 }
