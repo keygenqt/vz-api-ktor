@@ -8,7 +8,6 @@
 /local.properties
 /.idea
 build
-/gradle
 /gradlew
 /gradlew.bat
 /uploads/
