@@ -16,4 +16,15 @@ bin
 .env
 api
 site
-_configuration
+
+## Phpmyadmin configs
+docker/configurations/phpmyadmin/*
+!docker/configurations/phpmyadmin/_*
+
+## Server kchat configs
+docker/configurations/server/kchat/*
+!docker/configurations/server/kchat/_*
+
+## Server ps configs
+docker/configurations/server/ps/*
+!docker/configurations/server/ps/_*

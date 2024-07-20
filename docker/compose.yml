@@ -1,9 +1,9 @@
 version: "3"
+name: new-website-api
 
 services:
-  # https://www.mysql.com
   db:
-    container_name: nwa-database
+    container_name: new-website-api-database
     platform: linux/x86_64
     build:
       context: .
@@ -17,11 +17,10 @@ services:
       - ./db/init:/docker-entrypoint-initdb.d
     networks:
       - internal
-      - nwa-phpmyadmin
+      - new-website-api-phpmyadmin
 
-  # https://www.phpmyadmin.net
   phpmyadmin:
-    container_name: nwa-phpmyadmin
+    container_name: new-website-api-phpmyadmin
     depends_on:
       - db
     image: phpmyadmin
@@ -32,12 +31,15 @@ services:
     environment:
       PMA_HOST: db
       UPLOAD_LIMIT: 25M
+    volumes:
+      # Phpmyadmin configuration files
+      - ./configurations/phpmyadmin/config.inc.php:/etc/phpmyadmin/config.inc.php
+      - ./configurations/phpmyadmin/config.secret.inc.php:/etc/phpmyadmin/config.secret.inc.php
     networks:
-      - nwa-phpmyadmin
+      - new-website-api-phpmyadmin
 
-  # https://www.mkdocs.org
   mkdocs:
-    container_name: nwa-mkdocs
+    container_name: new-website-api-mkdocs
     restart: no
     build:
       context: .
@@ -53,9 +55,8 @@ services:
     volumes:
       - ../:/var/www/src
 
-  # https://gradle.org
   gradle:
-    container_name: nwa-gradle
+    container_name: new-website-api-kotlin-build
     restart: no
     depends_on:
       - mkdocs
@@ -74,20 +75,21 @@ services:
     volumes:
       - ../:/var/www/src
 
-  # https://openjdk.org
   java:
-    container_name: nwa-java
+    container_name: new-website-api-server-run
     build:
       context: .
       dockerfile: java/Dockerfile
     restart: always
     tty: true
-    command: "java -jar VZ-API.jar"
+    command: "java -jar build/libs/VZ-API.jar"
     ports:
       - ${PORT_API}:3000
-    working_dir: /var/www/src/build/libs
+    working_dir: /var/www/src
     volumes:
       - ../:/var/www/src
+      # Server configuration files
+      - ./configurations/server:/var/www/src/configuration
     networks:
       - internal
     healthcheck:
@@ -97,9 +99,9 @@ services:
       retries: 5
 
 networks:
-  nwa-phpmyadmin:
+  new-website-api-phpmyadmin:
   internal:
     driver: bridge
 
 volumes:
-  nwa-database:
+  new-website-api-database:
