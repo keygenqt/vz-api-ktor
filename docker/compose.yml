@@ -3,7 +3,7 @@ name: new-website-api
 
 services:
   db:
-    container_name: new-website-api-database
+    container_name: new-website-api-db
     platform: linux/x86_64
     build:
       context: .
@@ -104,4 +104,4 @@ networks:
     driver: bridge
 
 volumes:
-  new-website-api-database:
+  new-website-api-db:
